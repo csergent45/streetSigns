@@ -98,42 +98,42 @@ define([
     app.requestTypeSelect = query('#attributesModal [name="requesttype"]')[0];
     // TODO: get these from the feature layer on load  
     app.severityFieldDomainCodedValuesDict = {
-        '0': 'General Nuisance',
-        '1': 'Important To Resolve Soon',
-        '2': 'Critical Issue'
+        '0': 'Street Sign',
+        '1': 'Support'
+        
     };
-    app.requestTypeFieldDomainCodedValuesDict = {
-        '0': 'Abandoned Vehicle',
-        '1': 'Animal Services',
-        '2': 'Driveway Infraction',
-        '3': 'Flooding',
-        '4': 'Graffiti Removal',
-        '5': 'Homeless Nuisance',
-        '6': 'Illegal Dumping',
-        '7': 'Parking Violation',
-        '8': 'Plant/Tree Complaint',
-        '9': 'Pothole Obstruction',
-        '10': 'Roadway Danger',
-        '11': 'Sidewalk Danger',
-        '12': 'Streetlight Broken',
-        '13': 'Street Sign Missing/Damaged',
-        '14': 'Trash Removal',
-        '15': 'Water Leak',
-        '16': 'Yard Waste Removal'
-    };
+    //app.requestTypeFieldDomainCodedValuesDict = {
+    //    '0': 'Abandoned Vehicle',
+    //    '1': 'Animal Services',
+    //    '2': 'Driveway Infraction',
+    //    '3': 'Flooding',
+    //    '4': 'Graffiti Removal',
+    //    '5': 'Homeless Nuisance',
+    //    '6': 'Illegal Dumping',
+    //    '7': 'Parking Violation',
+    //    '8': 'Plant/Tree Complaint',
+    //    '9': 'Pothole Obstruction',
+    //    '10': 'Roadway Danger',
+    //    '11': 'Sidewalk Danger',
+    //    '12': 'Streetlight Broken',
+    //    '13': 'Street Sign Missing/Damaged',
+    //    '14': 'Trash Removal',
+    //    '15': 'Water Leak',
+    //    '16': 'Yard Waste Removal'
+    //};
 
     // NOTE: popup formatting functions must be globals  
-    window.severityDomainLookup = function (value, key, data) {
-        return app.severityFieldDomainCodedValuesDict[value];
-    };
-    window.requestTypeDomainLookup = function (value, key, data) {
-        return app.requestTypeFieldDomainCodedValuesDict[value];
-    };
-    window.formatPhoneNumber = function (value, key, data) {
-        return value ? '<a href=\'tel:' + value + '\'>' + value + '</a>' : '';
-    };
+    //window.severityDomainLookup = function (value, key, data) {
+    //    return app.severityFieldDomainCodedValuesDict[value];
+    //};
+    //window.requestTypeDomainLookup = function (value, key, data) {
+    //    return app.requestTypeFieldDomainCodedValuesDict[value];
+    //};
+    //window.formatPhoneNumber = function (value, key, data) {
+    //    return value ? '<a href=\'tel:' + value + '\'>' + value + '</a>' : '';
+    //};
 
-    // initialize the request type drop down  
+    //// initialize the request type drop down  
     var initAttributeForm = function () {
         var options = [];
         for (var key in app.requestTypeFieldDomainCodedValuesDict) {
@@ -211,6 +211,8 @@ define([
         }
     };
 
+  
+
     // temporarily show alert when starting edits  
     // and then start listening for a map click  
     var startCaptureRequest = function (severity) {
@@ -236,6 +238,8 @@ define([
         app.currentSeverity = null;
         app.currentGeometry = null;
     };
+
+
 
     // get attributes from form and submit  
     var submitIncidentReport = function () {

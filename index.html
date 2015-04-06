@@ -70,9 +70,8 @@
                 <span class="glyphicon glyphicon-map-marker"></span>&nbsp;<span class="hidden-xs">Add a Street Sign or Support</span>&nbsp;<span class="caret"></span>
               </button>
               <ul class="dropdown-menu" role="menu">
-                <li><a data-value="2" href="#">Critical Issue</a></li>
-                <li><a data-value="0" href="#">General Nuisance</a></li>
-                <li><a data-value="1" href="#">Important To Resolve Soon</a></li>
+                <li><a data-value="0" href="#">Street Signs</a></li>
+                <li><a data-value="1" href="#">Supports</a></li>
               </ul>
             </div>
 <!--             <div class="home-button">
@@ -104,10 +103,146 @@
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            <h4 class="modal-title">Report an Incident</h4>
+            <h4 class="modal-title">Add Street Sign/Support</h4>
           </div>
           <div class="modal-body">
+            <!-- Begin Support ID -->
             <div class="form-group">
+                <label for="supportId">Support ID</label>
+                <input type="text" class="form-control" name="supportId" />
+            </div>
+            <div class="form-group">
+                <label for="type">Type</label>
+                <select id="type" class="form-control" name="type" required>
+                    <option value="">Select One</option>
+                    <option value="Single Post">Single Post</option>
+                    <option value="Double Post">Double Post</option>
+                    <option value="Triple Post">Triple Post</option>
+                    <option value="Four Post">Four Post</option>
+                    <option value="Structure">Structure</option>
+                    <option value="Attenuator">Attenuator</option>
+                    <option value="Span Wire">Span Wire</option>
+                    <option value="Light Pole">Light Pole</option>
+                    <option value="Telephone Pole">Telephone Pole</option>
+                    <option value="Traffic Light Pole">Traffic Light Pole</option>
+                    <option value="Other">Other</option>
+                    <option value="Unknown">Unknown</option>
+                </select>
+            </div>
+            <!-- End Support ID -->
+
+            <!-- Begin Size -->
+            <div class="form-group">
+                <label for="size">Size</label>
+                <select id="size" name="size" class="form-control" required>
+                    <option value="">Select One</option>
+                    <option value="12in. tube">12in. tube</option>
+                    <option value="2in. channel">2in. channel</option>
+                    <option value="2x2">2x2</option>
+                    <option value="3in. tube">3in. tube</option>
+                    <option value="4x4">4x4</option>
+                    <option value="4x6">4x6</option>
+                    <option value="5in. tube">5in. tube</option>
+                    <option value="5x5">5x5</option>
+                    <option value="6x6">6x6</option>
+                    <option value="6x8">6x8</option>
+                    <option value="7x7">7x7</option>
+                    <option value="8x8">8x8</option>
+                    <option value="Other">Other</option>
+                    <option value="Unknown">Unknown</option>
+                </select>
+            </div>
+            <!-- End Size -->
+
+            <!-- Begin Material -->
+            <div class="form-group">
+                <label for="material">Material</label>
+                <select id="material" name="material" class="form-control" required>
+                    <option value="">Select One</option>
+                    <option value="Aluminum">Aluminum</option>
+                    <option value="Concrete">Concrete</option>
+                    <option value="Fiberglass">Fiberglass</option>
+                    <option value="Plastic">Plastic</option>
+                    <option value="Steel">Steel</option>
+                    <option value="Wood">Wood</option>
+                    <option value="Other">Other</option>
+                    <option value="Unknown">Unknown</option>
+                    <option value="Galvanized Steel">Galavanized Steel</option>
+                    <option value="Iron">Iron</option>
+                </select>
+            </div>
+            <!-- End Material -->
+
+            <!-- Begin Base -->
+            <div class="form-group">
+                <label for="base">Base</label>
+                <select id="base" name="base" class="form-control" required>
+                    <option value="">Select One</option>
+                    <option value="Asphalt">Asphalt</option>
+                    <option value="Concrete">Concrete</option>
+                    <option value="Portable">Portable</option>
+                    <option value="Sand">Sand</option>
+                    <option value="Soil">Soil</option>
+                    <option value="Other">Other</option>
+                    <option value="Unknown">Unknown</option>
+                </select>
+            </div>
+            <!-- End Base -->
+
+            <!-- Rating Begin -->
+            <div class="form-group">
+               <label for="rating">Rating</label>
+               <select id="rating" name="rating" class="form-control" required>
+                   <option value="">Select One</option>
+                   <option value="Acceptable">Acceptable</option>
+                   <option value="Repair">Repair</option>
+                   <option value="Replace">Replace</option>
+                   <option value="Relocate">Relocate</option>
+                   <option value="Proposed">Proposed</option>
+                   <option value="New">New</option>
+                   <option value="Other">Other</option>
+                   <option value="Unknown">Unknown</option>
+               </select>
+            </div>
+            <!-- Rating End -->
+
+
+            <!-- Date Inv Begin  -->
+            <div class="form-group">
+                <label for="dateInv">Date Inv.</label>
+                <input type="date" class="form-control" name="dateInv" />
+            </div>
+            <!-- Date Inv End -->
+
+            <!-- Inspector Begin -->
+            <div class="form-group">
+                <label for="inspector">Inspector</label>
+                <input type="text" class="form-control" placeholder="Inspector Name" />
+            </div>
+            <!-- Inspector End -->
+
+            <!-- Comments Begin -->
+            <div class="form-group">
+                <label for="comments">Comments</label>
+                <input type="text" class="form-control" placeholder="Comments"/>
+            </div>
+            <!-- Comments End -->
+
+            <!-- Address Code Begin -->
+            <div class="form-group">
+                <label for="addrCode">Addr. Code</label>
+                <input type="text" class="form-control" placeholder="Addr. Code"/>
+            </div>
+            <!-- Address Code End -->
+
+            <!-- Address Begin -->
+            <div class="form-group">
+                <label for="address">Address</label>
+                <input type="text" class="form-control" placeholder="Address"/>
+            </div>
+            <!-- Address End -->
+
+            <!--<div class="form-group">
               <label for="requesttype">Type</label>
               <select class="form-control" name="requesttype">
               </select>
@@ -127,7 +262,7 @@
             <div class="form-group">
               <label for="comment">Comments</label>
               <textarea class="form-control" name="comment" placeholder="Enter your comments here."></textarea>
-            </div>
+            </div>-->
             <button class="btn btn-success">Submit</button>
             <button class="btn btn-default">Cancel</button>
           </div>
