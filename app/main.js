@@ -133,16 +133,18 @@ define([
     //    return value ? '<a href=\'tel:' + value + '\'>' + value + '</a>' : '';
     //};
 
+    var initAttributeForm;
+
     //// initialize the request type drop down  
-    var initAttributeForm = function () {
-        var options = [];
-        for (var key in app.requestTypeFieldDomainCodedValuesDict) {
-            if (app.requestTypeFieldDomainCodedValuesDict.hasOwnProperty(key)) {
-                options.push('<option value="' + key + '">' + app.requestTypeFieldDomainCodedValuesDict[key] + '</option>');
-            }
-        }
-        app.requestTypeSelect.innerHTML = options.join('');
-    };
+    //var initAttributeForm = function () {
+    //    var options = [];
+    //    for (var key in app.requestTypeFieldDomainCodedValuesDict) {
+    //        if (app.requestTypeFieldDomainCodedValuesDict.hasOwnProperty(key)) {
+    //            options.push('<option value="' + key + '">' + app.requestTypeFieldDomainCodedValuesDict[key] + '</option>');
+    //        }
+    //    }
+    //    app.requestTypeSelect.innerHTML = options.join('');
+    //};
 
     // initialize the map and add the feature layer  
     // and initialize map widgets  
