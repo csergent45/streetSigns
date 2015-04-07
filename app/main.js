@@ -99,7 +99,7 @@ define([
     // TODO: get these from the feature layer on load  
     app.severityFieldDomainCodedValuesDict = {
         '0': 'Street Sign',
-        '1': 'Support'
+        //'1': 'Support'
         
     };
     //app.requestTypeFieldDomainCodedValuesDict = {
@@ -133,7 +133,11 @@ define([
     //    return value ? '<a href=\'tel:' + value + '\'>' + value + '</a>' : '';
     //};
 
-    var initAttributeForm;
+    var initAttributeForm = function () {
+        var options = [];
+    }
+   
+
 
     //// initialize the request type drop down  
     //var initAttributeForm = function () {
