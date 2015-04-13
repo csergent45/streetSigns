@@ -251,22 +251,22 @@ define([
     var submitIncidentReport = function () {
         var attributes = {
             // TODO: not sure if this is needed  
-            requestreceived: null
+            //requestreceived: null
         };
         var currentDate = new Date();
         var graphic;
-        if (!app.currentSeverity || !app.currentGeometry) {
-            return;
-        }
+        //if (!app.currentSeverity || !app.currentGeometry) {
+        //    return;
+        //}
         graphic = new Graphic(app.currentGeometry);
-        attributes.severity = parseInt(app.currentSeverity, 10);
+        //attributes.severity = parseInt(app.currentSeverity, 10);
         query('#attributesModal input, #attributesModal select, #attributesModal textarea').forEach(function (formInput) {
             attributes[formInput.name] = formInput.value;
         });
         //attributes.requesttype = parseInt(attributes.requesttype, 10);
-        attributes.requestdate = Date.UTC(currentDate.getUTCFullYear(), currentDate.getUTCMonth(),
-        currentDate.getUTCDate(), currentDate.getUTCHours(), currentDate.getUTCMinutes(),
-        currentDate.getUTCSeconds(), 0);
+        //attributes.requestdate = Date.UTC(currentDate.getUTCFullYear(), currentDate.getUTCMonth(),
+        //currentDate.getUTCDate(), currentDate.getUTCHours(), currentDate.getUTCMinutes(),
+        //currentDate.getUTCSeconds(), 0);
         graphic.setAttributes(attributes);
         stopCaptureRequest();
         // console.log(attributes);  
