@@ -76,7 +76,7 @@ define([
             logo: false,
             sliderPosition: 'bottom-right'
         },
-        citizenRequestLayerUrl: 'http://maps.decaturil.gov/arcgis/rest/services/test/StreetSignTest/FeatureServer/0',
+        citizenRequestLayerUrl: 'http://maps.decaturil.gov/arcgis/rest/services/test/StreetSignTest/FeatureServer/1',
         infoTemplate: {
             title: '<b>Request ${objectid}</b>',
             content: '<span class="infoTemplateContentRowLabel">Date: </span>' +
@@ -263,7 +263,7 @@ define([
         query('#attributesModal input, #attributesModal select, #attributesModal textarea').forEach(function (formInput) {
             attributes[formInput.name] = formInput.value;
         });
-        attributes.requesttype = parseInt(attributes.requesttype, 10);
+        //attributes.requesttype = parseInt(attributes.requesttype, 10);
         attributes.requestdate = Date.UTC(currentDate.getUTCFullYear(), currentDate.getUTCMonth(),
         currentDate.getUTCDate(), currentDate.getUTCHours(), currentDate.getUTCMinutes(),
         currentDate.getUTCSeconds(), 0);
