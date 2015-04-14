@@ -102,12 +102,54 @@ define([
         '1': 'Support'
         
     };
-   
+    //app.requestTypeFieldDomainCodedValuesDict = {
+    //    '0': 'Abandoned Vehicle',
+    //    '1': 'Animal Services',
+    //    '2': 'Driveway Infraction',
+    //    '3': 'Flooding',
+    //    '4': 'Graffiti Removal',
+    //    '5': 'Homeless Nuisance',
+    //    '6': 'Illegal Dumping',
+    //    '7': 'Parking Violation',
+    //    '8': 'Plant/Tree Complaint',
+    //    '9': 'Pothole Obstruction',
+    //    '10': 'Roadway Danger',
+    //    '11': 'Sidewalk Danger',
+    //    '12': 'Streetlight Broken',
+    //    '13': 'Street Sign Missing/Damaged',
+    //    '14': 'Trash Removal',
+    //    '15': 'Water Leak',
+    //    '16': 'Yard Waste Removal'
+    //};
+
+    // NOTE: popup formatting functions must be globals  
+    //window.severityDomainLookup = function (value, key, data) {
+    //    return app.severityFieldDomainCodedValuesDict[value];
+    //};
+    //window.requestTypeDomainLookup = function (value, key, data) {
+    //    return app.requestTypeFieldDomainCodedValuesDict[value];
+    //};
+    //window.formatPhoneNumber = function (value, key, data) {
+    //    return value ? '<a href=\'tel:' + value + '\'>' + value + '</a>' : '';
+    //};
 
     var initAttributeForm = function () {
         var options = [];
     }
    
+
+
+    //// initialize the request type drop down  
+    //var initAttributeForm = function () {
+    //    var options = [];
+    //    for (var key in app.requestTypeFieldDomainCodedValuesDict) {
+    //        if (app.requestTypeFieldDomainCodedValuesDict.hasOwnProperty(key)) {
+    //            options.push('<option value="' + key + '">' + app.requestTypeFieldDomainCodedValuesDict[key] + '</option>');
+    //        }
+    //    }
+    //    app.requestTypeSelect.innerHTML = options.join('');
+    //};
+
     // initialize the map and add the feature layer  
     // and initialize map widgets  
     var initMap = function () {
@@ -174,7 +216,8 @@ define([
             app.collapseMenuToggleButton.click();
         }
     };
-      
+
+  
 
     // temporarily show alert when starting edits  
     // and then start listening for a map click  
@@ -201,7 +244,8 @@ define([
        // app.currentSeverity = null;
         app.currentGeometry = null;
     };
-    
+
+
 
     // get attributes from form and submit  
     var submitIncidentReport = function () {
@@ -211,13 +255,18 @@ define([
         };
         var currentDate = new Date();
         var graphic;
-        
+        //if (!app.currentSeverity || !app.currentGeometry) {
+        //    return;
+        //}
         graphic = new Graphic(app.currentGeometry);
         //attributes.severity = parseInt(app.currentSeverity, 10);
         query('#attributesModal input, #attributesModal select, #attributesModal textarea').forEach(function (formInput) {
             attributes[formInput.name] = formInput.value;
         });
-       
+        //attributes.requesttype = parseInt(attributes.requesttype, 10);
+        //attributes.requestdate = Date.UTC(currentDate.getUTCFullYear(), currentDate.getUTCMonth(),
+        //currentDate.getUTCDate(), currentDate.getUTCHours(), currentDate.getUTCMinutes(),
+        //currentDate.getUTCSeconds(), 0);
         graphic.setAttributes(attributes);
         stopCaptureRequest();
         // console.log(attributes);  
