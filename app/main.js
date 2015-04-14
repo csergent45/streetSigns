@@ -230,7 +230,7 @@ define([
             domStyle.set(app.startEditAlert, 'display', 'none');
         }, 3000);
         // save map point in app global and  
-        //app.currentSeverity = severity;
+       // app.currentSeverity = severity;
         listener = app.map.on('click', function (e) {
             listener.remove();
             // save map point in app global and  
@@ -241,7 +241,7 @@ define([
     };
 
     var stopCaptureRequest = function () {
-        app.currentSeverity = null;
+       // app.currentSeverity = null;
         app.currentGeometry = null;
     };
 
