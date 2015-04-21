@@ -180,6 +180,7 @@ define([
     // and then start listening for a map click  
     var startCaptureRequest = function (severity) {
         var listener;
+        
         // NOTE: once user has clicked 'x' to dismiss  
         // this alert, it will no longer show up  
         domStyle.set(app.startEditAlert, 'display', '');
@@ -187,12 +188,12 @@ define([
             domStyle.set(app.startEditAlert, 'display', 'none');
         }, 3000);
         // save map point in app global and  
-       // app.currentSeverity = severity;
         listener = app.map.on('click', function (e) {
             listener.remove();
             // save map point in app global and  
             // show form to collect incident report  
             app.currentGeometry = e.mapPoint;
+            
             app.attributesModal.modal('show');
         });
     };
@@ -213,7 +214,7 @@ define([
         var graphic;
         
         graphic = new Graphic(app.currentGeometry);
-        //attributes.severity = parseInt(app.currentSeverity, 10);
+        
         query('#attributesModal input, #attributesModal select, #attributesModal textarea').forEach(function (formInput) {
             attributes[formInput.name] = formInput.value;
         });
@@ -232,6 +233,7 @@ define([
         query('.report-btn-group .dropdown-menu a').on('click', function (e) {
             e.preventDefault();
             startCaptureRequest(domAttr.get(e.target, 'data-value'));
+            
         });
 
         // TODO show the feedback modal  
