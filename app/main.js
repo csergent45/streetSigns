@@ -159,7 +159,7 @@ define([
         app.legend = new Legend({
             map: app.map,
             layerInfos: [{
-                title: 'Street Signs and Supports',
+                title: app.citizenRequestLayer.name,
                 layer: app.citizenRequestLayer
             }]
         }, 'legend');
@@ -194,7 +194,13 @@ define([
             // show form to collect incident report  
             app.currentGeometry = e.mapPoint;
             
-            app.attributesModal.modal('show');
+            if (severity == 0) {
+                alert("This will show the signs form.");
+            } else if (severity == 1) {
+                app.attributesModal.modal('show');
+            }
+
+            
         });
     };
 
@@ -221,7 +227,7 @@ define([
        
         graphic.setAttributes(attributes);
         stopCaptureRequest();
-        // console.log(attributes);  
+        console.log(attributes);  
         app.citizenRequestLayer.applyEdits([graphic], null, null).then(function (response) {
             console.log(response);
         });
