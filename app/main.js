@@ -1,38 +1,42 @@
+"use strict";
+/* globals console: false, define: false, alert: false */
+
+
 define([
-  'dojo/query',
-  'dojo/dom',
-  'dojo/dom-class',
-  'dojo/dom-style',
-  'dojo/dom-attr',
+  "dojo/query",
+  "dojo/dom",
+  "dojo/dom-class",
+  "dojo/dom-style",
+  "dojo/dom-attr",
 
-  'esri/config',
-  'esri/layers/FeatureLayer',
-  'esri/InfoTemplate',
-  'esri/graphic',
-  'esri/dijit/Geocoder',
-  'esri/dijit/LocateButton',
-  'esri/dijit/Legend',
-  'esri/tasks/GeometryService',
+  "esri/config",
+  "esri/layers/FeatureLayer",
+  "esri/InfoTemplate",
+  "esri/graphic",
+  "esri/dijit/Geocoder",
+  "esri/dijit/LocateButton",
+  "esri/dijit/Legend",
+  "esri/tasks/GeometryService",
 
-  'esri/geometry/Extent',
-  'esri/layers/ArcGISDynamicMapServiceLayer',
-  'esri/layers/ArcGISTiledMapServiceLayer',
+  "esri/geometry/Extent",
+  "esri/layers/ArcGISDynamicMapServiceLayer",
+  "esri/layers/ArcGISTiledMapServiceLayer",
 
-  'bootstrap-map-js/js/bootstrapmap',
+  "bootstrap-map-js/js/bootstrapmap",
 
-  'dojo-bootstrap/Collapse',
-  'dojo-bootstrap/Dropdown',
-  'dojo-bootstrap/Modal',
-  'dojo-bootstrap/Alert',
+  "dojo-bootstrap/Collapse",
+  "dojo-bootstrap/Dropdown",
+  "dojo-bootstrap/Modal",
+  "dojo-bootstrap/Alert",
 
-  'dojo/domReady!'
+  "dojo/domReady!"
 ], function (
   query, dom, domClass, domStyle, domAttr,
   esriConfig, FeatureLayer, InfoTemplate, Graphic, Geocoder, LocateButton, Legend, GeometryService,
   Extent, ArcGISDynamicMapServiceLayer, ArcGISTiledMapServiceLayer,
   BootstrapMap
 ) {
-    'use strict';
+
 
     /* The proxy comes before all references to web services */
     /* Files required for security are proxy.config, web.config and proxy.ashx 
@@ -56,7 +60,7 @@ define([
     // declare geometry service  
     esriConfig.defaults.geometryService = new GeometryService("http://maps.decaturil.gov/arcgis/rest/services/Utilities/Geometry/GeometryServer");
 
-    //Chris's options  
+    //Chris"s options  
     var initialExtent = new Extent({
         "xmin": 777229.03,
         "ymin": 1133467.92,
@@ -74,44 +78,45 @@ define([
             sliderStyle: "small",
             extent: initialExtent,
             logo: false,
-            sliderPosition: 'bottom-right'
+            sliderPosition: "bottom-right"
         },
-        citizenRequestLayerUrl: 'http://maps.decaturil.gov/arcgis/rest/services/test/StreetSignTest/FeatureServer/1',
+        citizenRequestLayerUrl: "http://maps.decaturil.gov/arcgis/rest/services/test/StreetSignTest/FeatureServer/1",
         infoTemplate: {
-            title: '<b>Request ${objectid}</b>',
-            content: '<span class="infoTemplateContentRowLabel">Date: </span>' +
-                '<span class="infoTemplateContentRowItem">${requestdate:DateFormat}</span><br><span class="infoTemplateContentRowLabel">Phone: </span>' +
-                '<span class="infoTemplateContentRowItem">${phone:formatPhoneNumber}</span><br><span class="infoTemplateContentRowLabel">Name: </span>' +
-                '<span class="infoTemplateContentRowItem">${name}</span><br><span class="infoTemplateContentRowLabel">Severity: </span>' +
-                '<span class="infoTemplateContentRowItem">${severity:severityDomainLookup}</span><br><span class="infoTemplateContentRowLabel">Type: </span>' +
-                '<span class="infoTemplateContentRowItem">${requesttype:requestTypeDomainLookup}</span><br><span class="infoTemplateContentRowLabel">Comments: </span>' +
-                '<span class="infoTemplateContentRowItem">${comment}</span>'
+            title: "<b>Request ${objectid}</b>",
+            content: "<span class=\"infoTemplateContentRowLabel\">Date: </span>" +
+                "<span class=\"infoTemplateContentRowItem\">${requestdate:DateFormat}</span><br><span class=\"infoTemplateContentRowLabel\">Phone: </span>" +
+                "<span class=\"infoTemplateContentRowItem\">${phone:formatPhoneNumber}</span><br><span class=\"infoTemplateContentRowLabel\">Name: </span>" +
+                "<span class=\"infoTemplateContentRowItem\">${name}</span><br><span class=\"infoTemplateContentRowLabel\">Severity: </span>" +
+                "<span class=\"infoTemplateContentRowItem\">${severity:severityDomainLookup}</span><br><span class=\"infoTemplateContentRowLabel\">Type: </span>" +
+                "<span class=\"infoTemplateContentRowItem\">${requesttype:requestTypeDomainLookup}</span><br><span class=\"infoTemplateContentRowLabel\">Comments: </span>" +
+                "<span class=\"infoTemplateContentRowItem\">${comment}</span>"
         }
     };
 
     // app globals  
     var app = {};
-    app.collapseMenuToggleButton = dom.byId('collapseToggleButton');
-    app.startEditAlert = dom.byId('startEditAlert');
-    app.sidebar = dom.byId('sidebar');
-    app.attributesModal = query('#attributesModal');
-    app.requestTypeSelect = query('#attributesModal [name="requesttype"]')[0];
+    app.collapseMenuToggleButton = dom.byId("collapseToggleButton");
+    app.startEditAlert = dom.byId("startEditAlert");
+    app.sidebar = dom.byId("sidebar");
+    app.attributesModal = query("#attributesModal");
+    app.requestTypeSelect = query("#attributesModal [name=\"requesttype\"]")[0];
     // TODO: get these from the feature layer on load  
     app.severityFieldDomainCodedValuesDict = {
-        '0': 'Street Sign',
-        '1': 'Support'
+        "0": "Street Sign",
+        "1": "Support"
         
     };
    
 
     var initAttributeForm = function () {
-        var options = [];
-    }
+        
+        var options = []; // options defined but never used
+    };
    
     // initialize the map and add the feature layer  
     // and initialize map widgets  
     var initMap = function () {
-        app.map = BootstrapMap.create('map', config.mapOptions);
+        app.map = BootstrapMap.create("map", config.mapOptions);
 
         var tiled = new ArcGISTiledMapServiceLayer("http://maps.decaturil.gov/arcgis/rest/services/Aerial_2014_Tiled/MapServer");
         app.map.addLayer(tiled);
@@ -125,7 +130,7 @@ define([
         app.citizenRequestLayer = new FeatureLayer(config.citizenRequestLayerUrl, {
             mode: FeatureLayer.MODE_ONEDEMAND,
             infoTemplate: new InfoTemplate(config.infoTemplate),
-            outFields: ['*']
+            outFields: ["*"]
         });
         app.map.addLayer(app.citizenRequestLayer);
 
@@ -134,10 +139,10 @@ define([
             map: app.map,
             autoComplete: true,
             arcgisGeocoder: {
-                placeholder: 'Address or Location'
+                placeholder: "Address or Location"
             },
-            'class': 'geocoder'
-        }, 'geocoder');
+            "class": "geocoder"
+        }, "geocoder");
         app.geocoder.startup();
 
         // Begin geolocate button  
@@ -148,7 +153,7 @@ define([
                 highlightLocation: true,
                 useTracking: true,
                 enableHighAccuracy: true
-            }, 'locateButton');
+            }, "locateButton");
             app.locateButton.clearOnTrackingStop = true;
             app.locateButton.startup();
             app.locateButton.locate();
@@ -162,14 +167,14 @@ define([
                 title: app.citizenRequestLayer.name,
                 layer: app.citizenRequestLayer
             }]
-        }, 'legend');
+        }, "legend");
         app.legend.startup();
         // TODO: other widgets, etc  
     };
 
     // hide nav dropdown on mobile  
     var hideDropdownNav = function (e) {
-        if (query('.navbar-collapse.in').length > 0) {
+        if (query(".navbar-collapse.in").length > 0) {
             e.stopPropagation();
             app.collapseMenuToggleButton.click();
         }
@@ -181,23 +186,24 @@ define([
     var startCaptureRequest = function (severity) {
         var listener;
         
-        // NOTE: once user has clicked 'x' to dismiss  
+        // NOTE: once user has clicked "x" to dismiss  
         // this alert, it will no longer show up  
-        domStyle.set(app.startEditAlert, 'display', '');
+        domStyle.set(app.startEditAlert, "display", "");
         setTimeout(function () {
-            domStyle.set(app.startEditAlert, 'display', 'none');
+            domStyle.set(app.startEditAlert, "display", "none");
         }, 3000);
         // save map point in app global and  
-        listener = app.map.on('click', function (e) {
+        listener = app.map.on("click", function (e) {
             listener.remove();
             // save map point in app global and  
             // show form to collect incident report  
             app.currentGeometry = e.mapPoint;
             
-            if (severity == 0) {
+            if (severity === "0") {
+                
                 alert("This will show the signs form.");
-            } else if (severity == 1) {
-                app.attributesModal.modal('show');
+            } else if (severity === "1") {
+                app.attributesModal.modal("show");
             }
 
             
@@ -216,15 +222,27 @@ define([
             // TODO: not sure if this is needed  
             //requestreceived: null
         };
-        var currentDate = new Date();
+        var currentDate = new Date(); // current date is defined but never used.
         var graphic;
         
         graphic = new Graphic(app.currentGeometry);
         
-        query('#attributesModal input, #attributesModal select, #attributesModal textarea').forEach(function (formInput) {
+        query("#attributesModal input, #attributesModal select, #attributesModal textarea").forEach(function (formInput) {
             attributes[formInput.name] = formInput.value;
         });
        
+        // Form Validation
+        if ((attributes.supportId === undefined) || (attributes.supportId === "")) {
+            attributes.supportId = -999;
+        }
+        if ((attributes.dateInv === undefined) || (attributes.dateInv === "")) {
+            attributes.dateInv = "1900-01-01";
+        }
+        if ((attributes.addrCode === undefined) || (attributes.addrCode === "")) {
+            attributes.addrCode = -999;
+        }        
+
+
         graphic.setAttributes(attributes);
         stopCaptureRequest();
         console.log(attributes);  
@@ -236,59 +254,59 @@ define([
     // wire up the DOM events  
     var initEvents = function () {
         // listen for map clicks once severity is chosen  
-        query('.report-btn-group .dropdown-menu a').on('click', function (e) {
+        query(".report-btn-group .dropdown-menu a").on("click", function (e) {
             e.preventDefault();
-            startCaptureRequest(domAttr.get(e.target, 'data-value'));
+            startCaptureRequest(domAttr.get(e.target, "data-value"));
             
         });
 
         // TODO show the feedback modal  
-        query('a[href="#feedback"]').on('click', function (e) {
+        query("a[href=\"#feedback\"]").on("click", function (e) {
             e.preventDefault();
-            query('#feedbackModal').modal('show');
+            query("#feedbackModal").modal("show");
         });
 
         // hide drop down nav after clicking on a link  
-        query('.navbar-collapse a').on('click', function (e) {
+        query(".navbar-collapse a").on("click", function (e) {
             hideDropdownNav(e);
         });
 
         // change the basemap  
-        query('#basemapDropdown a').on('click', function (e) {
-            var basemapName = domAttr.get(e.target, 'data-name');
+        query("#basemapDropdown a").on("click", function (e) {
+            var basemapName = domAttr.get(e.target, "data-name");
             if (basemapName && app.map) {
                 app.map.setBasemap(basemapName);
             }
         });
 
         // toggle the sidebar  
-        query('#sidebarToggleButton').on('click', function (e) {
+        query("#sidebarToggleButton").on("click", function (e) {
             // make sure sidebar is same height as the map  
             if (app.map.height) {
-                domStyle.set(app.sidebar, 'height', app.map.height + 'px');
+                domStyle.set(app.sidebar, "height", app.map.height + "px");
             }
-            domClass.toggle(window.document.body, 'sidebar-open');
+            domClass.toggle(window.document.body, "sidebar-open");
             hideDropdownNav(e);
         });
 
         // submit or cancel request and hide modal  
-        query('#attributesModal .btn').on('click', function (e) {
+        query("#attributesModal .btn").on("click", function (e) {
             var target = e.target;
-            if (target.innerText === 'Submit') {
+            if (target.innerText === "Submit") {
                 submitIncidentReport();
             }
-            app.attributesModal.modal('hide');
+            app.attributesModal.modal("hide");
         });
 
 
         // submit or cancel request and hide modal  
-        query('#feedbackModal .btn').on('click', function (e) {
+        query("#feedbackModal .btn").on("click", function (e) { // e is defined but never used.
             // NOTE: this is not implemented in sample app  
-            query('#feedbackModal').modal('hide');
+            query("#feedbackModal").modal("hide");
         });
 
         // clear current edit session globals  
-        app.attributesModal.on('hidden.bs.modal', stopCaptureRequest);
+        app.attributesModal.on("hidden.bs.modal", stopCaptureRequest);
     };
 
     // finally, start up the app!  
