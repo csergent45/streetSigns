@@ -205,8 +205,7 @@ define([
             } else if (severity === "1") {
                 app.attributesModal.modal("show");
             }
-
-            
+                        
         });
     };
 
@@ -218,6 +217,7 @@ define([
 
     // get attributes from form and submit  
     var submitIncidentReport = function () {
+        // NEED TO DETERMINE WHICH FORM IS OPEN AND CREATE A CONDITIONAL STATEMENT FOR INSERT
         var attributes = {
             // TODO: not sure if this is needed  
             //requestreceived: null
