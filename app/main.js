@@ -217,7 +217,7 @@ define([
 
     // get attributes from form and submit  
     var submitIncidentReport = function () {
-        // NEED TO DETERMINE WHICH FORM IS OPEN AND CREATE A CONDITIONAL STATEMENT FOR INSERT
+        // NEED TO DETERMINE WHICH FORM IS OPEN AND CREATE A CONDITIONAL STATEMENT FOR INSERT.
         var attributes = {
             // TODO: not sure if this is needed  
             //requestreceived: null
