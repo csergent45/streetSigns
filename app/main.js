@@ -86,7 +86,7 @@ define([
         citizenRequestLayerUrl: "http://maps.decaturil.gov/arcgis/rest/services/test/StreetSignTest/FeatureServer/1",
         outFields:["*"] };
 
-    var myobject;
+    var myObject;
 
     // app globals  
     var app = {};
@@ -134,7 +134,8 @@ define([
        
 
         app.citizenRequestLayer.on("click", function (evt) {
-          myObject = evt.graphic.attributes.OBJECTID;
+            myObject = evt.graphic.attributes.OBJECTID;
+            console.log(myObject);
         });
 
         app.geocoder = new Geocoder({
