@@ -24,17 +24,20 @@ define([
 
   "bootstrap-map-js/js/bootstrapmap",
 
+  "dojo/string",
+
   "dojo-bootstrap/Collapse",
   "dojo-bootstrap/Dropdown",
   "dojo-bootstrap/Modal",
   "dojo-bootstrap/Alert",
 
+  
   "dojo/domReady!"
 ], function (
   query, dom, domClass, domStyle, domAttr,
   esriConfig, FeatureLayer, InfoTemplate, Graphic, Geocoder, LocateButton, Legend, GeometryService,
   Extent, ArcGISDynamicMapServiceLayer, ArcGISTiledMapServiceLayer,
-  BootstrapMap
+  BootstrapMap, string
 ) {
 
 
@@ -81,20 +84,13 @@ define([
             sliderPosition: "bottom-right"
         },
         citizenRequestLayerUrl: "http://maps.decaturil.gov/arcgis/rest/services/test/StreetSignTest/FeatureServer/1",
-        infoTemplate: {
-            title: "<b>Request ${objectid}</b>",
-            content: "<span class=\"infoTemplateContentRowLabel\">Date: </span>" +
-                "<span class=\"infoTemplateContentRowItem\">${requestdate:DateFormat}</span><br><span class=\"infoTemplateContentRowLabel\">Phone: </span>" +
-                "<span class=\"infoTemplateContentRowItem\">${phone:formatPhoneNumber}</span><br><span class=\"infoTemplateContentRowLabel\">Name: </span>" +
-                "<span class=\"infoTemplateContentRowItem\">${name}</span><br><span class=\"infoTemplateContentRowLabel\">Severity: </span>" +
-                "<span class=\"infoTemplateContentRowItem\">${severity:severityDomainLookup}</span><br><span class=\"infoTemplateContentRowLabel\">Type: </span>" +
-                "<span class=\"infoTemplateContentRowItem\">${requesttype:requestTypeDomainLookup}</span><br><span class=\"infoTemplateContentRowLabel\">Comments: </span>" +
-                "<span class=\"infoTemplateContentRowItem\">${comment}</span>"
-        }
-    };
+        outFields:["*"] };
+
+    var myobject;
 
     // app globals  
     var app = {};
+    
     app.collapseMenuToggleButton = dom.byId("collapseToggleButton");
     app.startEditAlert = dom.byId("startEditAlert");
     app.sidebar = dom.byId("sidebar");
@@ -107,6 +103,7 @@ define([
         
     };
    
+    
 
     var initAttributeForm = function () {
         
@@ -129,11 +126,16 @@ define([
 
         app.citizenRequestLayer = new FeatureLayer(config.citizenRequestLayerUrl, {
             mode: FeatureLayer.MODE_ONEDEMAND,
-            infoTemplate: new InfoTemplate(config.infoTemplate),
+            //infoTemplate: new InfoTemplate(config.infoTemplate),
             outFields: ["*"]
         });
         app.map.addLayer(app.citizenRequestLayer);
 
+       
+
+        app.citizenRequestLayer.on("click", function (evt) {
+          myObject = evt.graphic.attributes.OBJECTID;
+        });
 
         app.geocoder = new Geocoder({
             map: app.map,
@@ -218,12 +220,15 @@ define([
     // get attributes from form and submit  
     var submitIncidentReport = function () {
         // NEED TO DETERMINE WHICH FORM IS OPEN AND CREATE A CONDITIONAL STATEMENT FOR INSERT.
+        alert(domClass.contains("attributesModal", "in"));
+
         var attributes = {
             // TODO: not sure if this is needed  
             //requestreceived: null
         };
         var currentDate = new Date(); // current date is defined but never used.
         var graphic;
+                
         
         graphic = new Graphic(app.currentGeometry);
         
@@ -242,7 +247,8 @@ define([
             attributes.addrCode = null;
         }        
 
-
+        
+        
         graphic.setAttributes(attributes);
         stopCaptureRequest();
         
