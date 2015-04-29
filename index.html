@@ -48,7 +48,7 @@
         </div>
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li><a href="#feedback">Feedback</a></li>
+            <li><a href="#feedback">Get Help</a></li>
             <!--<li><a href="dashboard.html">Dashboard</a></li>-->
           </ul>
           <ul class="nav navbar-nav navbar-right">
@@ -261,18 +261,18 @@
           </div>
           <div class="modal-body">
             <div class="form-group">
-              <label for="name">Name</label>
-              <input type="email" class="form-control" name="name" placeholder="Enter name">
+              <label for="eMail">e-mail</label>
+              <input type="email" class="form-control" name="eMail" placeholder="e-mail Required" value="dsergent@decaturil.gov"  required>
             </div>
             <div class="form-group">
-              <label for="email">Email address</label>
-              <input type="email" class="form-control" name="email" placeholder="Enter email">
+              <label for="subject">Subject</label>
+              <input type="text" class="form-control" name="subject" placeholder="Subject is Required" value="Street Signs" required>
             </div>
             <div class="form-group">
               <label for="comment">Comments</label>
-              <textarea class="form-control" name="comment" placeholder="Enter your comments here."></textarea>
+              <textarea class="form-control" name="comment" placeholder="Please tell us what you need help with." required></textarea>
             </div>
-            <button class="btn btn-primary">Submit</button>
+            <button class="btn btn-primary" name="btnFeedback" onclick="sendEmail()">Submit</button>
             <button class="btn btn-default">Cancel</button>
           </div>
         </div>

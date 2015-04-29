@@ -90,6 +90,10 @@ define([
 
     // app globals  
     var app = {};
+
+    function sendEmail() {
+        alert("Hello");
+    }
     
     app.collapseMenuToggleButton = dom.byId("collapseToggleButton");
     app.startEditAlert = dom.byId("startEditAlert");
@@ -183,6 +187,7 @@ define([
         }
     };
       
+    
 
     // temporarily show alert when starting edits  
     // and then start listening for a map click  
