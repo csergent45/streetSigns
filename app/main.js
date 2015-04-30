@@ -24,6 +24,10 @@ define([
 
   "bootstrap-map-js/js/bootstrapmap",
 
+  "dijit/form/ValidationTextBox",
+  
+  "dojo/on",
+  "dojo/parser",
   "dojo/string",
 
   "dojo-bootstrap/Collapse",
@@ -37,7 +41,7 @@ define([
   query, dom, domClass, domStyle, domAttr,
   esriConfig, FeatureLayer, InfoTemplate, Graphic, Geocoder, LocateButton, Legend, GeometryService,
   Extent, ArcGISDynamicMapServiceLayer, ArcGISTiledMapServiceLayer,
-  BootstrapMap, string
+  BootstrapMap, ValidationTextBox, on, parser, string
 ) {
 
 
@@ -86,14 +90,35 @@ define([
         citizenRequestLayerUrl: "http://maps.decaturil.gov/arcgis/rest/services/test/StreetSignTest/FeatureServer/1",
         outFields:["*"] };
 
-    var myObject;
+    var supportId, type;
 
     // app globals  
     var app = {};
 
-    function sendEmail() {
-        alert("Hello");
+
+    on(dom.byId("btnFeedback"), "click", function () {
+        sendEmail();
+    });
+
+    function sendEmail(ev) {
+        ////window.open('mailto:dsergent@decaturil.gov?subject=Street Signs&body=Please tell us what you need help with.');
+        ////window.open("'" + document.getElementById('eMail').value) + "?subject=" + document.getElementById('subject').value + "&body=" + document.getElementById("comment").value + "'";
+        //var link = "mailto:" +  document.getElementById("eMail").value
+        //     + "&subject=" + escape(document.getElementById('subject').value)
+        //     + "&body=" + escape(document.getElementById('comment').value)
+        //;
+
+        
+        //window.location.href = link;
+        if (this.validate()) {
+            return confirm('Form is valid, press OK to submit');
+        } else {
+            alert('Form contains invalid data.  Please correct first');
+            return false;
+        }
+        return true;
     }
+
     
     app.collapseMenuToggleButton = dom.byId("collapseToggleButton");
     app.startEditAlert = dom.byId("startEditAlert");
@@ -138,8 +163,10 @@ define([
        
 
         app.citizenRequestLayer.on("click", function (evt) {
-            myObject = evt.graphic.attributes.OBJECTID;
-            console.log(myObject);
+            supportId = evt.graphic.attributes.SUPPORTID
+            type = evt.graphic.attributes.TYPE;
+            console.log(supportId);
+            console.log(type);
         });
 
         app.geocoder = new Geocoder({
