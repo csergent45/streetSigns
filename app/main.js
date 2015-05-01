@@ -28,6 +28,7 @@ define([
   
   "dojo/on",
   "dojo/parser",
+  "dojo/_base/lang",
   "dojo/string",
 
   "dojo-bootstrap/Collapse",
@@ -41,7 +42,7 @@ define([
   query, dom, domClass, domStyle, domAttr,
   esriConfig, FeatureLayer, InfoTemplate, Graphic, Geocoder, LocateButton, Legend, GeometryService,
   Extent, ArcGISDynamicMapServiceLayer, ArcGISTiledMapServiceLayer,
-  BootstrapMap, ValidationTextBox, on, parser, string
+  BootstrapMap, ValidationTextBox, on, parser, lang, string
 ) {
 
 
@@ -87,14 +88,29 @@ define([
             logo: false,
             sliderPosition: "bottom-right"
         },
-        citizenRequestLayerUrl: "http://maps.decaturil.gov/arcgis/rest/services/test/StreetSignTest/FeatureServer/1",
-        outFields:["*"] };
+
+        signLayerUrl: "http://maps.decaturil.gov/arcgis/rest/services/test/StreetSignTest/FeatureServer/0",
+        
+        supportLayerUrl: "http://maps.decaturil.gov/arcgis/rest/services/test/StreetSignTest/FeatureServer/1"
+              
+       
+        };
 
     var supportId, type;
 
     // app globals  
     var app = {};
+    
 
+    //on(dom.byId("btnFeedback"), "click", lang.hitch(this, function () {
+    //    if (dom.byId("feedbackModal").validate()) {
+    //        return confirm('Form is valid, press OK to submit');
+    //    } else {
+    //        alert('Form contains invalid data.  Please correct first');
+    //        return false;
+    //    }
+    //    return true;
+    //}));
 
     on(dom.byId("btnFeedback"), "click", function () {
         sendEmail();
@@ -103,21 +119,18 @@ define([
     function sendEmail(ev) {
         ////window.open('mailto:dsergent@decaturil.gov?subject=Street Signs&body=Please tell us what you need help with.');
         ////window.open("'" + document.getElementById('eMail').value) + "?subject=" + document.getElementById('subject').value + "&body=" + document.getElementById("comment").value + "'";
-        //var link = "mailto:" +  document.getElementById("eMail").value
-        //     + "&subject=" + escape(document.getElementById('subject').value)
-        //     + "&body=" + escape(document.getElementById('comment').value)
-        //;
+        var link = "mailto:" +  document.getElementById("eMail").value
+             + "&subject=" + escape(document.getElementById('subject').value)
+             + "&body=" + escape(document.getElementById('comment').value)
+        ;
 
         
-        //window.location.href = link;
-        if (this.validate()) {
-            return confirm('Form is valid, press OK to submit');
-        } else {
-            alert('Form contains invalid data.  Please correct first');
-            return false;
-        }
-        return true;
+        window.location.href = link;
+        
     }
+
+
+    
 
     
     app.collapseMenuToggleButton = dom.byId("collapseToggleButton");
@@ -153,16 +166,23 @@ define([
         });
         app.map.addLayer(operationalLayer);
 
-        app.citizenRequestLayer = new FeatureLayer(config.citizenRequestLayerUrl, {
+        app.supportLayer = new FeatureLayer(config.supportLayerUrl, {
             mode: FeatureLayer.MODE_ONEDEMAND,
             //infoTemplate: new InfoTemplate(config.infoTemplate),
             outFields: ["*"]
         });
-        app.map.addLayer(app.citizenRequestLayer);
+        app.map.addLayer(app.supportLayer);
 
+
+        app.signLayer = new FeatureLayer(config.signLayerUrl, {
+            mode: FeatureLayer.MODE_ONEDEMAND,
+            outFields: ["*"]
+        });
+
+        app.map.addLayer(app.signLayer);
        
 
-        app.citizenRequestLayer.on("click", function (evt) {
+        app.supportLayer.on("click", function (evt) {
             supportId = evt.graphic.attributes.SUPPORTID
             type = evt.graphic.attributes.TYPE;
             console.log(supportId);
@@ -198,8 +218,11 @@ define([
         app.legend = new Legend({
             map: app.map,
             layerInfos: [{
-                title: app.citizenRequestLayer.name,
-                layer: app.citizenRequestLayer
+                title: app.supportLayer.name,
+                layer: app.supportLayer
+            }, {
+                title: app.signLayer.name,
+                layer: app.signLayer
             }]
         }, "legend");
         app.legend.startup();
@@ -286,7 +309,7 @@ define([
         stopCaptureRequest();
         
         //console.log(attributes);  
-        app.citizenRequestLayer.applyEdits([graphic], null, null).then(function (response) {
+        app.supportLayer.applyEdits([graphic], null, null).then(function (response) {
             console.log(response);
         });
     };
