@@ -9,6 +9,9 @@ define([
   "dojo/dom-style",
   "dojo/dom-attr",
 
+  "dojox/validate",
+  "dojox/validate/check",
+
   "esri/config",
   "esri/layers/FeatureLayer",
   "esri/InfoTemplate",
@@ -39,7 +42,7 @@ define([
   
   "dojo/domReady!"
 ], function (
-  query, dom, domClass, domStyle, domAttr,
+  query, dom, domClass, domStyle, domAttr, validate, check,
   esriConfig, FeatureLayer, InfoTemplate, Graphic, Geocoder, LocateButton, Legend, GeometryService,
   Extent, ArcGISDynamicMapServiceLayer, ArcGISTiledMapServiceLayer,
   BootstrapMap, ValidationTextBox, on, parser, lang, string
@@ -102,36 +105,48 @@ define([
     var app = {};
     
 
-    //on(dom.byId("btnFeedback"), "click", lang.hitch(this, function () {
-    //    if (dom.byId("feedbackModal").validate()) {
-    //        return confirm('Form is valid, press OK to submit');
-    //    } else {
-    //        alert('Form contains invalid data.  Please correct first');
-    //        return false;
-    //    }
-    //    return true;
-    //}));
+    
+   
 
     on(dom.byId("btnFeedback"), "click", function () {
+        
         sendEmail();
-    });
+    }
+       
+    );
 
     function sendEmail(ev) {
-        ////window.open('mailto:dsergent@decaturil.gov?subject=Street Signs&body=Please tell us what you need help with.');
-        ////window.open("'" + document.getElementById('eMail').value) + "?subject=" + document.getElementById('subject').value + "&body=" + document.getElementById("comment").value + "'";
+
         var link = "mailto:" +  document.getElementById("eMail").value
              + "&subject=" + escape(document.getElementById('subject').value)
-             + "&body=" + escape(document.getElementById('comment').value)
-        ;
+             + "&body=" + escape(document.getElementById('comment').value)  ;
 
         
         window.location.href = link;
         
     }
 
+    var visibleLayerIds = [];
+    on(dom.byId("lyrSigns"), "change", updateLayerVisibility);
+    on(dom.byId("lyrSupports"), "change", updateLayerVisibility);
 
-    
+    function updateLayerVisibility() {
+        var inputs = query(".list_item");
+        var inputCount = inputs.length;
+               
 
+        for (var i = 0; i < inputCount; i++) {
+            if (inputs[i].checked) {
+                visibleLayerIds.push(inputs[i].value);
+            }
+        }
+
+        if (visibleLayerIds.length === 0) {
+            visibleLayerIds.push(-1);
+        }
+
+        layer.setVisibleLayers(visibleLayerIds);
+    }
     
     app.collapseMenuToggleButton = dom.byId("collapseToggleButton");
     app.startEditAlert = dom.byId("startEditAlert");
