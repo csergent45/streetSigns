@@ -115,6 +115,19 @@ define([
        
     );
 
+
+
+    //on(dom.byId("btnFeedback"), "click", function () {
+    //    If((document.getElementById("eMail").value) && document.getElementById("eMail").value != ""){
+    //        alert("not working");
+    //    } else {
+        
+    //    sendEmail();
+      
+    //}
+     
+    //);
+
     function sendEmail(ev) {
 
         var link = "mailto:" +  document.getElementById("eMail").value
@@ -126,27 +139,27 @@ define([
         
     }
 
-    var visibleLayerIds = [];
-    on(dom.byId("lyrSigns"), "change", updateLayerVisibility);
-    on(dom.byId("lyrSupports"), "change", updateLayerVisibility);
+    //var visibleLayerIds = [];
+    //on(dom.byId("lyrSigns"), "change", updateLayerVisibility);
+    //on(dom.byId("lyrSupports"), "change", updateLayerVisibility);
 
-    function updateLayerVisibility() {
-        var inputs = query(".list_item");
-        var inputCount = inputs.length;
+    //function updateLayerVisibility() {
+    //    var inputs = query(".list_item");
+    //    var inputCount = inputs.length;
                
 
-        for (var i = 0; i < inputCount; i++) {
-            if (inputs[i].checked) {
-                visibleLayerIds.push(inputs[i].value);
-            }
-        }
+    //    for (var i = 0; i < inputCount; i++) {
+    //        if (inputs[i].checked) {
+    //            visibleLayerIds.push(inputs[i].value);
+    //        }
+    //    }
 
-        if (visibleLayerIds.length === 0) {
-            visibleLayerIds.push(-1);
-        }
+    //    if (visibleLayerIds.length === 0) {
+    //        visibleLayerIds.push(-1);
+    //    }
 
-        layer.setVisibleLayers(visibleLayerIds);
-    }
+    //    layer.setVisibleLayers(visibleLayerIds);
+    //}
     
     app.collapseMenuToggleButton = dom.byId("collapseToggleButton");
     app.startEditAlert = dom.byId("startEditAlert");
