@@ -28,6 +28,7 @@ define([
   "bootstrap-map-js/js/bootstrapmap",
 
   "dijit/form/ValidationTextBox",
+  "dijit/form/CheckBox",
   
   "dojo/on",
   "dojo/parser",
@@ -45,7 +46,7 @@ define([
   query, dom, domClass, domStyle, domAttr, validate, check,
   esriConfig, FeatureLayer, InfoTemplate, Graphic, Geocoder, LocateButton, Legend, GeometryService,
   Extent, ArcGISDynamicMapServiceLayer, ArcGISTiledMapServiceLayer,
-  BootstrapMap, ValidationTextBox, on, parser, lang, string
+  BootstrapMap, ValidationTextBox, CheckBox, on, parser, lang, string
 ) {
 
 
@@ -103,30 +104,18 @@ define([
 
     // app globals  
     var app = {};
-    
+   
 
     
    
 
-    on(dom.byId("btnFeedback"), "click", function () {
-        
-        sendEmail();
-    }
-       
-    );
-
-
-
-    //on(dom.byId("btnFeedback"), "click", function () {
-    //    If((document.getElementById("eMail").value) && document.getElementById("eMail").value != ""){
-    //        alert("not working");
-    //    } else {
-        
-    //    sendEmail();
-      
-    //}
-     
-    //);
+    on(dom.byId("btnFeedback"), "click", function (e) {
+        if (document.getElementById("eMail") == null || document.getElementById("eMail").value == "") {
+            alert("not working");
+        } else {
+            sendEmail();
+        }
+    });
 
     function sendEmail(ev) {
 
@@ -139,27 +128,48 @@ define([
         
     }
 
-    //var visibleLayerIds = [];
-    //on(dom.byId("lyrSigns"), "change", updateLayerVisibility);
-    //on(dom.byId("lyrSupports"), "change", updateLayerVisibility);
 
-    //function updateLayerVisibility() {
-    //    var inputs = query(".list_item");
-    //    var inputCount = inputs.length;
-               
-
-    //    for (var i = 0; i < inputCount; i++) {
-    //        if (inputs[i].checked) {
-    //            visibleLayerIds.push(inputs[i].value);
+    //var checkBox = new CheckBox({
+    //    name: "lyrSigns",
+    //    value: "agreed",
+    //    checked: false,
+    //    onChange: function (b) {
+    //        if (b == true) {
+    //            app.map.addLayer("signLayerUrl");
+    //        } else {
+    //            app.map.removeLayer("signLayerUrl");
     //        }
     //    }
+    //}, "lyrSigns").startup();
 
-    //    if (visibleLayerIds.length === 0) {
-    //        visibleLayerIds.push(-1);
-    //    }
+    //on(dom.byId("lyrSigns"), "change", alert("Hello"));
+    //on(dom.byId("lyrSupports"), "change", alert("Goodbye"));
 
-    //    layer.setVisibleLayers(visibleLayerIds);
-    //}
+    var visibleLayerIds = [];
+    
+
+    on(dom.byId("lyrSigns"), "change", updateLayerVisibility);
+    //on(dom.byId("lyrSupports"), "change", updateLayerVisibility);
+
+    function updateLayerVisibility() {
+        var inputs = query(".list_item");
+        var inputCount = inputs.length;
+               
+        visibleLayerIds = [0];
+
+        for (var i = 0; i < inputCount; i++) {
+            if (inputs[i].checked) {
+                visibleLayerIds.push(inputs[i].value);
+            }
+        }
+
+        if (visibleLayerIds.length === 0) {
+            visibleLayerIds.push(-1);
+        }
+        signLayerUrl.setVisibleLayers(visibleLayerIds);
+    }
+
+    
     
     app.collapseMenuToggleButton = dom.byId("collapseToggleButton");
     app.startEditAlert = dom.byId("startEditAlert");
