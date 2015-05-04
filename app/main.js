@@ -128,24 +128,7 @@ define([
         
     }
 
-
-    //var checkBox = new CheckBox({
-    //    name: "lyrSigns",
-    //    value: "agreed",
-    //    checked: false,
-    //    onChange: function (b) {
-    //        if (b == true) {
-    //            app.map.addLayer("signLayerUrl");
-    //        } else {
-    //            app.map.removeLayer("signLayerUrl");
-    //        }
-    //    }
-    //}, "lyrSigns").startup();
-
-    //on(dom.byId("lyrSigns"), "change", alert("Hello"));
-    //on(dom.byId("lyrSupports"), "change", alert("Goodbye"));
-
-    var visibleLayerIds = [];
+    var visibleLayerIds = [0];
     
 
     on(dom.byId("lyrSigns"), "change", updateLayerVisibility);
@@ -155,7 +138,7 @@ define([
         var inputs = query(".list_item");
         var inputCount = inputs.length;
                
-        visibleLayerIds = [0];
+        visibleLayerIds = [];
 
         for (var i = 0; i < inputCount; i++) {
             if (inputs[i].checked) {
@@ -163,10 +146,10 @@ define([
             }
         }
 
-        if (visibleLayerIds.length === 0) {
+        if (visibleLayerIds.length === 1) {
             visibleLayerIds.push(-1);
         }
-        signLayerUrl.setVisibleLayers(visibleLayerIds);
+        app.signLayer.setVisibility(visibleLayerIds);
     }
 
     
