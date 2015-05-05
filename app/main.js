@@ -128,31 +128,22 @@ define([
         
     }
 
-    var visibleLayerIds = [0];
-    
-
     on(dom.byId("lyrSigns"), "change", updateLayerVisibility);
-    //on(dom.byId("lyrSupports"), "change", updateLayerVisibility);
+    on(dom.byId("lyrSupports"), "change", updateLayerVisibility);
 
     function updateLayerVisibility() {
-        var inputs = query(".list_item");
-        var inputCount = inputs.length;
-               
-        visibleLayerIds = [];
-
-        for (var i = 0; i < inputCount; i++) {
-            if (inputs[i].checked) {
-                visibleLayerIds.push(inputs[i].value);
-            }
+        if (document.getElementById('lyrSigns').checked) {
+            app.signLayer.setVisibility(true);
+        } else {
+            app.signLayer.setVisibility(false);
         }
-
-        if (visibleLayerIds.length === 1) {
-            visibleLayerIds.push(-1);
+        if (document.getElementById('lyrSupports').checked) {
+            app.supportLayer.setVisibility(true);
+        } else {
+            app.supportLayer.setVisibility(false);
         }
-        app.signLayer.setVisibility(visibleLayerIds);
     }
 
-    
     
     app.collapseMenuToggleButton = dom.byId("collapseToggleButton");
     app.startEditAlert = dom.byId("startEditAlert");
