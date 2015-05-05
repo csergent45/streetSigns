@@ -105,16 +105,16 @@ define([
     // app globals  
     var app = {};
    
-    on(dom.byId("btnCancelFeedback"), "click", function () {
-        document.getElementById("feedbackModal").style.visibility = 'hidden';
-    });
    
 
     on(dom.byId("btnFeedback"), "click", function (e) {
-        if (document.getElementById("eMail") == null || document.getElementById("eMail").value == "") {
-            alert("not working");
+        if (document.getElementById("eMail") == null || document.getElementById("eMail").value == ""
+            || document.getElementById("subject") == null || document.getElementById("subject").value ==""
+            || document.getElementById("comment") == null || document.getElementById("comment").value == "") 
+        {
+            alert("All fields are required!");
         } else {
-
+            query("#feedbackModal").modal("hide");
             sendEmail();
         }
     });
@@ -125,7 +125,6 @@ define([
              + "&subject=" + escape(document.getElementById('subject').value)
              + "&body=" + escape(document.getElementById('comment').value)  ;
 
-        
         window.location.href = link;
         
     }
@@ -139,10 +138,11 @@ define([
     }
 
 
-    
+    on(dom.byId("btnCancelFeedback"), "click", function () {
+        query("#feedbackModal").modal("hide");
+    });
 
-
-    
+      
     app.collapseMenuToggleButton = dom.byId("collapseToggleButton");
     app.startEditAlert = dom.byId("startEditAlert");
     app.sidebar = dom.byId("sidebar");
