@@ -105,14 +105,16 @@ define([
     // app globals  
     var app = {};
    
-
-    
+    on(dom.byId("btnCancelFeedback"), "click", function () {
+        document.getElementById("feedbackModal").style.visibility = 'hidden';
+    });
    
 
     on(dom.byId("btnFeedback"), "click", function (e) {
         if (document.getElementById("eMail") == null || document.getElementById("eMail").value == "") {
             alert("not working");
         } else {
+
             sendEmail();
         }
     });
@@ -132,17 +134,13 @@ define([
     on(dom.byId("lyrSupports"), "change", updateLayerVisibility);
 
     function updateLayerVisibility() {
-        if (document.getElementById('lyrSigns').checked) {
-            app.signLayer.setVisibility(true);
-        } else {
-            app.signLayer.setVisibility(false);
-        }
-        if (document.getElementById('lyrSupports').checked) {
-            app.supportLayer.setVisibility(true);
-        } else {
-            app.supportLayer.setVisibility(false);
-        }
+        app.signLayer.setVisibility(document.getElementById('lyrSigns').checked);
+        app.supportLayer.setVisibility(document.getElementById('lyrSupports').checked);
     }
+
+
+    
+
 
     
     app.collapseMenuToggleButton = dom.byId("collapseToggleButton");
@@ -374,11 +372,12 @@ define([
         });
 
 
+        
         // submit or cancel request and hide modal  
-        query("#feedbackModal .btn").on("click", function (e) { // e is defined but never used.
-            // NOTE: this is not implemented in sample app  
-            query("#feedbackModal").modal("hide");
-        });
+        //query("#feedbackModal .btn").on("click", function (e) { // e is defined but never used.
+        //    // NOTE: this is not implemented in sample app  
+        //    query("#feedbackModal").modal("hide");
+        //});
 
         // clear current edit session globals  
         app.attributesModal.on("hidden.bs.modal", stopCaptureRequest);
