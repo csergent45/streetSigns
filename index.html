@@ -30,288 +30,433 @@
       <script src="//cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
   </head>
-  <body>
+<body>
     <!-- top nav -->
     <div class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <a id="sidebarToggleButton" class="navbar-brand visible-xs visible-xs-block sidebar-toggle-button" href="#">
-          <span class="glyphicon glyphicon-info-sign"></span>
-          <!-- <img src="http://esri.github.io/bootstrap-map-js/demo/images/brand.png" /> -->
-          </a>
-          <a class="navbar-brand" href="#">Street Signs</a>
-          <button id="collapseToggleButton" type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a id="sidebarToggleButton" class="navbar-brand visible-xs visible-xs-block sidebar-toggle-button" href="#">
+                    <span class="glyphicon glyphicon-info-sign"></span>
+                    <!-- <img src="http://esri.github.io/bootstrap-map-js/demo/images/brand.png" /> -->
+                </a>
+                <a class="navbar-brand" href="#">Street Signs</a>
+                <button id="collapseToggleButton" type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="#feedback">Get Help</a></li>
+                    <!--<li><a href="dashboard.html">Dashboard</a></li>-->
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="https://www.decaturil.gov/">City of Decatur</a></li>
+                    <!--<li><a href="https://github.com/tomwayson/responsive-citizens">Source</a></li>
+                    <li><a href="http://stackoverflow.com/search?q=esri+bootstrap">Support</a></li>-->
+                </ul>
+            </div>
         </div>
-        <div class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li><a href="#feedback">Get Help</a></li>
-            <!--<li><a href="dashboard.html">Dashboard</a></li>-->
-          </ul>
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="https://www.decaturil.gov/">City of Decatur</a></li>
-            <!--<li><a href="https://github.com/tomwayson/responsive-citizens">Source</a></li>
-            <li><a href="http://stackoverflow.com/search?q=esri+bootstrap">Support</a></li>-->
-          </ul>
-        </div>
-      </div>
     </div>
 
     <!-- map row -->
     <div class="container-fluid container-map">
-      <div class="row row-map">
-        <!-- the map -->
-        <div class="col-xs-12 col-sm-9 col-lg-10 col col-map">
-          <div id="map">
-            <div class="btn-group report-btn-group">
-              <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                <span class="glyphicon glyphicon-map-marker"></span>&nbsp;<span class="hidden-xs">Add a Street Sign or Support</span>&nbsp;<span class="caret"></span>
-              </button>
-              <ul class="dropdown-menu" role="menu">
-                <li><a data-value="0" href="#">Street Signs</a></li>
-                <li><a data-value="1" href="#">Supports</a></li>
-              </ul>
+        <div class="row row-map">
+            <!-- the map -->
+            <div class="col-xs-12 col-sm-9 col-lg-10 col col-map">
+                <div id="map">
+                    <div class="btn-group report-btn-group">
+                        <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                            <span class="glyphicon glyphicon-map-marker"></span>&nbsp;<span class="hidden-xs">Add a Street Sign or Support</span>&nbsp;<span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a data-value="0" href="#">Street Signs</a></li>
+                            <li><a data-value="1" href="#">Supports</a></li>
+                        </ul>
+                    </div>
+                    <!--             <div class="home-button">
+                                  <button cass="btn btn-default"></button>
+                                </div> -->
+                    <div id="geocoder"></div>
+                    <div id="locateButton" class="locate-button"></div>
+                    <div id="startEditAlert" class="alert alert-info alert-dismissible fade in start-edit-alert" style="display: none;" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                        Click the map to add a street sign or support.
+                    </div>
+                </div>
             </div>
-<!--             <div class="home-button">
-              <button cass="btn btn-default"></button>
-            </div> -->
-            <div id="geocoder"></div>
-            <div id="locateButton" class="locate-button"></div>
-            <div id="startEditAlert" class="alert alert-info alert-dismissible fade in start-edit-alert" style="display: none;" role="alert">
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-              Click the map to add a street sign or support.
-            </div>
-          </div>
-        </div>
-        <!-- responsive sidebar -->
-        <div class="col-xs-12 col-sm-3 col-lg-2">
-          <div id="sidebar">
-            <h4>Legend</h4>
+            <!-- responsive sidebar -->
+            <div class="col-xs-12 col-sm-3 col-lg-2">
+                <div id="sidebar">
+                    <h4>Legend</h4>
 
-            <div id="legend"></div>
-            <div id="layers">
-                <input type="checkbox" id="lyrSigns" checked value="0" />&nbsp; &nbsp; Signs<br/>
-                <input type="checkbox" id="lyrSupports" checked value="1" />&nbsp; &nbsp; Supports
+                    <div id="legend"></div>
+                    <div id="layers">
+                        <input type="checkbox" id="lyrSigns" checked value="0" />&nbsp; &nbsp; Signs<br />
+                        <input type="checkbox" id="lyrSupports" checked value="1" />&nbsp; &nbsp; Supports
+                    </div>
+                    <h4>About</h4>
+                    <p>The Street Signs application was developed to add and update streets signs and supports on mobile devices.</p>
+                </div>
             </div>
-            <h4>About</h4>
-            <p>The Street Signs application was developed to add and update streets signs and supports on mobile devices.</p>
-          </div>
         </div>
-      </div>
     </div>
 
     <!-- attribute editor modal -->
     <div id="attributesModal" class="modal fade" style="display: none;" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            <h4 class="modal-title">Add Street Support</h4>
-          </div>
-          <div class="modal-body">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title">Add Street Support</h4>
+                </div>
+                <div class="modal-body">
 
-            <!-- Address Begin -->
-            <div class="form-group">
-                <label for="address">Address</label>
-                <input type="text" class="form-control" placeholder="Address" name="address" id="address" />
+                    <!-- Address Begin -->
+                    <div class="form-group">
+                        <label for="address">Address</label>
+                        <input type="text" class="form-control" placeholder="Address" name="address" id="address" />
+                    </div>
+                    <!-- Address End -->
+                    <!-- Begin Support ID -->
+                    <div class="form-group">
+                        <label for="supportId">Support ID</label>
+                        <input type="number" class="form-control" name="supportId" />
+                    </div>
+                    <div class="form-group">
+                        <label for="type">Type</label>
+                        <select id="type" class="form-control" name="type" required>
+                            <option value="">Select One</option>
+                            <option value="Single Post">Single Post</option>
+                            <option value="Double Post">Double Post</option>
+                            <option value="Triple Post">Triple Post</option>
+                            <option value="Four Post">Four Post</option>
+                            <option value="Structure">Structure</option>
+                            <option value="Attenuator">Attenuator</option>
+                            <option value="Span Wire">Span Wire</option>
+                            <option value="Light Pole">Light Pole</option>
+                            <option value="Telephone Pole">Telephone Pole</option>
+                            <option value="Traffic Light Pole">Traffic Light Pole</option>
+                            <option value="Other">Other</option>
+                            <option value="Unknown">Unknown</option>
+                        </select>
+                    </div>
+                    <!-- End Support ID -->
+                    <!-- Begin Size -->
+                    <div class="form-group">
+                        <label for="size">Size</label>
+                        <select id="size" name="size" class="form-control" required>
+                            <option value="">Select One</option>
+                            <option value="12in. tube">12in. tube</option>
+                            <option value="2in. channel">2in. channel</option>
+                            <option value="2x2">2x2</option>
+                            <option value="3in. tube">3in. tube</option>
+                            <option value="4x4">4x4</option>
+                            <option value="4x6">4x6</option>
+                            <option value="5in. tube">5in. tube</option>
+                            <option value="5x5">5x5</option>
+                            <option value="6x6">6x6</option>
+                            <option value="6x8">6x8</option>
+                            <option value="7x7">7x7</option>
+                            <option value="8x8">8x8</option>
+                            <option value="Other">Other</option>
+                            <option value="Unknown">Unknown</option>
+                        </select>
+                    </div>
+                    <!-- End Size -->
+                    <!-- Begin Material -->
+                    <div class="form-group">
+                        <label for="material">Material</label>
+                        <select id="material" name="material" class="form-control" required>
+                            <option value="">Select One</option>
+                            <option value="Aluminum">Aluminum</option>
+                            <option value="Concrete">Concrete</option>
+                            <option value="Fiberglass">Fiberglass</option>
+                            <option value="Plastic">Plastic</option>
+                            <option value="Steel">Steel</option>
+                            <option value="Wood">Wood</option>
+                            <option value="Other">Other</option>
+                            <option value="Unknown">Unknown</option>
+                            <option value="Galvanized Steel">Galavanized Steel</option>
+                            <option value="Iron">Iron</option>
+                        </select>
+                    </div>
+                    <!-- End Material -->
+                    <!-- Begin Base -->
+                    <div class="form-group">
+                        <label for="base">Base</label>
+                        <select id="base" name="base" class="form-control" required>
+                            <option value="">Select One</option>
+                            <option value="Asphalt">Asphalt</option>
+                            <option value="Concrete">Concrete</option>
+                            <option value="Portable">Portable</option>
+                            <option value="Sand">Sand</option>
+                            <option value="Soil">Soil</option>
+                            <option value="Other">Other</option>
+                            <option value="Unknown">Unknown</option>
+                        </select>
+                    </div>
+                    <!-- End Base -->
+                    <!-- Rating Begin -->
+                    <div class="form-group">
+                        <label for="rating">Rating</label>
+                        <select id="rating" name="rating" class="form-control" required>
+                            <option value="">Select One</option>
+                            <option value="Acceptable">Acceptable</option>
+                            <option value="Repair">Repair</option>
+                            <option value="Replace">Replace</option>
+                            <option value="Relocate">Relocate</option>
+                            <option value="Proposed">Proposed</option>
+                            <option value="New">New</option>
+                            <option value="Other">Other</option>
+                            <option value="Unknown">Unknown</option>
+                        </select>
+                    </div>
+                    <!-- Rating End -->
+                    <!-- Date Inv Begin  -->
+                    <div class="form-group">
+                        <label for="dateInv">Date Inv.</label>
+                        <input type="date" class="form-control" name="dateInv" id="dateInv" />
+                    </div>
+                    <!-- Date Inv End -->
+                    <!-- Inspector Begin -->
+                    <div class="form-group">
+                        <label for="inspector">Inspector</label>
+                        <input type="text" class="form-control" placeholder="Inspector Name" name="inspector" />
+                    </div>
+                    <!-- Inspector End -->
+                    <!-- Comments Begin -->
+                    <div class="form-group">
+                        <label for="comments">Comments</label>
+                        <input type="text" class="form-control" placeholder="Comments" name="comments" />
+                    </div>
+                    <!-- Comments End -->
+                    <!-- Address Code Begin -->
+                    <div class="form-group">
+                        <label for="addrCode">Addr. Code</label>
+                        <input type="number" class="form-control" placeholder="Addr. Code" name="addrCode" />
+                    </div>
+                    <!-- Address Code End -->
+
+                    <button class="btn btn-success">Submit</button>
+                    <button class="btn btn-default">Cancel</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <button id="btnPrevious" class="btn navButton" style="visibility:hidden">Previous</button>&nbsp;&nbsp;
+                    <button id="btnNext" class="btn navButton" style="visibility:hidden">Next</button>
+
+                </div>
             </div>
-            <!-- Address End -->
-
-            <!-- Begin Support ID -->
-            <div class="form-group">
-                <label for="supportId">Support ID</label>
-                <input type="number" class="form-control" name="supportId" />
-            </div>
-            <div class="form-group">
-                <label for="type">Type</label>
-                <select id="type" class="form-control" name="type" required>
-                    <option value="">Select One</option>
-                    <option value="Single Post">Single Post</option>
-                    <option value="Double Post">Double Post</option>
-                    <option value="Triple Post">Triple Post</option>
-                    <option value="Four Post">Four Post</option>
-                    <option value="Structure">Structure</option>
-                    <option value="Attenuator">Attenuator</option>
-                    <option value="Span Wire">Span Wire</option>
-                    <option value="Light Pole">Light Pole</option>
-                    <option value="Telephone Pole">Telephone Pole</option>
-                    <option value="Traffic Light Pole">Traffic Light Pole</option>
-                    <option value="Other">Other</option>
-                    <option value="Unknown">Unknown</option>
-                </select>
-            </div>
-            <!-- End Support ID -->
-
-            <!-- Begin Size -->
-            <div class="form-group">
-                <label for="size">Size</label>
-                <select id="size" name="size" class="form-control" required>
-                    <option value="">Select One</option>
-                    <option value="12in. tube">12in. tube</option>
-                    <option value="2in. channel">2in. channel</option>
-                    <option value="2x2">2x2</option>
-                    <option value="3in. tube">3in. tube</option>
-                    <option value="4x4">4x4</option>
-                    <option value="4x6">4x6</option>
-                    <option value="5in. tube">5in. tube</option>
-                    <option value="5x5">5x5</option>
-                    <option value="6x6">6x6</option>
-                    <option value="6x8">6x8</option>
-                    <option value="7x7">7x7</option>
-                    <option value="8x8">8x8</option>
-                    <option value="Other">Other</option>
-                    <option value="Unknown">Unknown</option>
-                </select>
-            </div>
-            <!-- End Size -->
-
-            <!-- Begin Material -->
-            <div class="form-group">
-                <label for="material">Material</label>
-                <select id="material" name="material" class="form-control" required>
-                    <option value="">Select One</option>
-                    <option value="Aluminum">Aluminum</option>
-                    <option value="Concrete">Concrete</option>
-                    <option value="Fiberglass">Fiberglass</option>
-                    <option value="Plastic">Plastic</option>
-                    <option value="Steel">Steel</option>
-                    <option value="Wood">Wood</option>
-                    <option value="Other">Other</option>
-                    <option value="Unknown">Unknown</option>
-                    <option value="Galvanized Steel">Galavanized Steel</option>
-                    <option value="Iron">Iron</option>
-                </select>
-            </div>
-            <!-- End Material -->
-
-            <!-- Begin Base -->
-            <div class="form-group">
-                <label for="base">Base</label>
-                <select id="base" name="base" class="form-control" required>
-                    <option value="">Select One</option>
-                    <option value="Asphalt">Asphalt</option>
-                    <option value="Concrete">Concrete</option>
-                    <option value="Portable">Portable</option>
-                    <option value="Sand">Sand</option>
-                    <option value="Soil">Soil</option>
-                    <option value="Other">Other</option>
-                    <option value="Unknown">Unknown</option>
-                </select>
-            </div>
-            <!-- End Base -->
-
-            <!-- Rating Begin -->
-            <div class="form-group">
-               <label for="rating">Rating</label>
-               <select id="rating" name="rating" class="form-control" required>
-                   <option value="">Select One</option>
-                   <option value="Acceptable">Acceptable</option>
-                   <option value="Repair">Repair</option>
-                   <option value="Replace">Replace</option>
-                   <option value="Relocate">Relocate</option>
-                   <option value="Proposed">Proposed</option>
-                   <option value="New">New</option>
-                   <option value="Other">Other</option>
-                   <option value="Unknown">Unknown</option>
-               </select>
-            </div>
-            <!-- Rating End -->
-
-
-            <!-- Date Inv Begin  -->
-            <div class="form-group">
-                <label for="dateInv">Date Inv.</label>
-                <input type="date" class="form-control" name="dateInv" id="dateInv" />
-            </div>
-            <!-- Date Inv End -->
-
-            <!-- Inspector Begin -->
-            <div class="form-group">
-                <label for="inspector">Inspector</label>
-                <input type="text" class="form-control" placeholder="Inspector Name" name="inspector" />
-            </div>
-            <!-- Inspector End -->
-
-            <!-- Comments Begin -->
-            <div class="form-group">
-                <label for="comments">Comments</label>
-                <input type="text" class="form-control" placeholder="Comments" name="comments"/>
-            </div>
-            <!-- Comments End -->
-
-            <!-- Address Code Begin -->
-            <div class="form-group">
-                <label for="addrCode">Addr. Code</label>
-                <input type="number" class="form-control" placeholder="Addr. Code" name="addrCode"/>
-            </div>
-            <!-- Address Code End -->
-
-            <button class="btn btn-success">Submit</button>
-            <button class="btn btn-default">Cancel</button>
-          </div>
         </div>
-      </div>
     </div>
 
+    <!-- Attributes Sign Modal Begin -->
+    <div id="attributesSignModal" class="modal fade" style="display: none;" aria-hidden="true">
+        <!-- Modal Dialog Begin -->
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title">Add Sign</h4>
+                </div>
+                <div class="modal-body">
+
+                    <!-- Installed Begin -->
+                    <div class="form-group">
+                        <label for="installed">Installed</label>
+                        <input type="date" class="form-control" name="installed" id="installed" />
+                    </div>
+                    <!-- Installed End -->
+
+                    <!-- Sign ID Begin -->
+                    <div class="form-group">
+                        <label for="signId">Sign ID</label>
+                        <input type="number" class="form-control" placeholder="Sign ID" name="signId" id="signId" />
+                    </div>
+                    <!-- Sign ID End -->
+
+                    <!-- Facing Begin -->
+                    <div class="form-group">
+                        <label for="facing">Facing</label>
+                        <input type="text" class="form-control" placeholder="Facing" name="facing" id="facing" />
+                    </div>
+                    <!-- Facing End -->
+
+                    <!-- Visibility Begin -->
+                    <div class="form-group">
+                        <label for="visibility">Visibility</label>
+                        <select id="visibility" class="form-control" name="visibility">
+                            <option value="">Select One</option>
+                            <option value="New">New</option>
+                            <option value="Good">Good</option>
+                            <option value="Needs Replaced">Needs Replaced</option>
+                        </select>
+                    </div>
+                    <!-- Visibility End -->
+
+                    <!-- Condition Begin -->
+                    <div class="form-group">
+                        <label for="condition">Condition</label>
+                        <select id="condition" class="form-control" name="visibility">
+                            <option value="">Select One</option>
+                            <option value="New">New</option>
+                            <option value="Good">Good</option>
+                            <option value="Poor">Poort</option>
+                            <option value="Needs Replaced">Needs Replaced</option>
+                            <option value="Other">Other</option>
+                            <option value="Unknown">Uknown</option>
+                        </select>
+                    </div>
+                    <!-- Condition End -->
+
+                    <!-- Support ID Begin -->
+                    <div class="form-group">
+                        <label for="supportId">Support ID</label>
+                        <input type="number" class="form-control" name="supportId" id="supportId"/>
+                    </div>
+                    <!-- Support ID End -->
+
+                    <!-- Text Begin -->
+                    <div class="form-group">
+                        <label for="text">Text</label>
+                        <input type="text" class="form-control" name="text" id="text"/>
+                    </div>
+                    <!-- Text End -->
+
+                    <!-- Color 1 Begin -->
+                    <div class="form-group">
+                        <label for="color1">Color 1</label>
+                        <select id="color1" class="form-control" name="color1" required>
+                            <option value="">Select One</option>
+                            <option value="White">White</option>
+                            <option value="Black">Black</option>
+                            <option value="Red">Red</option>
+                            <option value="Green">Green</option>
+                            <option value="Blue">Blue</option>
+                            <option value="Yellow">Yellow</option>
+                            <option value="Orange">Orange</option>
+                            <option value="Other">Other</option>
+                            <option value="Unknown">Uknown</option>
+                            <option value="Multiple">Multiple</option>
+                        </select>
+                    </div>
+                    <!-- Color 1 End -->
+
+                    <!-- Delineator Begin -->
+                    <div class="form-group">
+                        <label for="delineator">Delineator</label>
+                        <select id="delineator" class="form-control" name="delineator">
+                            <option value="">Select One</option>
+                            <option value="Buttons">Buttons</option>
+                            <option value="High Density">High Density</option>
+                            <option value="Delineator">Delineators</option>
+                            <option value="Tape">Tape</option>
+                            <option value="Warning Lights">Warning Lights</option>
+                            <option value="Other">Other</option>
+                            <option value="None">None</option>
+                            <option value="Uknown">Uknown</option>
+                        </select>
+                    </div>
+                    <!-- Delineator End -->
+
+                    <!-- Illum Begin -->
+                    <div class="form-group">
+                        <label for="illum">Illum</label>
+                        <select id="illum" class="form-control" name="illum">
+                            <option value="">Select One</option>
+                            <option value="LED">LED</option>
+                            <option value="Mounted">Mounted</option>
+                            <option value="None">None</option>
+                            <option value="Other">Other</option>
+                            <option value="Uknown">Uknown</option>
+                        </select>
+                    </div>
+                    <!-- Illum End-->
+
+                    <!-- Offset Begin -->
+                    <div class="form-group">
+                        <label for="offset">Offset</label>
+                        <input type="text" class="form-control" name="offset" id="offset"/>
+                    </div>
+                    <!-- Offset Ends -->
+
+
+
+
+
+
+
+
+
+
+
+
+                    <button class="btn btn-success">Submit</button>
+                    <button class="btn btn-default">Cancel</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <button id="btnPrevious" class="btn navButton" style="visibility:hidden">Previous</button>&nbsp;&nbsp;
+                    <button id="btnNext" class="btn navButton" style="visibility:hidden">Next</button>
+
+                </div>
+            </div>
+        </div>
+        <!-- Modal Dialog End -->
+    </div>
+    <!-- Attributes Sign Modal End -->
     <!-- attribute editor modal -->
     <div id="feedbackModal" class="modal fade" style="display: none;" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            <h4 class="modal-title">Send feedback about this application</h4>
-          </div>
-          <div class="modal-body">
-            <div class="form-group">
-              <label for="eMail">e-mail</label>
-                <input type="email" class="form-control" name="eMail" id="eMail" placeholder="e-mail Required" value="dsergent@decaturil.gov" required>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title">Send feedback about this application</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="eMail">e-mail</label>
+                        <input type="email" class="form-control" name="eMail" id="eMail" placeholder="e-mail Required" value="dsergent@decaturil.gov" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="subject">Subject</label>
+                        <input type="text" class="form-control" name="subject" placeholder="Subject is Required" id="subject" value="Street Signs" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="comment">Comments</label>
+                        <textarea class="form-control" name="comment" id="comment" placeholder="Please tell us what you need help with." required></textarea>
+                    </div>
+                    <button class="btn btn-primary" name="btnFeedback" id="btnFeedback">Submit</button>
+                    <button class="btn btn-default" name="btnCancelFeedback" id="btnCancelFeedback">Cancel</button>
+
+                </div>
             </div>
-            <div class="form-group">
-              <label for="subject">Subject</label>
-                <input type="text" class="form-control" name="subject" placeholder="Subject is Required" id="subject" value="Street Signs" required>
-            </div>
-            <div class="form-group">
-              <label for="comment">Comments</label>
-                <textarea class="form-control" name="comment" id="comment" placeholder="Please tell us what you need help with." required ></textarea>
-            </div>
-            <button class="btn btn-primary" name="btnFeedback" id="btnFeedback">Submit</button>
-            <button class="btn btn-default" name="btnCancelFeedback" id="btnCancelFeedback">Cancel</button>
-          </div>
         </div>
-      </div>
     </div>
 
 
     <!-- build:remove -->
     <!-- configure Dojo, load Esri JS, and kick off app -->
     <script>
-      window.dojoConfig = {
-        async: true,
-        // load dependency packages from CDN instead of locally
-        packages: [
-          {
-            name: 'app',
-            location: window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/')) + '/app'
-          }, {
-            name: 'dojo-bootstrap',
-            location: '//rawgit.com/xsokev/Dojo-Bootstrap/master'
-          }, {
-            name: 'bootstrap-map-js',
-            location: '//esri.github.io/bootstrap-map-js/src/'
-          }
-        ]
-      };
+        window.dojoConfig = {
+            async: true,
+            // load dependency packages from CDN instead of locally
+            packages: [
+              {
+                  name: 'app',
+                  location: window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/')) + '/app'
+              }, {
+                  name: 'dojo-bootstrap',
+                  location: '//rawgit.com/xsokev/Dojo-Bootstrap/master'
+              }, {
+                  name: 'bootstrap-map-js',
+                  location: '//esri.github.io/bootstrap-map-js/src/'
+              }
+            ]
+        };
     </script>
     <!-- NOTE: we're not using compact b/c we're using esri/dijit -->
     <!-- /build -->
-
     <!-- build:[src] dojo/dojo.js -->
     <script src="//js.arcgis.com/3.13compact"></script>
     <!-- /build -->
 
     <script>require(['app/main']);</script>
-  </body>
+</body>
 </html>

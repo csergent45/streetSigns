@@ -20,6 +20,7 @@ define([
   "esri/dijit/LocateButton",
   "esri/dijit/Legend",
   "esri/tasks/GeometryService",
+  "esri/tasks/query",
 
   "esri/geometry/Extent",
   "esri/layers/ArcGISDynamicMapServiceLayer",
@@ -44,7 +45,7 @@ define([
   "dojo/domReady!"
 ], function (
   query, dom, domClass, domStyle, domAttr, validate, check,
-  esriConfig, FeatureLayer, InfoTemplate, Graphic, Geocoder, LocateButton, Legend, GeometryService,
+  esriConfig, FeatureLayer, InfoTemplate, Graphic, Geocoder, LocateButton, Legend, GeometryService, esriQuery,
   Extent, ArcGISDynamicMapServiceLayer, ArcGISTiledMapServiceLayer,
   BootstrapMap, ValidationTextBox, CheckBox, on, parser, lang, string
 ) {
@@ -96,17 +97,16 @@ define([
         signLayerUrl: "http://maps.decaturil.gov/arcgis/rest/services/test/StreetSignTest/FeatureServer/0",
         
         supportLayerUrl: "http://maps.decaturil.gov/arcgis/rest/services/test/StreetSignTest/FeatureServer/1"
-              
-       
-        };
 
-    var supportId, type;
+    };
+
+   
 
     // app globals  
     var app = {};
    
    
-
+    /* Ensure all e-mail fields are entered before opening e-mail */
     on(dom.byId("btnFeedback"), "click", function (e) {
         if (document.getElementById("eMail") == null || document.getElementById("eMail").value == ""
             || document.getElementById("subject") == null || document.getElementById("subject").value ==""
@@ -116,6 +116,9 @@ define([
         } else {
             query("#feedbackModal").modal("hide");
             sendEmail();
+            document.getElementById("eMail").value = "dsergent@decaturil.gov";
+            document.getElementById("subject").value = "Street Signs";
+            document.getElementById("comment").value = "";
         }
     });
 
@@ -147,6 +150,7 @@ define([
     app.startEditAlert = dom.byId("startEditAlert");
     app.sidebar = dom.byId("sidebar");
     app.attributesModal = query("#attributesModal");
+    app.attributesSignModal = query("#attributesSignModal");
     app.requestTypeSelect = query("#attributesModal [name=\"requesttype\"]")[0];
     // TODO: get these from the feature layer on load  
     app.severityFieldDomainCodedValuesDict = {
@@ -176,27 +180,36 @@ define([
         });
         app.map.addLayer(operationalLayer);
 
+        /* Configure support layer */
         app.supportLayer = new FeatureLayer(config.supportLayerUrl, {
             mode: FeatureLayer.MODE_ONEDEMAND,
             //infoTemplate: new InfoTemplate(config.infoTemplate),
             outFields: ["*"]
         });
+
+        /* Add support layer */
         app.map.addLayer(app.supportLayer);
 
-
+        /* Configure sign layer */
         app.signLayer = new FeatureLayer(config.signLayerUrl, {
             mode: FeatureLayer.MODE_ONEDEMAND,
             outFields: ["*"]
         });
 
+        /* Add sign Layer */
         app.map.addLayer(app.signLayer);
        
-
+        /* Get support information on click */
+        var supportId, type, address;
         app.supportLayer.on("click", function (evt) {
-            supportId = evt.graphic.attributes.SUPPORTID
+            supportId = evt.graphic.attributes.SUPPORTID;
             type = evt.graphic.attributes.TYPE;
+            address = evt.graphic.attributes.ADDRESS;
+            app.attributesModal.modal("show");
+            document.getElementById("address").value = address;
             console.log(supportId);
             console.log(type);
+            console.log(address);
         });
 
         app.geocoder = new Geocoder({
@@ -268,18 +281,30 @@ define([
             app.currentGeometry = e.mapPoint;
             
             if (severity === "0") {
-                
-                alert("This will show the signs form.");
+                app.attributesSignModal.modal("show");
+
+               
             } else if (severity === "1") {
                 app.attributesModal.modal("show");
             }
-                        
+
+            /* Query Begin */
+            var query = new esriQuery();
+            query.where = "CONDITION_ IS NOT NULL";
+            query.returnGeometry = false;
+            query.outFields = ["CONDITION_"]
+            query.returnDistinctValues = true;
+            app.signLayer(query, function (results) {
+                array.forEach(results.features, function (feature) {
+                    console.log(feature.attributes["CONDITION_"]);
+                });
+            });
+            /* Query End */
         });
     };
 
     var stopCaptureRequest = function () {
-       // app.currentSeverity = null;
-        app.currentGeometry = null;
+          app.currentGeometry = null;
     };
     
 
@@ -302,7 +327,7 @@ define([
             attributes[formInput.name] = formInput.value;
         });
        
-        // Form Validation
+        // Form Validation - ensures that the values for the database are here if left blank
         if ((attributes.supportId === undefined) || (attributes.supportId === "")) {
             attributes.supportId = null;
         }
