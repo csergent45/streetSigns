@@ -21,10 +21,13 @@ define([
   "esri/dijit/Legend",
   "esri/tasks/GeometryService",
   "esri/tasks/query",
+  "esri/tasks/QueryTask",
 
   "esri/geometry/Extent",
+  "esri/layers/LayerInfo",
   "esri/layers/ArcGISDynamicMapServiceLayer",
   "esri/layers/ArcGISTiledMapServiceLayer",
+  "esri/request",
 
   "bootstrap-map-js/js/bootstrapmap",
 
@@ -34,6 +37,7 @@ define([
   "dojo/on",
   "dojo/parser",
   "dojo/_base/lang",
+  "dojo/_base/array",
   "dojo/string",
 
   "dojo-bootstrap/Collapse",
@@ -45,9 +49,9 @@ define([
   "dojo/domReady!"
 ], function (
   query, dom, domClass, domStyle, domAttr, validate, check,
-  esriConfig, FeatureLayer, InfoTemplate, Graphic, Geocoder, LocateButton, Legend, GeometryService, esriQuery,
-  Extent, ArcGISDynamicMapServiceLayer, ArcGISTiledMapServiceLayer,
-  BootstrapMap, ValidationTextBox, CheckBox, on, parser, lang, string
+  esriConfig, FeatureLayer, InfoTemplate, Graphic, Geocoder, LocateButton, Legend, GeometryService, esriQuery, queryTask,
+  Extent, LayerInfo, ArcGISDynamicMapServiceLayer, ArcGISTiledMapServiceLayer, esriRequest,
+  BootstrapMap, ValidationTextBox, CheckBox, on, parser, lang, array, string
 ) {
 
 
@@ -70,8 +74,11 @@ define([
 
     // Proxy Definition End  
 
+    
     // declare geometry service  
     esriConfig.defaults.geometryService = new GeometryService("http://maps.decaturil.gov/arcgis/rest/services/Utilities/Geometry/GeometryServer");
+
+    
 
     //Chris"s options  
     var initialExtent = new Extent({
@@ -104,6 +111,25 @@ define([
 
     // app globals  
     var app = {};
+
+    // Get the name of a layer
+    //var requestHandle = esriRequest({
+    //    url: "http://maps.decaturil.gov/arcgis/rest/services/test/StreetSignTest/FeatureServer/0",
+    //    content: {
+    //        f: 'json'
+    //    },
+    //    handleAs: "json"
+    //});
+
+    //requestHandle.then(function(lyrJSON, io){
+    //    console.info(lyrJSON.name);
+    //})
+
+
+   
+    
+
+
    
    
     /* Ensure all e-mail fields are entered before opening e-mail */
@@ -132,9 +158,11 @@ define([
         
     }
 
+    /* Toggle layer visibility */
     on(dom.byId("lyrSigns"), "change", updateLayerVisibility);
     on(dom.byId("lyrSupports"), "change", updateLayerVisibility);
 
+    /* Toggle checkboxes */
     function updateLayerVisibility() {
         app.signLayer.setVisibility(document.getElementById('lyrSigns').checked);
         app.supportLayer.setVisibility(document.getElementById('lyrSupports').checked);
@@ -280,26 +308,40 @@ define([
             // show form to collect incident report  
             app.currentGeometry = e.mapPoint;
             
+            /* Show signs form */
             if (severity === "0") {
                 app.attributesSignModal.modal("show");
 
-               
+            /* Show supports form */   
             } else if (severity === "1") {
                 app.attributesModal.modal("show");
             }
 
-            /* Query Begin */
-            var query = new esriQuery();
-            query.where = "CONDITION_ IS NOT NULL";
-            query.returnGeometry = false;
-            query.outFields = ["CONDITION_"]
-            query.returnDistinctValues = true;
-            app.signLayer(query, function (results) {
-                array.forEach(results.features, function (feature) {
-                    console.log(feature.attributes["CONDITION_"]);
-                });
-            });
-            /* Query End */
+            
+            //get the domain value 
+            var domain = app.signLayer.getDomain("BACKING");
+
+            //get the html select by ID
+            var select = document.getElementById("backing");
+
+            //clear the current options in select
+            for (var option in select) {
+                select.remove(option);
+            }
+
+            var opt = document.createElement('option');
+            opt.innerHTML = "";
+            select.appendChild(opt);
+            //loop through the domain value to fill the drop down
+            for (var i = 0; i < domain.codedValues.length; i++) {
+                console.log(domain.codedValues[i].name);
+                ;var opt = document.createElement('option');
+                opt.innerHTML = domain.codedValues[i].name;
+                opt.value = domain.codedValues[i].name;
+                select.appendChild(opt);
+            }
+
+           
         });
     };
 
