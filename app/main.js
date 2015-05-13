@@ -97,7 +97,7 @@ define([
     });
 
 
-    var jsonValue, signUrl, supportUrl;
+    var  signValue, signUrl, supportValue, supportUrl;
     var restEndPoint = "http://maps.decaturil.gov/arcgis/rest/services/test/StreetSignTest/FeatureServer/";
     var config;
     // Get the id of a layer
@@ -109,20 +109,28 @@ define([
         handleAs: "json"
     });
 
+    
     requestHandle.then(function (lyrJSON, io) {
+        // Assign Supports
         for (var i = 0; i < lyrJSON.layers.length; i++) {
-            if (lyrJSON.layers[i].name = "Support") {
-                jsonValue = lyrJSON.layers[i].id;
-                supportUrl = restEndPoint + jsonValue;
+            if (lyrJSON.layers[i].name === "Support") {
+                supportValue = lyrJSON.layers[i].id;
+                supportUrl = restEndPoint + supportValue;
             }
             
         }
 
+        // Assign signs
+        for (var i = 0; i < lyrJSON.layers.length; i++) {
+            if (lyrJSON.layers[i].name === "Sign") {
+                signValue = lyrJSON.layers[i].id;
+                signUrl = restEndPoint + signValue;
+            }
+
+        }
 
         // app configuration  
         config = {
-
-
 
             mapOptions: {
                 showAttribution: false,
@@ -131,8 +139,8 @@ define([
                 logo: false,
                 sliderPosition: "bottom-right"
             },
-
-            signLayerUrl: "http://maps.decaturil.gov/arcgis/rest/services/test/StreetSignTest/FeatureServer/0",
+            // Assign appropriate rest end point to layer
+            signLayerUrl: signUrl,
 
             supportLayerUrl: supportUrl
 
@@ -144,9 +152,6 @@ define([
 
     // app globals  
     var app = {};
-    
-
-    
     
     
     function populateSelect(x, y) {
