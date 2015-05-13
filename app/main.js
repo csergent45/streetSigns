@@ -71,12 +71,17 @@ define([
     // Otherwise it will do a http post to the proxy.  
     esriConfig.defaults.io.proxyUrl = "proxy.ashx";
     esriConfig.defaults.io.alwaysUseProxy = false;
+    //esri.config.defaults.io.corsEnabledServers.push("maps.decaturil.gov");
 
     // Proxy Definition End  
 
     
     // declare geometry service  
     esriConfig.defaults.geometryService = new GeometryService("http://maps.decaturil.gov/arcgis/rest/services/Utilities/Geometry/GeometryServer");
+
+
+   
+
 
     
 
@@ -90,45 +95,85 @@ define([
             "wkid": 3435
         }
     });
-    // app configuration  
-    var config = {
 
-        mapOptions: {
-            showAttribution: false,
-            sliderStyle: "small",
-            extent: initialExtent,
-            logo: false,
-            sliderPosition: "bottom-right"
+
+    var jsonValue, signUrl, supportUrl;
+    var restEndPoint = "http://maps.decaturil.gov/arcgis/rest/services/test/StreetSignTest/FeatureServer/";
+    var config;
+    // Get the id of a layer
+    var requestHandle = esriRequest({
+        url: "http://maps.decaturil.gov/arcgis/rest/services/test/StreetSignTest/FeatureServer/",
+        content: {
+            f: 'json'
         },
+        handleAs: "json"
+    });
 
-        signLayerUrl: "http://maps.decaturil.gov/arcgis/rest/services/test/StreetSignTest/FeatureServer/0",
+    requestHandle.then(function (lyrJSON, io) {
+        for (var i = 0; i < lyrJSON.layers.length; i++) {
+            if (lyrJSON.layers[i].name = "Support") {
+                jsonValue = lyrJSON.layers[i].id;
+                supportUrl = restEndPoint + jsonValue;
+            }
+            
+        }
+
+
+        // app configuration  
+        config = {
+
+
+
+            mapOptions: {
+                showAttribution: false,
+                sliderStyle: "small",
+                extent: initialExtent,
+                logo: false,
+                sliderPosition: "bottom-right"
+            },
+
+            signLayerUrl: "http://maps.decaturil.gov/arcgis/rest/services/test/StreetSignTest/FeatureServer/0",
+
+            supportLayerUrl: supportUrl
+
+        };
+        initMap();
         
-        supportLayerUrl: "http://maps.decaturil.gov/arcgis/rest/services/test/StreetSignTest/FeatureServer/1"
-
-    };
-
+    })
    
 
     // app globals  
     var app = {};
-
-    // Get the name of a layer
-    //var requestHandle = esriRequest({
-    //    url: "http://maps.decaturil.gov/arcgis/rest/services/test/StreetSignTest/FeatureServer/0",
-    //    content: {
-    //        f: 'json'
-    //    },
-    //    handleAs: "json"
-    //});
-
-    //requestHandle.then(function(lyrJSON, io){
-    //    console.info(lyrJSON.name);
-    //})
-
-
-   
     
 
+    
+    
+    
+    function populateSelect(x, y) {
+        //get the domain value 
+        var domain = app.signLayer.getDomain(x);
+
+        //get the html select by ID
+        var select = document.getElementById(y);
+
+        //clear the current options in select
+        for (var option in select) {
+            select.remove(option);
+        }
+
+        var opt = document.createElement('option');
+        opt.innerHTML = "";
+        select.appendChild(opt);
+        //loop through the domain value to fill the drop down
+        for (var i = 0; i < domain.codedValues.length; i++) {
+            console.log(domain.codedValues[i].name);
+            ; var opt = document.createElement('option');
+            opt.innerHTML = domain.codedValues[i].name;
+            opt.value = domain.codedValues[i].name;
+            select.appendChild(opt);
+        }
+
+    }
 
    
    
@@ -197,7 +242,27 @@ define([
     // initialize the map and add the feature layer  
     // and initialize map widgets  
     var initMap = function () {
+
+        
+        
+
+
         app.map = BootstrapMap.create("map", config.mapOptions);
+
+        /* Evaluate if any web services are not running */
+        app.map.on("layer-add-result", function (evt) {
+            console.log(evt);
+           
+            var evalLayers = evt.layer.valueOf();
+
+            if (evalLayers._div == null) {
+                
+                /* Page Redirect */
+                window.location.assign("http://www.w3schools.com")
+            }
+            
+        });
+
 
         var tiled = new ArcGISTiledMapServiceLayer("http://maps.decaturil.gov/arcgis/rest/services/Aerial_2014_Tiled/MapServer");
         app.map.addLayer(tiled);
@@ -312,34 +377,19 @@ define([
             if (severity === "0") {
                 app.attributesSignModal.modal("show");
 
-            /* Show supports form */   
+
+                /* Enter your domain item and then the element to populate */
+                populateSelect("BACKING", "backing");
+
+                /* Show supports form */
             } else if (severity === "1") {
                 app.attributesModal.modal("show");
+
+               
             }
 
             
-            //get the domain value 
-            var domain = app.signLayer.getDomain("BACKING");
-
-            //get the html select by ID
-            var select = document.getElementById("backing");
-
-            //clear the current options in select
-            for (var option in select) {
-                select.remove(option);
-            }
-
-            var opt = document.createElement('option');
-            opt.innerHTML = "";
-            select.appendChild(opt);
-            //loop through the domain value to fill the drop down
-            for (var i = 0; i < domain.codedValues.length; i++) {
-                console.log(domain.codedValues[i].name);
-                ;var opt = document.createElement('option');
-                opt.innerHTML = domain.codedValues[i].name;
-                opt.value = domain.codedValues[i].name;
-                select.appendChild(opt);
-            }
+           
 
            
         });
@@ -452,7 +502,7 @@ define([
 
     // finally, start up the app!  
     initAttributeForm();
-    initMap();
+    //initMap();
     initEvents();
 
     return app;
