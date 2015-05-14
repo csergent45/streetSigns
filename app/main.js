@@ -97,57 +97,41 @@ define([
     });
 
 
-    var  signValue, signUrl, supportValue, supportUrl;
-    var restEndPoint = "http://maps.decaturil.gov/arcgis/rest/services/test/StreetSignTest/FeatureServer/";
-    var config;
-    // Get the id of a layer
-    var requestHandle = esriRequest({
-        url: "http://maps.decaturil.gov/arcgis/rest/services/test/StreetSignTest/FeatureServer/",
-        content: {
-            f: 'json'
-        },
-        handleAs: "json"
-    });
-
     
-    requestHandle.then(function (lyrJSON, io) {
-        // Assign Supports
-        for (var i = 0; i < lyrJSON.layers.length; i++) {
-            if (lyrJSON.layers[i].name === "Support") {
-                supportValue = lyrJSON.layers[i].id;
-                supportUrl = restEndPoint + supportValue;
-            }
-            
-        }
-
-        // Assign signs
-        for (var i = 0; i < lyrJSON.layers.length; i++) {
-            if (lyrJSON.layers[i].name === "Sign") {
-                signValue = lyrJSON.layers[i].id;
-                signUrl = restEndPoint + signValue;
-            }
-
-        }
-
-        // app configuration  
-        config = {
-
-            mapOptions: {
-                showAttribution: false,
-                sliderStyle: "small",
-                extent: initialExtent,
-                logo: false,
-                sliderPosition: "bottom-right"
-            },
-            // Assign appropriate rest end point to layer
-            signLayerUrl: signUrl,
-
-            supportLayerUrl: supportUrl
-
-        };
-        initMap();
-        
-    })
+    var restEndPoint = "http://maps.decaturil.gov/arcgis/rest/services/test/StreetSignTest/FeatureServer/";
+   
+    // app configuration    
+    var config = {  
+        mapOptions: {  
+            showAttribution: false,  
+            sliderStyle: "small",  
+            extent: initialExtent,  
+            logo: false,  
+            sliderPosition: "bottom-right"  
+        },    
+        signLayerUrl: undefined,  
+        supportLayerUrl: undefined  
+    };  
+  
+  
+    // Get the id of a layer  
+    var requestHandle = esriRequest({  
+        url: "http://maps.decaturil.gov/arcgis/rest/services/test/StreetSignTest/FeatureServer/",  
+        content: { f: 'json' },  
+        handleAs: "json"  
+    });  
+  
+    requestHandle.then(function (lyrJSON, io) {  
+        for (var i = 0; i < lyrJSON.layers.length; i++) {  
+            if (lyrJSON.layers[i].name == "Support") {    
+                config.supportLayerUrl = restEndPoint + lyrJSON.layers[i].id;  
+            }  
+            if (lyrJSON.layers[i].name == "Sign") {  
+                config.signLayerUrl = restEndPoint + lyrJSON.layers[i].id;  
+            }  
+        }  
+        initMap();  
+    })  
    
 
     // app globals  
@@ -380,11 +364,27 @@ define([
             
             /* Show signs form */
             if (severity === "0") {
+                
                 app.attributesSignModal.modal("show");
-
+                document.getElementById("attributesSignModal").reset();
+                //var elems = document.getElementsByClassName("attributesSignModal");
+                //for (var i = 0; i < elems.length; ++i) {
+                //    elems[i].value = "";
+                //}
 
                 /* Enter your domain item and then the element to populate */
                 populateSelect("BACKING", "backing");
+                populateSelect("VISIBILITY", "visibility");
+                populateSelect("CONDITION_", "condition");
+                populateSelect("COLOR1", "color1");
+                populateSelect("DELINEATOR", "delineator");
+                populateSelect("ILLUM", "illum");
+                populateSelect("ATTACHTYPE", "attachType");
+                populateSelect("ATTACHLOC", "attachLoc");
+                populateSelect("SITEOBS", "siteObs");
+                populateSelect("SIGNSHAPE", "signShape");
+                populateSelect("COLOR2", "color2");
+                populateSelect("MUTCD", "mutcd");
 
                 /* Show supports form */
             } else if (severity === "1") {
