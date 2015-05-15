@@ -78,11 +78,6 @@ define([
     
     // declare geometry service  
     esriConfig.defaults.geometryService = new GeometryService("http://maps.decaturil.gov/arcgis/rest/services/Utilities/Geometry/GeometryServer");
-
-
-   
-
-
     
 
     //Map Options
@@ -241,9 +236,6 @@ define([
     // and initialize map widgets  
     var initMap = function () {
 
-        
-        
-
 
         app.map = BootstrapMap.create("map", config.mapOptions);
 
@@ -293,11 +285,29 @@ define([
         /* Get support information on click */
         var supportId, type, address;
         app.supportLayer.on("click", function (evt) {
+
+            // declare rest endpoint values
             supportId = evt.graphic.attributes.SUPPORTID;
             type = evt.graphic.attributes.TYPE;
             address = evt.graphic.attributes.ADDRESS;
+
             app.attributesModal.modal("show");
+
+            document.getElementById("supportForm").reset();
+
+            /* Enter your domain item and then the element to populate */
+            populateSelect("TYPE", "type", "support");
+            populateSelect("SIZE_", "size", "support");
+            populateSelect("MATERIAL", "material", "support");
+            populateSelect("BASE", "base", "support");
+            populateSelect("RATING", "rating", "support");
+
+            // Show supports form for updating 
+            app.attributesModal.modal("show");
+
             document.getElementById("address").value = address;
+            document.getElementById("supportId").value = supportId;
+            document.getElementById("type").value = type;
             console.log(supportId);
             console.log(type);
             console.log(address);
