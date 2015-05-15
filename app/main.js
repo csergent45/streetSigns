@@ -113,7 +113,7 @@ define([
         supportLayerUrl: undefined  
     };  
   
-  
+
     // Get the id of a layer  
     var requestHandle = esriRequest({  
         url: "http://maps.decaturil.gov/arcgis/rest/services/test/StreetSignTest/FeatureServer/",  
@@ -136,8 +136,36 @@ define([
 
     // app globals  
     var app = {};
+
+    // Begin populateSupportSelect
+    function populateSupportSelect(x, y) {
+        //get the domain value 
+        var domain = app.supportLayer.getDomain(x);
+
+        //get the html select by ID
+        var select = document.getElementById(y);
+
+        //clear the current options in select
+        for (var option in select) {
+            select.remove(option);
+        }
+
+        var opt = document.createElement('option');
+        opt.innerHTML = "";
+        select.appendChild(opt);
+        //loop through the domain value to fill the drop down
+        for (var i = 0; i < domain.codedValues.length; i++) {
+            console.log(domain.codedValues[i].name);
+            ; var opt = document.createElement('option');
+            opt.innerHTML = domain.codedValues[i].name;
+            opt.value = domain.codedValues[i].name;
+            select.appendChild(opt);
+        }
+
+    }
+    // End populateSupportSelect
     
-    
+    // Begin populateSelect
     function populateSelect(x, y) {
         //get the domain value 
         var domain = app.signLayer.getDomain(x);
@@ -163,7 +191,7 @@ define([
         }
 
     }
-
+    // End populateSelect
    
    
     /* Ensure all e-mail fields are entered before opening e-mail */
@@ -366,8 +394,10 @@ define([
             if (severity === "0") {
                 
                 app.attributesSignModal.modal("show");
-                document.getElementById("attributesSignModal").reset();
-                //var elems = document.getElementsByClassName("attributesSignModal");
+                
+                
+                //document.getElementById("signForm").reset();
+                //var elems = document.getElementsById("attributesSignModal");
                 //for (var i = 0; i < elems.length; ++i) {
                 //    elems[i].value = "";
                 //}
@@ -390,11 +420,16 @@ define([
             } else if (severity === "1") {
                 app.attributesModal.modal("show");
 
-               
+                //document.getElementById("supportForm");
+                /* Enter your domain item and then the element to populate */
+                populateSupportSelect("TYPE", "type");
+                populateSupportSelect("SIZE_", "size");
+                populateSupportSelect("MATERIAL", "material");
+                populateSupportSelect("BASE", "base");
+                populateSupportSelect("RATING", "rating");
+
             }
 
-            
-           
 
            
         });

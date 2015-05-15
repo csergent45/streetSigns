@@ -104,6 +104,7 @@
     </div>
 
     <!-- attribute editor modal -->
+    <form id="supportForm">
     <div id="attributesModal" class="modal fade" style="display: none;" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -124,44 +125,22 @@
                         <label for="supportId">Support ID</label>
                         <input type="number" class="form-control" name="supportId" />
                     </div>
+                    <!-- End Support ID -->
+
+                    <!-- Begin Type -->
                     <div class="form-group">
                         <label for="type">Type</label>
                         <select id="type" class="form-control" name="type" required>
-                            <option value="">Select One</option>
-                            <option value="Single Post">Single Post</option>
-                            <option value="Double Post">Double Post</option>
-                            <option value="Triple Post">Triple Post</option>
-                            <option value="Four Post">Four Post</option>
-                            <option value="Structure">Structure</option>
-                            <option value="Attenuator">Attenuator</option>
-                            <option value="Span Wire">Span Wire</option>
-                            <option value="Light Pole">Light Pole</option>
-                            <option value="Telephone Pole">Telephone Pole</option>
-                            <option value="Traffic Light Pole">Traffic Light Pole</option>
-                            <option value="Other">Other</option>
-                            <option value="Unknown">Unknown</option>
+                            
                         </select>
                     </div>
-                    <!-- End Support ID -->
+                    <!-- End Type -->
+
                     <!-- Begin Size -->
                     <div class="form-group">
                         <label for="size">Size</label>
                         <select id="size" name="size" class="form-control" required>
-                            <option value="">Select One</option>
-                            <option value="12in. tube">12in. tube</option>
-                            <option value="2in. channel">2in. channel</option>
-                            <option value="2x2">2x2</option>
-                            <option value="3in. tube">3in. tube</option>
-                            <option value="4x4">4x4</option>
-                            <option value="4x6">4x6</option>
-                            <option value="5in. tube">5in. tube</option>
-                            <option value="5x5">5x5</option>
-                            <option value="6x6">6x6</option>
-                            <option value="6x8">6x8</option>
-                            <option value="7x7">7x7</option>
-                            <option value="8x8">8x8</option>
-                            <option value="Other">Other</option>
-                            <option value="Unknown">Unknown</option>
+                            
                         </select>
                     </div>
                     <!-- End Size -->
@@ -169,17 +148,7 @@
                     <div class="form-group">
                         <label for="material">Material</label>
                         <select id="material" name="material" class="form-control" required>
-                            <option value="">Select One</option>
-                            <option value="Aluminum">Aluminum</option>
-                            <option value="Concrete">Concrete</option>
-                            <option value="Fiberglass">Fiberglass</option>
-                            <option value="Plastic">Plastic</option>
-                            <option value="Steel">Steel</option>
-                            <option value="Wood">Wood</option>
-                            <option value="Other">Other</option>
-                            <option value="Unknown">Unknown</option>
-                            <option value="Galvanized Steel">Galavanized Steel</option>
-                            <option value="Iron">Iron</option>
+                            
                         </select>
                     </div>
                     <!-- End Material -->
@@ -187,14 +156,7 @@
                     <div class="form-group">
                         <label for="base">Base</label>
                         <select id="base" name="base" class="form-control" required>
-                            <option value="">Select One</option>
-                            <option value="Asphalt">Asphalt</option>
-                            <option value="Concrete">Concrete</option>
-                            <option value="Portable">Portable</option>
-                            <option value="Sand">Sand</option>
-                            <option value="Soil">Soil</option>
-                            <option value="Other">Other</option>
-                            <option value="Unknown">Unknown</option>
+                           
                         </select>
                     </div>
                     <!-- End Base -->
@@ -202,15 +164,7 @@
                     <div class="form-group">
                         <label for="rating">Rating</label>
                         <select id="rating" name="rating" class="form-control" required>
-                            <option value="">Select One</option>
-                            <option value="Acceptable">Acceptable</option>
-                            <option value="Repair">Repair</option>
-                            <option value="Replace">Replace</option>
-                            <option value="Relocate">Relocate</option>
-                            <option value="Proposed">Proposed</option>
-                            <option value="New">New</option>
-                            <option value="Other">Other</option>
-                            <option value="Unknown">Unknown</option>
+                            
                         </select>
                     </div>
                     <!-- Rating End -->
@@ -223,7 +177,7 @@
                     <!-- Inspector Begin -->
                     <div class="form-group">
                         <label for="inspector">Inspector</label>
-                        <input type="text" class="form-control" placeholder="Inspector Name" name="inspector" />
+                        <input type="text" class="form-control" placeholder="Inspector Name" name="inspector" id="inspector" />
                     </div>
                     <!-- Inspector End -->
                     <!-- Comments Begin -->
@@ -235,21 +189,23 @@
                     <!-- Address Code Begin -->
                     <div class="form-group">
                         <label for="addrCode">Addr. Code</label>
-                        <input type="number" class="form-control" placeholder="Addr. Code" name="addrCode" />
+                        <input type="number" class="form-control" placeholder="Addr. Code" name="addrCode" id="addrCode" />
                     </div>
                     <!-- Address Code End -->
 
                     <button class="btn btn-success">Submit</button>
                     <button class="btn btn-default">Cancel</button>&nbsp;&nbsp;&nbsp;&nbsp;
-                    <button id="btnPrevious" class="btn navButton" style="visibility:hidden">Previous</button>&nbsp;&nbsp;
-                    <button id="btnNext" class="btn navButton" style="visibility:hidden">Next</button>
+                    <button id="btnSignPrevious" class="btn navButton" style="visibility:hidden">Previous</button>&nbsp;&nbsp;
+                    <button id="btnSignNext" class="btn navButton" style="visibility:hidden">Next</button>
 
                 </div>
             </div>
         </div>
     </div>
+    </form>
 
     <!-- Attributes Sign Modal Begin -->
+    <form id="signForm">
     <div id="attributesSignModal" class="modal fade" style="display: none;" aria-hidden="true">
         <!-- Modal Dialog Begin -->
         <div class="modal-dialog">
@@ -466,6 +422,7 @@
         </div>
         <!-- Modal Dialog End -->
     </div>
+    </form>
     <!-- Attributes Sign Modal End -->
     <!-- attribute editor modal -->
     <div id="feedbackModal" class="modal fade" style="display: none;" aria-hidden="true">
