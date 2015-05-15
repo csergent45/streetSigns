@@ -85,7 +85,7 @@ define([
 
     
 
-    //Chris"s options  
+    //Map Options
     var initialExtent = new Extent({
         "xmin": 777229.03,
         "ymin": 1133467.92,
@@ -137,15 +137,23 @@ define([
     // app globals  
     var app = {};
 
-    // Begin populateSupportSelect
-    function populateSupportSelect(x, y) {
-        //get the domain value 
-        var domain = app.supportLayer.getDomain(x);
+    // Begin Populate Select
+    function populateSelect(x, y, layer) {
+        //get the domain value   
+        var domain;
+        switch (layer) {
+            case 'support':
+                domain = app.supportLayer.getDomain(x);
+                break;
+            case 'sign':
+                domain = app.signLayer.getDomain(x);
+                break;
+        }
 
-        //get the html select by ID
+        //get the html select by ID    
         var select = document.getElementById(y);
 
-        //clear the current options in select
+        //clear the current options in select    
         for (var option in select) {
             select.remove(option);
         }
@@ -153,7 +161,7 @@ define([
         var opt = document.createElement('option');
         opt.innerHTML = "";
         select.appendChild(opt);
-        //loop through the domain value to fill the drop down
+        //loop through the domain value to fill the drop down    
         for (var i = 0; i < domain.codedValues.length; i++) {
             console.log(domain.codedValues[i].name);
             ; var opt = document.createElement('option');
@@ -163,35 +171,8 @@ define([
         }
 
     }
-    // End populateSupportSelect
-    
-    // Begin populateSelect
-    function populateSelect(x, y) {
-        //get the domain value 
-        var domain = app.signLayer.getDomain(x);
 
-        //get the html select by ID
-        var select = document.getElementById(y);
-
-        //clear the current options in select
-        for (var option in select) {
-            select.remove(option);
-        }
-
-        var opt = document.createElement('option');
-        opt.innerHTML = "";
-        select.appendChild(opt);
-        //loop through the domain value to fill the drop down
-        for (var i = 0; i < domain.codedValues.length; i++) {
-            console.log(domain.codedValues[i].name);
-            ; var opt = document.createElement('option');
-            opt.innerHTML = domain.codedValues[i].name;
-            opt.value = domain.codedValues[i].name;
-            select.appendChild(opt);
-        }
-
-    }
-    // End populateSelect
+    // End Populate Select
    
    
     /* Ensure all e-mail fields are entered before opening e-mail */
@@ -396,37 +377,34 @@ define([
                 app.attributesSignModal.modal("show");
                 
                 
-                //document.getElementById("signForm").reset();
-                //var elems = document.getElementsById("attributesSignModal");
-                //for (var i = 0; i < elems.length; ++i) {
-                //    elems[i].value = "";
-                //}
+                document.getElementById("signForm").reset();
 
                 /* Enter your domain item and then the element to populate */
-                populateSelect("BACKING", "backing");
-                populateSelect("VISIBILITY", "visibility");
-                populateSelect("CONDITION_", "condition");
-                populateSelect("COLOR1", "color1");
-                populateSelect("DELINEATOR", "delineator");
-                populateSelect("ILLUM", "illum");
-                populateSelect("ATTACHTYPE", "attachType");
-                populateSelect("ATTACHLOC", "attachLoc");
-                populateSelect("SITEOBS", "siteObs");
-                populateSelect("SIGNSHAPE", "signShape");
-                populateSelect("COLOR2", "color2");
-                populateSelect("MUTCD", "mutcd");
+                populateSelect("BACKING", "backing","sign");
+                populateSelect("VISIBILITY", "visibility","sign");
+                populateSelect("CONDITION_", "condition","sign");
+                populateSelect("COLOR1", "color1","sign");
+                populateSelect("DELINEATOR", "delineator","sign");
+                populateSelect("ILLUM", "illum","sign");
+                populateSelect("ATTACHTYPE", "attachType","sign");
+                populateSelect("ATTACHLOC", "attachLoc","sign");
+                populateSelect("SITEOBS", "siteObs","sign");
+                populateSelect("SIGNSHAPE", "signShape","sign");
+                populateSelect("COLOR2", "color2","sign");
+                populateSelect("MUTCD", "mutcd","sign");
 
                 /* Show supports form */
             } else if (severity === "1") {
                 app.attributesModal.modal("show");
 
-                //document.getElementById("supportForm");
+                document.getElementById("supportForm").reset();
+
                 /* Enter your domain item and then the element to populate */
-                populateSupportSelect("TYPE", "type");
-                populateSupportSelect("SIZE_", "size");
-                populateSupportSelect("MATERIAL", "material");
-                populateSupportSelect("BASE", "base");
-                populateSupportSelect("RATING", "rating");
+                populateSelect("TYPE", "type","support");
+                populateSelect("SIZE_", "size","support");
+                populateSelect("MATERIAL", "material","support");
+                populateSelect("BASE", "base","support");
+                populateSelect("RATING", "rating","support");
 
             }
 
