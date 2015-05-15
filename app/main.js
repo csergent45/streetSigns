@@ -283,13 +283,22 @@ define([
         app.map.addLayer(app.signLayer);
        
         /* Get support information on click */
-        var supportId, type, address;
+        var supportId, type, address, size, material, base, rating, dateInv, inspector, comments, addrCode;
+
         app.supportLayer.on("click", function (evt) {
 
             // declare rest endpoint values
             supportId = evt.graphic.attributes.SUPPORTID;
             type = evt.graphic.attributes.TYPE;
             address = evt.graphic.attributes.ADDRESS;
+            size = evt.graphic.attributes.SIZE_;
+            material = evt.graphic.attributes.MATERIAL;
+            base = evt.graphic.attributes.BASE;
+            rating = evt.graphic.attributes.RATING;
+            dateInv = evt.graphic.attributes.DATEINV;
+            inspector = evt.graphic.attributes.INSPECTOR;
+            comments = evt.graphic.attributes.comments;
+            addrCode = evt.graphic.attributes.addrCode;
 
             app.attributesModal.modal("show");
 
@@ -302,15 +311,24 @@ define([
             populateSelect("BASE", "base", "support");
             populateSelect("RATING", "rating", "support");
 
-            // Show supports form for updating 
-            app.attributesModal.modal("show");
-
+            /* Populate form with data */
             document.getElementById("address").value = address;
             document.getElementById("supportId").value = supportId;
             document.getElementById("type").value = type;
-            console.log(supportId);
-            console.log(type);
-            console.log(address);
+            document.getElementById("size").value = size;
+            document.getElementById("material").value = material;
+            document.getElementById("base").value = base;
+            document.getElementById("rating").value = rating;
+            document.getElementById("dateInv").value = dateInv;
+            document.getElementById("inspector").value = inspector;
+            document.getElementById("comments").value = comments;
+            document.getElementById("addrCode").value = addrCode;
+           
+
+            // Show supports form for updating 
+            app.attributesModal.modal("show");
+
+           
         });
 
         app.geocoder = new Geocoder({
