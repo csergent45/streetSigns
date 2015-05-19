@@ -501,10 +501,9 @@ define([
             /* Show signs form */
             if (severity === "0") {
                 
+                document.getElementById("signForm").reset();
                 app.attributesSignModal.modal("show");
                 
-                
-                document.getElementById("signForm").reset();
 
                 /* Enter your domain item and then the element to populate */
                 populateSelect("BACKING", "backing","sign");
@@ -522,9 +521,10 @@ define([
 
                 /* Show supports form */
             } else if (severity === "1") {
-                app.attributesModal.modal("show");
 
                 document.getElementById("supportForm").reset();
+                app.attributesModal.modal("show");
+                
 
                 /* Enter your domain item and then the element to populate */
                 populateSelect("TYPE", "type","support");
@@ -534,7 +534,6 @@ define([
                 populateSelect("RATING", "rating","support");
 
             }
-
 
            
         });
@@ -546,8 +545,8 @@ define([
     
 
     // get attributes from form and submit  
-    var submitIncidentReport = function () {
-        // NEED TO DETERMINE WHICH FORM IS OPEN AND CREATE A CONDITIONAL STATEMENT FOR INSERT.
+    var submitSupports = function () {
+        
         alert(domClass.contains("attributesModal", "in"));
 
         var attributes = {
@@ -584,6 +583,47 @@ define([
         app.supportLayer.applyEdits([graphic], null, null).then(function (response) {
             console.log(response);
         });
+    };
+
+    // get sign attributes from form and submit
+    var submitSigns = function () {
+
+        alert(domClass.contains("attributesSignModal", "in"));
+
+        var attributes = {
+            // TODO: not sure if this is needed  
+            //requestreceived: null
+        };
+        var currentDate = new Date(); // current date is defined but never used.
+        var graphic;
+
+
+        graphic = new Graphic(app.currentGeometry);
+
+        query("#attributesSignModal input, #attributesSignModal select, #attributesSignModal textarea").forEach(function(formInput) {
+            attributes[formInput.name] = formInput.value;
+        });
+
+        // Form validation - ensures that the values for the data are here if left blank
+        if ((attributes.installed === undefined)|| (attributes.installed === "")) {
+            attributes.installed = null;
+        }
+        if ((attributes.signId === undefined) || (attributes.signId === "")) {
+            attributes.signId = null;
+        }
+        if ((attributes.supportId === undefined) || (attributes.supportId === "")) {
+            attributes.supportId = null;
+        }
+
+        graphic.setAttributes(attributes);
+        stopCaptureRequest();
+
+        //console.log(attributes);  
+        app.signLayer.applyEdits([graphic], null, null).then(function (response) {
+            console.log(response);
+            
+        });
+
     };
 
     // wire up the DOM events  
@@ -624,14 +664,25 @@ define([
             hideDropdownNav(e);
         });
 
-        // submit or cancel request and hide modal  
+        // submit or cancel request and hide support modal  
         query("#attributesModal .btn").on("click", function (e) {
             var target = e.target;
             if (target.innerText === "Submit") {
-                submitIncidentReport();
+                submitSupports();
             }
             app.attributesModal.modal("hide");
         });
+
+
+        // submit or cancel request and hide sign modal
+        query("#attributeSignModal .btn").on("click", function(e) {
+            var target = e.target;
+            if (target.innerText === "Submit") {
+                submitSigns();
+            }
+            app.attributesSignModal.modal("hide");
+        });
+
 
 
         
