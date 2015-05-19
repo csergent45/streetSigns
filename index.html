@@ -169,6 +169,7 @@
                         </select>
                     </div>
                     <!-- Rating End -->
+
                     <!-- Date Inv Begin  -->
                     <div class="form-group">
                         <label for="dateInv">Date Inv.</label>
@@ -181,12 +182,14 @@
                         <input type="text" class="form-control" placeholder="Inspector Name" name="inspector" id="inspector" />
                     </div>
                     <!-- Inspector End -->
+
                     <!-- Comments Begin -->
                     <div class="form-group">
                         <label for="comments">Comments</label>
                         <input type="text" class="form-control" placeholder="Comments" name="comments" />
                     </div>
                     <!-- Comments End -->
+
                     <!-- Address Code Begin -->
                     <div class="form-group">
                         <label for="addrCode">Addr. Code</label>
@@ -207,224 +210,209 @@
 
     <!-- Attributes Sign Modal Begin -->
     <form id="signForm">
-    <div id="attributesSignModal" class="modal fade" style="display: none;" aria-hidden="true">
-        <!-- Modal Dialog Begin -->
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h4 class="modal-title">Add/Edit Sign</h4>
-                </div>
-                <div class="modal-body">
+        <div id="attributesSignModal" class="modal fade" style="display: none;" aria-hidden="true">
+            <!-- Modal Dialog Begin -->
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h4 class="modal-title">Add/Edit Sign</h4>
+                    </div>
+                    <div class="modal-body">
 
-                    <!-- Installed Begin -->
-                    <div class="form-group">
-                        <label for="installed">Installed</label>
-                        <input type="date" class="form-control" name="installed" id="installed" />
-                    </div>
-                    <!-- Installed End -->
-                    <!-- Sign ID Begin -->
-                    <div class="form-group">
-                        <label for="signId">Sign ID</label>
-                        <input type="number" class="form-control" placeholder="Sign ID" name="signId" id="signId" />
-                    </div>
-                    <!-- Sign ID End -->
-                    <!-- Facing Begin -->
-                    <div class="form-group">
-                        <label for="facing">Facing</label>
-                        <input type="text" class="form-control" placeholder="Facing" name="facing" id="facing" />
-                    </div>
-                    <!-- Facing End -->
-                    <!-- Visibility Begin -->
-                    <div class="form-group">
-                        <label for="visibility">Visibility</label>
-                        <select id="visibility" class="form-control" name="visibility" required>
-                            
-                        </select>
-                    </div>
-                    <!-- Visibility End -->
-                    <!-- Condition Begin -->
-                    <div class="form-group">
-                        <label for="condition">Condition</label>
-                        <select id="condition" class="form-control" name="visibility" required>
-                            
-                        </select>
-                    </div>
-                    <!-- Condition End -->
-                    <!-- Support ID Begin -->
-                    <div class="form-group">
-                        <label for="supportId">Support ID</label>
-                        <input type="number" class="form-control" name="supportId" id="supportId" />
-                    </div>
-                    <!-- Support ID End -->
-                    <!-- Text Begin -->
-                    <div class="form-group">
-                        <label for="text">Text</label>
-                        <input type="text" class="form-control" name="text" id="text" />
-                    </div>
-                    <!-- Text End -->
-                    <!-- Color 1 Begin -->
-                    <div class="form-group">
-                        <label for="color1">Color 1</label>
-                        <select id="color1" class="form-control" name="color1" required>
-                           
-                        </select>
-                    </div>
-                    <!-- Color 1 End -->
-                    <!-- Delineator Begin -->
-                    <div class="form-group">
-                        <label for="delineator">Delineator</label>
-                        <select id="delineator" class="form-control" name="delineator" required>
-                            
-                        </select>
-                    </div>
-                    <!-- Delineator End -->
-                    <!-- Illum Begin -->
-                    <div class="form-group">
-                        <label for="illum">Illum</label>
-                        <select id="illum" class="form-control" name="illum" required>
-                           
-                        </select>
-                    </div>
-                    <!-- Illum End-->
-                    <!-- Offset Begin -->
-                    <div class="form-group">
-                        <label for="offset">Offset</label>
-                        <input type="text" class="form-control" name="offset" id="offset" />
-                    </div>
-                    <!-- Offset Ends -->
-                    <!-- Mountht Begin -->
-                    <div class="form-group">
-                        <label for="mountht">MOUNTHT</label>
-                        <input type="text" class="form-control" name="mountht" id="mountht"/>
-                    </div>
-                    <!-- Mountht End -->
+                        <!-- Installed Begin -->
+                        <div class="form-group">
+                            <label for="installed">Installed</label>
+                            <input type="date" class="form-control" name="installed" id="installed" />
+                        </div>
+                        <!-- Installed End -->
 
-                    <!-- Backing Begin -->
-                    <div class="form-group">
-                        <label for="backing">Backing</label>
-                        <select id="backing" class="form-control" name="backing" required>
+                        <!-- Sign ID Begin -->
+                        <div class="form-group">
+                            <label for="signId">Sign ID</label>
+                            <input type="number" class="form-control" placeholder="Sign ID" name="signId" id="signId" />
+                        </div>
+                        <!-- Sign ID End -->
 
-                        </select>
-                    </div>
-                    <!-- Backing End -->
+                        <!-- Facing Begin -->
+                        <div class="form-group">
+                            <label for="facing">Facing</label>
+                            <input type="text" class="form-control" placeholder="Facing" name="facing" id="facing" />
+                        </div>
+                        <!-- Facing End -->
 
-                    <!-- Width Begin -->
-                    <div class="form-group">
-                        <label for="width">Width</label>
-                        <input type="text" class="form-control" name="width" id="width" />
-                    </div>
-                    <!-- Width End -->
+                        <!-- Visibility Begin -->
+                        <div class="form-group">
+                            <label for="visibility">Visibility</label>
+                            <select id="visibility" class="form-control" name="visibility" required></select>
+                        </div>
+                        <!-- Visibility End -->
 
-                    <!-- Height Begin -->
-                    <div class="form-group">
-                        <label for="height">Height</label>
-                        <input type="text" class="form-control" name="height" id="height"/>
-                    </div>
-                    <!-- Height End -->
+                        <!-- Condition Begin -->
+                        <div class="form-group">
+                            <label for="condition">Condition</label>
+                            <select id="condition" class="form-control" name="visibility" required></select>
+                        </div>
+                        <!-- Condition End -->
 
-                    <!-- Txt Size Begin -->
-                    <div class="form-group">
-                        <label for="txtSize">Text Size</label>
-                        <input type="text" class="form-control" name="txtSize" id="txtSize"/>
-                    </div>
-                    <!-- Txt Size End -->
+                        <!-- Support ID Begin -->
+                        <div class="form-group">
+                            <label for="supportId">Support ID</label>
+                            <input type="number" class="form-control" name="supportId" id="supportId" />
+                        </div>
+                        <!-- Support ID End -->
 
-                    <!-- Num Size Begin -->
-                    <div class="form-group">
-                        <label for="numSize">Numsize</label>
-                        <input type="text" class="form-control" name="numSize" id="numSize"/>
-                    </div>
-                    <!-- Num Size End -->
+                        <!-- Text Begin -->
+                        <div class="form-group">
+                            <label for="text">Text</label>
+                            <input type="text" class="form-control" name="text" id="text" />
+                        </div>
+                        <!-- Text End -->
 
-                    <!-- Comments Begin -->
-                    <div class="form-group">
-                        <label for="comments">Comments</label>
-                        <input type="text" class="form-control" name="comments" id="comments"/>
-                    </div>
-                    <!-- Comments End -->
+                        <!-- Color 1 Begin -->
+                        <div class="form-group">
+                            <label for="color1">Color 1</label>
+                            <select id="color1" class="form-control" name="color1" required></select>
+                        </div>
+                        <!-- Color 1 End -->
 
-                    <!-- Two Sided Begin -->
-                    <div class="form-group">
-                        <label for="twoSided">Two Sided</label>
-                        <input type="text" class="form-control" name="twoSided" id="twoSided" />
-                    </div>
-                    <!-- Two Sided End -->
+                        <!-- Delineator Begin -->
+                        <div class="form-group">
+                            <label for="delineator">Delineator</label>
+                            <select id="delineator" class="form-control" name="delineator" required></select>
+                        </div>
+                        <!-- Delineator End -->
+                        <!-- Illum Begin -->
+                        <div class="form-group">
+                            <label for="illum">Illum</label>
+                            <select id="illum" class="form-control" name="illum" required></select>
+                        </div>
+                        <!-- Illum End-->
 
-                    <!-- Attach Type Begin -->
-                    <div class="form-group">
-                        <label for="attachType">Attach Type</label>
-                        <select id="attachType" class="form-control" name="attachType" required>
+                        <!-- Offset Begin -->
+                        <div class="form-group">
+                            <label for="offset">Offset</label>
+                            <input type="text" class="form-control" name="offset" id="offset" />
+                        </div>
+                        <!-- Offset Ends -->
+                        <!-- Mountht Begin -->
+                        <div class="form-group">
+                            <label for="mountht">MOUNTHT</label>
+                            <input type="text" class="form-control" name="mountht" id="mountht" />
+                        </div>
+                        <!-- Mountht End -->
 
-                        </select>
-                    </div>
-                    <!-- Attach Type End -->
+                        <!-- Backing Begin -->
+                        <div class="form-group">
+                            <label for="backing">Backing</label>
+                            <select id="backing" class="form-control" name="backing" required></select>
+                        </div>
+                        <!-- Backing End -->
 
-                    <!-- Attach Num Begin  -->
-                    <div class="form-group">
-                        <label for="attachNum">Attach Num</label>
-                        <input type="text" class="form-control" name="attachNum" id="attachNum"/>
-                    </div>
-                    <!-- Attach Num End -->
+                        <!-- Width Begin -->
+                        <div class="form-group">
+                            <label for="width">Width</label>
+                            <input type="text" class="form-control" name="width" id="width" />
+                        </div>
+                        <!-- Width End -->
 
-                    <!-- Attach Loc Begin -->
-                    <div class="form-group">
-                        <label for="attachLoc">Attach Loc</label>
-                        <select id="attachLoc" class="form-control" name="attachLoc" required>
+                        <!-- Height Begin -->
+                        <div class="form-group">
+                            <label for="height">Height</label>
+                            <input type="text" class="form-control" name="height" id="height" />
+                        </div>
+                        <!-- Height End -->
 
-                        </select>
-                    </div>
-                    <!-- Attach Loc End -->
+                        <!-- Txt Size Begin -->
+                        <div class="form-group">
+                            <label for="txtSize">Text Size</label>
+                            <input type="text" class="form-control" name="txtSize" id="txtSize" />
+                        </div>
+                        <!-- Txt Size End -->
 
-                    <!-- siteObs Begin -->
-                    <div class="form-group">
-                        <label for="siteObs">Siteobs</label>
-                        <select id="siteObs" class="form-control" name="siteObs" required>
+                        <!-- Num Size Begin -->
+                        <div class="form-group">
+                            <label for="numSize">Numsize</label>
+                            <input type="text" class="form-control" name="numSize" id="numSize" />
+                        </div>
+                        <!-- Num Size End -->
 
-                        </select>
-                    </div>
-                    <!-- siteObs End -->
+                        <!-- Comments Begin -->
+                        <div class="form-group">
+                            <label for="comments">Comments</label>
+                            <input type="text" class="form-control" name="comments" id="comments" />
+                        </div>
+                        <!-- Comments End -->
 
-                    <!-- Sign Shape Begin -->
-                    <div class="form-group">
-                        <label for="signShape">Sign Shape</label>
-                        <select id="signShape" class="form-control" name="signShape" required>
+                        <!-- Two Sided Begin -->
+                        <div class="form-group">
+                            <label for="twoSided">Two Sided</label>
+                            <input type="text" class="form-control" name="twoSided" id="twoSided" />
+                        </div>
+                        <!-- Two Sided End -->
+                        <!-- Attach Type Begin -->
+                        <div class="form-group">
+                            <label for="attachType">Attach Type</label>
+                            <select id="attachType" class="form-control" name="attachType" required></select>
+                        </div>
+                        <!-- Attach Type End -->
 
-                        </select>
-                    </div>
-                    <!-- Sign Shape End -->
+                        <!-- Attach Num Begin  -->
+                        <div class="form-group">
+                            <label for="attachNum">Attach Num</label>
+                            <input type="text" class="form-control" name="attachNum" id="attachNum" />
+                        </div>
+                        <!-- Attach Num End -->
 
-                    <!-- Color 2 Begin -->
-                    <div class="form-group">
-                        <label for="color2">Color 2</label>
-                        <select id="color2" class="form-control" name="color2" required>
+                        <!-- Attach Loc Begin -->
+                        <div class="form-group">
+                            <label for="attachLoc">Attach Loc</label>
+                            <select id="attachLoc" class="form-control" name="attachLoc" required></select>
+                        </div>
+                        <!-- Attach Loc End -->
 
-                        </select>
-                    </div>
-                    <!-- Color 2 End -->
+                        <!-- siteObs Begin -->
+                        <div class="form-group">
+                            <label for="siteObs">Siteobs</label>
+                            <select id="siteObs" class="form-control" name="siteObs" required></select>
+                        </div>
+                        <!-- siteObs End -->
 
-                    <!-- Mutcd Begin -->
-                    <div class="form-group">
-                        <label for="mutcd">MUTCD</label>
-                        <select id="mutcd" class="form-control" name="mutcd" required>
+                        <!-- Sign Shape Begin -->
+                        <div class="form-group">
+                            <label for="signShape">Sign Shape</label>
+                            <select id="signShape" class="form-control" name="signShape" required></select>
+                        </div>
+                        <!-- Sign Shape End -->
 
-                        </select>
-                    </div>
-                    <!-- Mutcd End -->
+                        <!-- Color 2 Begin -->
+                        <div class="form-group">
+                            <label for="color2">Color 2</label>
+                            <select id="color2" class="form-control" name="color2" required></select>
+                        </div>
+                        <!-- Color 2 End -->
+
+                        <!-- Mutcd Begin -->
+                        <div class="form-group">
+                            <label for="mutcd">MUTCD</label>
+                            <select id="mutcd" class="form-control" name="mutcd" required></select>
+                        </div>
+                        <!-- Mutcd End -->
 
 
-                    <button class="btn btn-success">Submit</button>
-                    <button class="btn btn-default">Cancel</button>&nbsp;&nbsp;&nbsp;&nbsp;
-                    <button id="btnPrevious" class="btn navButton" style="visibility:hidden">Previous</button>&nbsp;&nbsp;
-                    <button id="btnNext" class="btn navButton" style="visibility:hidden">Next</button>
+                        <button class="btn btn-success">Submit</button>
+                        <button class="btn btn-default">Cancel</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <button id="btnPrevious" class="btn navButton" style="visibility:hidden">Previous</button>&nbsp;&nbsp;
+                        <button id="btnNext" class="btn navButton" style="visibility:hidden">Next</button>
 
+                    </div>
                 </div>
             </div>
+            <!-- Modal Dialog End -->
         </div>
-        <!-- Modal Dialog End -->
-    </div>
     </form>
     <!-- Attributes Sign Modal End -->
+
     <!-- attribute editor modal -->
     <div id="feedbackModal" class="modal fade" style="display: none;" aria-hidden="true">
         <div class="modal-dialog">

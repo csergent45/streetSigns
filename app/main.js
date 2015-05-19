@@ -282,10 +282,13 @@ define([
         /* Add sign Layer */
         app.map.addLayer(app.signLayer);
        
-        /* Get support information on click */
-        var supportId, type, address, size, material, base, rating, dateInv, inspector, comments, addrCode;
+        
 
+        /* Update Support Layer Begin */
         app.supportLayer.on("click", function (evt) {
+
+            /* Get support information on click */
+            var supportId, type, address, size, material, base, rating, dateInv, inspector, comments, addrCode;
 
             // declare rest endpoint values
             supportId = evt.graphic.attributes.SUPPORTID;
@@ -297,11 +300,12 @@ define([
             rating = evt.graphic.attributes.RATING;
             dateInv = evt.graphic.attributes.DATEINV;
             inspector = evt.graphic.attributes.INSPECTOR;
-            comments = evt.graphic.attributes.comments;
-            addrCode = evt.graphic.attributes.addrCode;
+            comments = evt.graphic.attributes.COMMENTS;
+            addrCode = evt.graphic.attributes.ADDRCODE;
 
-            app.attributesModal.modal("show");
+            
 
+            // Clear form of values before connecting current values
             document.getElementById("supportForm").reset();
 
             /* Enter your domain item and then the element to populate */
@@ -330,6 +334,101 @@ define([
 
            
         });
+        /* Update Support Layer End */
+
+       
+
+        /* Update Sign Layer Begin */
+        app.signLayer.on("click"), function (evt) {
+
+            var installed, signId, facing, visibility, condition, supportId, text, color1, delineator, illum, offset
+            var mountht, backing, width, height, txtSize, numSize, comments, twoSided, attachType, attachNum, attachLoc, siteObs, signShape, color2, mutcd
+
+            installed = evt.graphic.attributes.INSTALLED;
+            signId = evt.graphic.attributes.SIGNID;
+            facing = evt.graphic.attributes.FACING;
+            visibility = evt.graphic.attributes.VISIBILITY;
+            condition = evt.graphic.attributes.CONDITION_;
+            supportId = evt.graphic.attributes.SUPPORTID;
+            text = evt.graphic.attributes.TEXT;
+            color1 = evt.graphic.attributes.COLOR1;
+            delineator = evt.graphic.attributes.DELINEATOR;
+            illum = evt.graphic.attributes.ILLUM;
+            offset = evt.graphic.attributes.OFFSET;
+            mountht = evt.graphic.attributes.MOUNTHT;
+            backing = evt.graphic.attributes.BACKING;
+            width = evt.graphic.attributes.WIDTH;
+            height = evt.graphic.attributes.HEIGHT;
+            txtSize = evt.graphic.attributes.TXTSIZE;
+            numSize = evt.graphic.attributes.NUMSIZE;
+            comments = evt.graphic.attributes.COMMENTS;
+            twoSided = evt.graphic.attributes.TWOSIDED;
+            attachType = evt.graphic.attributes.ATTACHTYPE;
+            attachNum = evt.graphic.attributes.ATTACHNUM;
+            attachLoc = evt.graphic.attributes.ATTACHLOC;
+            siteObs = evt.graphic.attributes.SITEOBS;
+            signShape = evt.graphic.attributes.SIGNSHAPE;
+            color2 = evt.graphic.attributes.COLOR2;
+            mutcd = evt.graphic.attributes.MUTCD;
+
+            
+            // Clear form of values before connecting current values
+            document.getElementById("signForm").reset();
+
+            /* Enter your domain item and then the element to populate */
+            populateSelect("VISIBILITY", "visibility", "sign");
+            populateSelect("CONDITION_", "condition", "sign");
+            populateSelect("COLOR1", "color1", "sign");
+            populateSelect("DELINEATOR", "delineator", "sign");
+            populateSelect("ILLUM", "illum", "sign");
+            populateSelect("BACKING", "backing", "sign");
+            populateSelect("ATTACHTYPE", "attachType", "sign");
+            populateSelect("ATTACHLOC", "attachLoc", "sign");
+            populateSelect("SITEOBS", "siteObs", "sign");
+            populateSelect("SIGNSHAPE", "signShape", "sign");
+            populateSelect("COLOR2", "color2", "sign");
+            populateSelect("MUTCD", "mutcd", "sign");
+
+
+            /* Populate form with data */
+            document.getElementById("installed").value = installed;
+            document.getElementById("signId").value = signId;
+            document.getElementById("facing").value = facing;
+            document.getElementById("visibility").value = visibility;
+            document.getElementById("condition").value = condition;
+            document.getElementById("supportId").value = supportId;
+            document.getElementById("text").value = text;
+            document.getElementById("color1").value = color1;
+            document.getElementById("delineator").value = delineator;
+            document.getElementById("illum").value = illum;
+            document.getElementById("offset").value = offset;
+            document.getElementById("mountht").value = mountht;
+            document.getElementById("backing").value = backing;
+            document.getElementById("width").value = width;
+            document.getElementById("height").value = height;
+            document.getElementById("txtSize").value = txtSize;
+            document.getElementById("numSize").value = numSize;
+            document.getElementById("comments").value = comments;
+            document.getElementById("twoSided").value = twoSided;
+            document.getElementById("attachType").value = attachType;
+            document.getElementById("attachNum").value = attachNum;
+            document.getElementById("attachLoc").value = attachLoc;
+            document.getElementById("siteObs").value = siteObs;
+            document.getElementById("signShape").value = signShape;
+            document.getElementById("color2").value = color2;
+            document.getElementById("mutcd").value = mutcd;
+
+
+
+
+            // Show signs form for updating
+            app.attributesSignModal.modal("show");
+
+            
+
+        }
+        /* Update Sign Layer End */
+
 
         app.geocoder = new Geocoder({
             map: app.map,
