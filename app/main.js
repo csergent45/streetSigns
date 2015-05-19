@@ -339,10 +339,10 @@ define([
        
 
         /* Update Sign Layer Begin */
-        app.signLayer.on("click"), function (evt) {
+        app.signLayer.on("click", function (evt) {
 
-            var installed, signId, facing, visibility, condition, supportId, text, color1, delineator, illum, offset
-            var mountht, backing, width, height, txtSize, numSize, comments, twoSided, attachType, attachNum, attachLoc, siteObs, signShape, color2, mutcd
+            var installed, signId, facing, visibility, condition, supportId, text, color1, delineator, illum, offset;
+            var mountht, backing, width, height, txtSize, numSize, comments, twoSided, attachType, attachNum, attachLoc, siteObs, signShape, color2, mutcd;
 
             installed = evt.graphic.attributes.INSTALLED;
             signId = evt.graphic.attributes.SIGNID;
@@ -371,7 +371,7 @@ define([
             color2 = evt.graphic.attributes.COLOR2;
             mutcd = evt.graphic.attributes.MUTCD;
 
-            
+
             // Clear form of values before connecting current values
             document.getElementById("signForm").reset();
 
@@ -424,9 +424,9 @@ define([
             // Show signs form for updating
             app.attributesSignModal.modal("show");
 
-            
 
-        }
+
+        });
         /* Update Sign Layer End */
 
 
