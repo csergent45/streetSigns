@@ -176,6 +176,7 @@
                         <input type="date" class="form-control" name="dateInv" id="dateInv" />
                     </div>
                     <!-- Date Inv End -->
+
                     <!-- Inspector Begin -->
                     <div class="form-group">
                         <label for="inspector">Inspector</label>
@@ -197,7 +198,8 @@
                     </div>
                     <!-- Address Code End -->
 
-                    <button class="btn btn-success">Submit</button>
+                    <button class="btn btn-success">Submit</button>&nbsp;
+                    <button class="btn">Update</button>
                     <button class="btn btn-default">Cancel</button>&nbsp;&nbsp;&nbsp;&nbsp;
                     <button id="btnSignPrevious" class="btn navButton" style="visibility:hidden">Previous</button>&nbsp;&nbsp;
                     <button id="btnSignNext" class="btn navButton" style="visibility:hidden">Next</button>
@@ -219,6 +221,13 @@
                         <h4 class="modal-title">Add/Edit Sign</h4>
                     </div>
                     <div class="modal-body">
+
+                        <!-- Mutcd Begin -->
+                        <div class="form-group">
+                            <label for="mutcd">MUTCD</label>
+                            <select id="mutcd" class="form-control" name="mutcd" required></select>
+                        </div>
+                        <!-- Mutcd End -->
 
                         <!-- Installed Begin -->
                         <div class="form-group">
@@ -392,15 +401,11 @@
                         </div>
                         <!-- Color 2 End -->
 
-                        <!-- Mutcd Begin -->
-                        <div class="form-group">
-                            <label for="mutcd">MUTCD</label>
-                            <select id="mutcd" class="form-control" name="mutcd" required></select>
-                        </div>
-                        <!-- Mutcd End -->
+                        
 
 
-                        <button class="btn btn-success">Submit</button>
+                        <button class="btn btn-success">Submit</button>&nbsp;
+                        <button class="btn">Update</button>
                         <button class="btn btn-default">Cancel</button>&nbsp;&nbsp;&nbsp;&nbsp;
                         <button id="btnPrevious" class="btn navButton" style="visibility:hidden">Previous</button>&nbsp;&nbsp;
                         <button id="btnNext" class="btn navButton" style="visibility:hidden">Next</button>

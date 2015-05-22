@@ -344,6 +344,7 @@ define([
             var installed, signId, facing, visibility, condition, supportId, text, color1, delineator, illum, offset;
             var mountht, backing, width, height, txtSize, numSize, comments, twoSided, attachType, attachNum, attachLoc, siteObs, signShape, color2, mutcd;
 
+            mutcd = evt.graphic.attributes.MUTCD;
             installed = evt.graphic.attributes.INSTALLED;
             signId = evt.graphic.attributes.SIGNID;
             facing = evt.graphic.attributes.FACING;
@@ -369,13 +370,14 @@ define([
             siteObs = evt.graphic.attributes.SITEOBS;
             signShape = evt.graphic.attributes.SIGNSHAPE;
             color2 = evt.graphic.attributes.COLOR2;
-            mutcd = evt.graphic.attributes.MUTCD;
+            
 
 
             // Clear form of values before connecting current values
             document.getElementById("signForm").reset();
 
             /* Enter your domain item and then the element to populate */
+            populateSelect("MUTCD", "mutcd", "sign");
             populateSelect("VISIBILITY", "visibility", "sign");
             populateSelect("CONDITION_", "condition", "sign");
             populateSelect("COLOR1", "color1", "sign");
@@ -387,10 +389,11 @@ define([
             populateSelect("SITEOBS", "siteObs", "sign");
             populateSelect("SIGNSHAPE", "signShape", "sign");
             populateSelect("COLOR2", "color2", "sign");
-            populateSelect("MUTCD", "mutcd", "sign");
+            
 
 
             /* Populate form with data */
+            document.getElementById("mutcd").value = mutcd;
             document.getElementById("installed").value = installed;
             document.getElementById("signId").value = signId;
             document.getElementById("facing").value = facing;
@@ -416,10 +419,7 @@ define([
             document.getElementById("siteObs").value = siteObs;
             document.getElementById("signShape").value = signShape;
             document.getElementById("color2").value = color2;
-            document.getElementById("mutcd").value = mutcd;
-
-
-
+          
 
             // Show signs form for updating
             app.attributesSignModal.modal("show");
@@ -502,36 +502,41 @@ define([
             if (severity === "0") {
                 
                 document.getElementById("signForm").reset();
+
+                /* Enter your domain item and then the element to populate */
+                populateSelect("BACKING", "backing", "sign");
+                populateSelect("VISIBILITY", "visibility", "sign");
+                populateSelect("CONDITION_", "condition", "sign");
+                populateSelect("COLOR1", "color1", "sign");
+                populateSelect("DELINEATOR", "delineator", "sign");
+                populateSelect("ILLUM", "illum", "sign");
+                populateSelect("ATTACHTYPE", "attachType", "sign");
+                populateSelect("ATTACHLOC", "attachLoc", "sign");
+                populateSelect("SITEOBS", "siteObs", "sign");
+                populateSelect("SIGNSHAPE", "signShape", "sign");
+                populateSelect("COLOR2", "color2", "sign");
+                populateSelect("MUTCD", "mutcd", "sign");
+
                 app.attributesSignModal.modal("show");
                 
 
-                /* Enter your domain item and then the element to populate */
-                populateSelect("BACKING", "backing","sign");
-                populateSelect("VISIBILITY", "visibility","sign");
-                populateSelect("CONDITION_", "condition","sign");
-                populateSelect("COLOR1", "color1","sign");
-                populateSelect("DELINEATOR", "delineator","sign");
-                populateSelect("ILLUM", "illum","sign");
-                populateSelect("ATTACHTYPE", "attachType","sign");
-                populateSelect("ATTACHLOC", "attachLoc","sign");
-                populateSelect("SITEOBS", "siteObs","sign");
-                populateSelect("SIGNSHAPE", "signShape","sign");
-                populateSelect("COLOR2", "color2","sign");
-                populateSelect("MUTCD", "mutcd","sign");
+                
 
                 /* Show supports form */
             } else if (severity === "1") {
 
                 document.getElementById("supportForm").reset();
+                /* Enter your domain item and then the element to populate */
+                populateSelect("TYPE", "type", "support");
+                populateSelect("SIZE_", "size", "support");
+                populateSelect("MATERIAL", "material", "support");
+                populateSelect("BASE", "base", "support");
+                populateSelect("RATING", "rating", "support");
+
                 app.attributesModal.modal("show");
                 
 
-                /* Enter your domain item and then the element to populate */
-                populateSelect("TYPE", "type","support");
-                populateSelect("SIZE_", "size","support");
-                populateSelect("MATERIAL", "material","support");
-                populateSelect("BASE", "base","support");
-                populateSelect("RATING", "rating","support");
+               
 
             }
 
@@ -545,9 +550,9 @@ define([
     
 
     // get attributes from form and submit  
-    var submitSupports = function () {
+    var addSupports = function () {
         
-        alert(domClass.contains("attributesModal", "in"));
+        //alert(domClass.contains("attributesModal", "in"));
 
         var attributes = {
             // TODO: not sure if this is needed  
@@ -579,16 +584,65 @@ define([
         graphic.setAttributes(attributes);
         stopCaptureRequest();
         
+       
         //console.log(attributes);  
         app.supportLayer.applyEdits([graphic], null, null).then(function (response) {
             console.log(response);
+            app.supportLayer.refresh();
         });
+        
     };
 
-    // get sign attributes from form and submit
-    var submitSigns = function () {
 
-        alert(domClass.contains("attributesSignModal", "in"));
+    // get attributes from form and submit  
+    var updateSupports = function () {
+
+        //alert(domClass.contains("attributesModal", "in"));
+
+        var attributes = {
+            // TODO: not sure if this is needed  
+            //requestreceived: null
+        };
+        var currentDate = new Date(); // current date is defined but never used.
+        var graphic;
+
+
+        graphic = new Graphic(app.currentGeometry);
+
+        query("#attributesModal input, #attributesModal select, #attributesModal textarea").forEach(function (formInput) {
+            attributes[formInput.name] = formInput.value;
+        });
+
+        // Form Validation - ensures that the values for the database are here if left blank
+        if ((attributes.supportId === undefined) || (attributes.supportId === "")) {
+            attributes.supportId = null;
+        }
+        if ((attributes.dateInv === undefined) || (attributes.dateInv === "")) {
+            attributes.dateInv = null;
+        }
+        if ((attributes.addrCode === undefined) || (attributes.addrCode === "")) {
+            attributes.addrCode = null;
+        }
+
+
+
+        graphic.setAttributes(attributes);
+        stopCaptureRequest();
+
+
+        //console.log(attributes);  
+        app.supportLayer.applyEdits(null, [graphic], null).then(function (response) {
+            console.log(response);
+            app.supportLayer.refresh();
+        });
+
+    };
+
+
+    // get sign attributes from form and submit
+    var addSigns = function () {
+
+       // alert(domClass.contains("attributesSignModal", "in"));
 
         var attributes = {
             // TODO: not sure if this is needed  
@@ -618,10 +672,54 @@ define([
         graphic.setAttributes(attributes);
         stopCaptureRequest();
 
-        //console.log(attributes);  
+        console.log(attributes);  
         app.signLayer.applyEdits([graphic], null, null).then(function (response) {
             console.log(response);
+            app.signLayer.refresh();
             
+        });
+
+    };
+
+
+    // get sign attributes from form and submit
+    var updateSigns = function () {
+
+        // alert(domClass.contains("attributesSignModal", "in"));
+
+        var attributes = {
+            // TODO: not sure if this is needed  
+            //requestreceived: null
+        };
+        var currentDate = new Date(); // current date is defined but never used.
+        var graphic;
+
+
+        graphic = new Graphic(app.currentGeometry);
+
+        query("#attributesSignModal input, #attributesSignModal select, #attributesSignModal textarea").forEach(function (formInput) {
+            attributes[formInput.name] = formInput.value;
+        });
+
+        // Form validation - ensures that the values for the data are here if left blank
+        if ((attributes.installed === undefined) || (attributes.installed === "")) {
+            attributes.installed = null;
+        }
+        if ((attributes.signId === undefined) || (attributes.signId === "")) {
+            attributes.signId = null;
+        }
+        if ((attributes.supportId === undefined) || (attributes.supportId === "")) {
+            attributes.supportId = null;
+        }
+
+        graphic.setAttributes(attributes);
+        stopCaptureRequest();
+
+        console.log(attributes);
+        app.signLayer.applyEdits(null, [graphic], null).then(function (response) {
+            console.log(response);
+            app.signLayer.refresh();
+
         });
 
     };
@@ -668,17 +766,37 @@ define([
         query("#attributesModal .btn").on("click", function (e) {
             var target = e.target;
             if (target.innerText === "Submit") {
-                submitSupports();
+                addSupports();
+            }
+            app.attributesModal.modal("hide");
+        });
+
+
+        // submit or cancel request and hide support modal  
+        query("#attributesModal .btn").on("click", function (e) {
+            var target = e.target;
+            if (target.innerText === "Update") {
+                updateSupports();
             }
             app.attributesModal.modal("hide");
         });
 
 
         // submit or cancel request and hide sign modal
-        query("#attributeSignModal .btn").on("click", function(e) {
+        query("#attributesSignModal .btn").on("click", function(e) {
             var target = e.target;
             if (target.innerText === "Submit") {
-                submitSigns();
+                addSigns();
+            }
+            app.attributesSignModal.modal("hide");
+        });
+
+
+        // submit or cancel request and hide sign modal
+        query("#attributesSignModal .btn").on("click", function (e) {
+            var target = e.target;
+            if (target.innerText === "Update") {
+                updateSigns();
             }
             app.attributesSignModal.modal("hide");
         });
