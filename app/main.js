@@ -343,7 +343,9 @@ define([
 
             var installed, signId, facing, visibility, condition, supportId, text, color1, delineator, illum, offset;
             var mountht, backing, width, height, txtSize, numSize, comments, twoSided, attachType, attachNum, attachLoc, siteObs, signShape, color2, mutcd;
+            var objectId;
 
+            objectId = evt.graphic.attributes.OBJECTID;
             mutcd = evt.graphic.attributes.MUTCD;
             installed = evt.graphic.attributes.INSTALLED;
             signId = evt.graphic.attributes.SIGNID;
@@ -393,6 +395,8 @@ define([
 
 
             /* Populate form with data */
+            
+            document.getElementById("objectId").value = objectId;
             document.getElementById("mutcd").value = mutcd;
             document.getElementById("installed").value = installed;
             document.getElementById("signId").value = signId;
@@ -798,7 +802,7 @@ define([
             if (target.innerText === "Update") {
                 updateSigns();
             }
-            app.attributesSignModal.modal("hide");
+            //app.attributesSignModal.modal("hide");
         });
 
 
