@@ -715,6 +715,7 @@ define([
         if ((attributes.supportId === undefined) || (attributes.supportId === "")) {
             attributes.supportId = null;
         }
+        attributes.objectId = parseInt(attributes.objectId, 10);
 
         graphic.setAttributes(attributes);
         stopCaptureRequest();
