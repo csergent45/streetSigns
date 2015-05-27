@@ -341,6 +341,8 @@ define([
         /* Update Sign Layer Begin */
         app.signLayer.on("click", function (evt) {
 
+            
+
             var installed, signId, facing, visibility, condition, supportId, text, color1, delineator, illum, offset;
             var mountht, backing, width, height, txtSize, numSize, comments, twoSided, attachType, attachNum, attachLoc, siteObs, signShape, color2, mutcd;
             var objectId;
@@ -585,7 +587,7 @@ define([
 
         
         
-        graphic.setAttributes(attributes);
+        //graphic.setAttributes(attributes);
         stopCaptureRequest();
         
        
@@ -593,6 +595,7 @@ define([
         app.supportLayer.applyEdits([graphic], null, null).then(function (response) {
             console.log(response);
             app.supportLayer.refresh();
+            
         });
         
     };
@@ -637,9 +640,9 @@ define([
         //console.log(attributes);  
         app.supportLayer.applyEdits(null, [graphic], null).then(function (response) {
             console.log(response);
-            app.supportLayer.refresh();
+        
         });
-
+        
     };
 
 
@@ -701,6 +704,8 @@ define([
 
         graphic = new Graphic(app.currentGeometry);
 
+        
+
         query("#attributesSignModal input, #attributesSignModal select, #attributesSignModal textarea").forEach(function (formInput) {
             attributes[formInput.name] = formInput.value;
         });
@@ -716,16 +721,23 @@ define([
             attributes.supportId = null;
         }
 
+        attributes.objectId = parseInt(attributes.objectId, 10);
+        
         graphic.setAttributes(attributes);
+
         stopCaptureRequest();
 
+
+
         console.log(attributes);
+       
         app.signLayer.applyEdits(null, [graphic], null).then(function (response) {
             console.log(response);
             app.signLayer.refresh();
+            
 
         });
-
+        location.reload(true);
     };
 
     // wire up the DOM events  
@@ -781,8 +793,10 @@ define([
             var target = e.target;
             if (target.innerText === "Update") {
                 updateSupports();
+                
             }
             app.attributesModal.modal("hide");
+            
         });
 
 

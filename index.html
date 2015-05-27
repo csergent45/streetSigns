@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="A responsive application where individuals may easily report incidents in their community using just their web browser.">
     <meta name="author" content="Tom Wayson">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="Expires" content="-1">
     <link rel="SHORTCUT ICON" href="images/streetSigns.png" />
     <link rel="apple-touch-icon" href="images/iStreetSign.png" />
     <link rel="shortcut icon" href="images/streetSigns.png">
@@ -224,7 +226,7 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="objectId">Object ID</label>
-                            <input type="text" class="form-control" name="objectId" id="objectId" readonly>
+                            <input type="number" class="form-control" name="objectId" id="objectId" readonly>
                         </div>
                         <!-- Mutcd Begin -->
                         <div class="form-group">
@@ -232,7 +234,7 @@
                             <select id="mutcd" class="form-control" name="mutcd" required></select>
                         </div>
                         <!-- Mutcd End -->
-                        <!-- Installed Begin -->
+                        <!-- - Begin -->
                         <div class="form-group">
                             <label for="installed">Installed</label>
                             <input type="date" class="form-control" name="installed" id="installed" />
