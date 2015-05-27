@@ -733,11 +733,9 @@ define([
        
         app.signLayer.applyEdits(null, [graphic], null).then(function (response) {
             console.log(response);
-            app.signLayer.refresh();
-            
-
         });
-        location.reload(true);
+        app.signLayer.refresh();
+        
     };
 
     // wire up the DOM events  
