@@ -548,9 +548,6 @@ define([
 
                 document.getElementById("btnSupportSubmit").style.visibility = "visible";
                 app.attributesModal.modal("show");
-                
-
-               
 
             }
 
@@ -640,19 +637,21 @@ define([
         }
 
         attributes.objectId = parseInt(attributes.objectId, 10);
+        attributes.supportId = parseInt(attributes.supportId, 10);
+        attributes.addrCode = parseInt(attributes.addrCode, 10);
 
         graphic.setAttributes(attributes);
         stopCaptureRequest();
 
 
-        //console.log(attributes);  
+        console.log(attributes);
+
         app.supportLayer.applyEdits(null, [graphic], null).then(function (response) {
             console.log(response);
-        
+            
         });
 
         app.supportLayer.refresh();
-        
     };
 
 
@@ -697,6 +696,7 @@ define([
             app.signLayer.refresh();
             
         });
+
 
     };
 
@@ -745,9 +745,10 @@ define([
        
         app.signLayer.applyEdits(null, [graphic], null).then(function (response) {
             console.log(response);
+            
         });
+       
         app.signLayer.refresh();
-        
     };
 
     // wire up the DOM events  
@@ -832,9 +833,6 @@ define([
             document.getElementById("btnSignUpdate").style.visibility = "hidden";
         });
 
-
-
-        
         // submit or cancel request and hide modal  
         //query("#feedbackModal .btn").on("click", function (e) { // e is defined but never used.
         //    // NOTE: this is not implemented in sample app  
