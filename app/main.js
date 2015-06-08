@@ -263,15 +263,7 @@ define([
         });
         app.map.addLayer(operationalLayer);
 
-        /* Configure support layer */
-        app.supportLayer = new FeatureLayer(config.supportLayerUrl, {
-            mode: FeatureLayer.MODE_ONEDEMAND,
-            //infoTemplate: new InfoTemplate(config.infoTemplate),
-            outFields: ["*"]
-        });
-
-        /* Add support layer */
-        app.map.addLayer(app.supportLayer);
+       
 
         /* Configure sign layer */
         app.signLayer = new FeatureLayer(config.signLayerUrl, {
@@ -281,6 +273,17 @@ define([
 
         /* Add sign Layer */
         app.map.addLayer(app.signLayer);
+
+
+        /* Configure support layer */
+        app.supportLayer = new FeatureLayer(config.supportLayerUrl, {
+            mode: FeatureLayer.MODE_ONEDEMAND,
+            //infoTemplate: new InfoTemplate(config.infoTemplate),
+            outFields: ["*"]
+        });
+
+        /* Add support layer */
+        app.map.addLayer(app.supportLayer);
        
         
 
@@ -288,9 +291,10 @@ define([
         app.supportLayer.on("click", function (evt) {
 
             /* Get support information on click */
-            var supportId, type, address, size, material, base, rating, dateInv, inspector, comments, addrCode;
+            var objectId, supportId, type, address, size, material, base, rating, dateInv, inspector, comments, addrCode;
 
             // declare rest endpoint values
+            objectId = evt.graphic.attributes.OBJECTID;
             supportId = evt.graphic.attributes.SUPPORTID;
             type = evt.graphic.attributes.TYPE;
             address = evt.graphic.attributes.ADDRESS;
@@ -316,6 +320,7 @@ define([
             populateSelect("RATING", "rating", "support");
 
             /* Populate form with data */
+            document.getElementById("objectId").value = objectId;
             document.getElementById("address").value = address;
             document.getElementById("supportId").value = supportId;
             document.getElementById("type").value = type;
@@ -329,7 +334,8 @@ define([
             document.getElementById("addrCode").value = addrCode;
            
 
-            // Show supports form for updating 
+            // Show supports form for updating
+            document.getElementById("btnSupportUpdate").style.visibility = "visible";
             app.attributesModal.modal("show");
 
            
@@ -398,7 +404,7 @@ define([
 
             /* Populate form with data */
             
-            document.getElementById("objectId").value = objectId;
+            document.getElementById("signObjectId").value = objectId;
             document.getElementById("mutcd").value = mutcd;
             document.getElementById("installed").value = installed;
             document.getElementById("signId").value = signId;
@@ -426,7 +432,7 @@ define([
             document.getElementById("signShape").value = signShape;
             document.getElementById("color2").value = color2;
           
-
+            document.getElementById("btnSignUpdate").style.visibility = "visible";
             // Show signs form for updating
             app.attributesSignModal.modal("show");
 
@@ -523,6 +529,7 @@ define([
                 populateSelect("COLOR2", "color2", "sign");
                 populateSelect("MUTCD", "mutcd", "sign");
 
+                document.getElementById("btnSignSubmit").style.visibility = "visible";
                 app.attributesSignModal.modal("show");
                 
 
@@ -539,6 +546,7 @@ define([
                 populateSelect("BASE", "base", "support");
                 populateSelect("RATING", "rating", "support");
 
+                document.getElementById("btnSupportSubmit").style.visibility = "visible";
                 app.attributesModal.modal("show");
                 
 
@@ -631,7 +639,7 @@ define([
             attributes.addrCode = null;
         }
 
-
+        attributes.objectId = parseInt(attributes.objectId, 10);
 
         graphic.setAttributes(attributes);
         stopCaptureRequest();
@@ -642,6 +650,8 @@ define([
             console.log(response);
         
         });
+
+        app.supportLayer.refresh();
         
     };
 
@@ -675,6 +685,8 @@ define([
         if ((attributes.supportId === undefined) || (attributes.supportId === "")) {
             attributes.supportId = null;
         }
+
+
 
         graphic.setAttributes(attributes);
         stopCaptureRequest();
@@ -721,7 +733,7 @@ define([
             attributes.supportId = null;
         }
 
-        attributes.objectId = parseInt(attributes.objectId, 10);
+        attributes.signObjectId = parseInt(attributes.signObjectId, 10);
         
         graphic.setAttributes(attributes);
 
@@ -783,6 +795,7 @@ define([
                 addSupports();
             }
             app.attributesModal.modal("hide");
+            document.getElementById("btnSupportSubmit").style.visibility = "hidden";
         });
 
 
@@ -794,7 +807,7 @@ define([
                 
             }
             app.attributesModal.modal("hide");
-            
+            document.getElementById("btnSupportUpdate").style.visibility = "hidden";
         });
 
 
@@ -805,6 +818,7 @@ define([
                 addSigns();
             }
             app.attributesSignModal.modal("hide");
+            document.getElementById("btnSignSubmit").style.visibility = "hidden";
         });
 
 
@@ -814,7 +828,8 @@ define([
             if (target.innerText === "Update") {
                 updateSigns();
             }
-            //app.attributesSignModal.modal("hide");
+            app.attributesSignModal.modal("hide");
+            document.getElementById("btnSignUpdate").style.visibility = "hidden";
         });
 
 
