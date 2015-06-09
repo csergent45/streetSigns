@@ -653,7 +653,8 @@ define([
             
         });
         app.supportLayer.refresh();
-        location.reload();
+        graphic.refresh();
+        //location.reload();
         
     };
 
@@ -763,7 +764,8 @@ define([
         });
        
         app.signLayer.refresh();
-        location.reload();
+        graphic.refresh();
+        //location.reload();
     };
 
     // wire up the DOM events  
