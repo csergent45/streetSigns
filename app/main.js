@@ -290,6 +290,8 @@ define([
         /* Update Support Layer Begin */
         app.supportLayer.on("click", function (evt) {
 
+            
+
             /* Get support information on click */
             var objectId, supportId, type, address, size, material, base, rating, dateInv, inspector, comments, addrCode;
 
@@ -351,9 +353,9 @@ define([
 
             var installed, signId, facing, visibility, condition, supportId, text, color1, delineator, illum, offset;
             var mountht, backing, width, height, txtSize, numSize, comments, twoSided, attachType, attachNum, attachLoc, siteObs, signShape, color2, mutcd;
-            var objectId;
+            var signObjectId;
 
-            objectId = evt.graphic.attributes.OBJECTID;
+            signObjectId = evt.graphic.attributes.OBJECTID;
             mutcd = evt.graphic.attributes.MUTCD;
             installed = evt.graphic.attributes.INSTALLED;
             signId = evt.graphic.attributes.SIGNID;
@@ -404,14 +406,14 @@ define([
 
             /* Populate form with data */
             
-            document.getElementById("signObjectId").value = objectId;
+            document.getElementById("signObjectId").value = signObjectId;
             document.getElementById("mutcd").value = mutcd;
             document.getElementById("installed").value = installed;
             document.getElementById("signId").value = signId;
             document.getElementById("facing").value = facing;
             document.getElementById("visibility").value = visibility;
             document.getElementById("condition").value = condition;
-            document.getElementById("supportId").value = supportId;
+            document.getElementById("signSupportId").value = supportId;
             document.getElementById("text").value = text;
             document.getElementById("color1").value = color1;
             document.getElementById("delineator").value = delineator;
@@ -423,7 +425,7 @@ define([
             document.getElementById("height").value = height;
             document.getElementById("txtSize").value = txtSize;
             document.getElementById("numSize").value = numSize;
-            document.getElementById("comments").value = comments;
+            document.getElementById("signComments").value = comments;
             document.getElementById("twoSided").value = twoSided;
             document.getElementById("attachType").value = attachType;
             document.getElementById("attachNum").value = attachNum;
@@ -650,8 +652,9 @@ define([
             console.log(response);
             
         });
-
         app.supportLayer.refresh();
+        location.reload();
+        
     };
 
 
@@ -733,7 +736,18 @@ define([
             attributes.supportId = null;
         }
 
-        attributes.signObjectId = parseInt(attributes.signObjectId, 10);
+        //attributes.signObjectId = parseInt(attributes.signObjectId, 10);
+        attributes.ObjectID = parseInt(attributes.signObjectId, 10);
+        delete attributes.signObjectId;
+
+        attributes.supportId = parseInt(attributes.signSupportId, 10);
+        delete attributes.signSupportId;
+
+        attributes.comments = attributes.signComments;
+        delete attributes.signComments;
+
+
+
         
         graphic.setAttributes(attributes);
 
@@ -749,6 +763,7 @@ define([
         });
        
         app.signLayer.refresh();
+        location.reload();
     };
 
     // wire up the DOM events  
