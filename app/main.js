@@ -116,6 +116,7 @@ define([
         handleAs: "json"  
     });  
   
+    // Identify the number of layer by layer name and then assign the layer number
     requestHandle.then(function (lyrJSON, io) {  
         for (var i = 0; i < lyrJSON.layers.length; i++) {  
             if (lyrJSON.layers[i].name == "Support") {    
@@ -132,7 +133,7 @@ define([
     // app globals  
     var app = {};
 
-    // Begin Populate Select
+    // Begin Populate Select - this will allow for the population of dropdown lists based on domain in the feature service
     function populateSelect(x, y, layer) {
         //get the domain value   
         var domain;
@@ -291,7 +292,6 @@ define([
         /* Update Support Layer Begin */
         app.supportLayer.on("click", function (evt) {
 
-        
 
             /* Get support information on click */
             var objectId, supportId, type, address, size, material, base, rating, dateInv, inspector, comments, addrCode;
@@ -341,26 +341,30 @@ define([
             
             if (app.signLayer.visible == true) {
                 console.log("Signs are here!")
-            } else if (app.signLayer.visible == false) {
-                console.log("Where did the signs go?")
+                // gets the supportId which will be the parameter used in the query to count the number of signs
+                console.log(supportId);
+
+                // url the query task is to be performed on
+                var query = new esriQuery();
+                var queryTask = new QueryTask(config.signLayerUrl);
+
+
+                // count related records
+                query.where = "SUPPORTID = " + supportId;
+
+                // display number of related records in console
+                queryTask.executeForCount(query, function (count) {
+                    console.log(count);
+                    if (count >= 1) {
+                        document.getElementById("btnSupportPrevious").style.visibility = "visible";
+                        document.getElementById("btnSupportNext").style.visibility = "visible";
+                    } else {
+                        document.getElementById("btnSupportPrevious").style.visibility = "hidden";
+                        document.getElementById("btnSupportNext").style.visibility = "hidden";
+                    }
+
+                })
             }
-
-            
-            // gets the supportId which will be the parameter used in the query to count the number of signs
-            console.log(supportId);
-           
-            // url the query task is to be performed on
-            var query = new esriQuery();
-            var queryTask = new QueryTask(config.signLayerUrl);
-            
-
-            // count related records
-            query.where = "SUPPORTID = " + supportId;
-            
-            // display number of related records in console
-            queryTask.executeForCount(query,function(count){
-                console.log(count);
-            })
 
             // Show supports form for updating
             document.getElementById("btnSupportUpdate").style.visibility = "visible";
@@ -371,7 +375,21 @@ define([
         });
         /* Update Support Layer End */
 
-       
+        //on(dom.byId("btnSupportPrevious"),"click",function(){
+        //    console.log("Previous Works");
+        //});
+
+        //on(dom.byId("btnSupportNext"),"click",function(){
+        //    console.log("Next Works");
+        //});
+
+        //on(dom.byId("btnSignPrevious"),"click",function(){
+        //    console.log("Previous Works");
+        //});
+
+        //on(dom.byId("btnSignNext"), "click", function () {
+        //    console.log("Next Works");
+        //});
 
         /* Update Sign Layer Begin */
         app.signLayer.on("click", function (evt) {
@@ -460,6 +478,38 @@ define([
             document.getElementById("siteObs").value = siteObs;
             document.getElementById("signShape").value = signShape;
             document.getElementById("color2").value = color2;
+
+
+            if (app.supportLayer.visible == true) {
+                document.getElementById("btnSignPrevious").style.visibility = "visible";
+                document.getElementById("btnSignNext").style.visibility = "visible";
+            } else {
+                // url the query task is to be performed on
+                var query = new esriQuery();
+                var queryTask = new QueryTask(config.signLayerUrl);
+
+
+                // count related records
+                query.where = "SUPPORTID = " + supportId;
+
+                // display number of related records in console
+                queryTask.executeForCount(query, function (count) {
+                    console.log(count);
+                    if (count > 1) {
+                        document.getElementById("btnSignPrevious").style.visibility = "visible";
+                        document.getElementById("btnSignNext").style.visibility = "visible";
+                    } else {
+                        document.getElementById("btnSignPrevious").style.visibility = "hidden";
+                        document.getElementById("btnSignNext").style.visibility = "hidden";
+                    }
+
+                })
+            
+            }
+
+
+            
+
           
             document.getElementById("btnSignUpdate").style.visibility = "visible";
             // Show signs form for updating
@@ -469,6 +519,8 @@ define([
 
         });
         /* Update Sign Layer End */
+
+
 
 
         app.geocoder = new Geocoder({
@@ -857,10 +909,13 @@ define([
             var target = e.target;
             if (target.innerText === "Update") {
                 updateSupports();
-                
+                app.attributesModal.modal("hide");
+                document.getElementById("btnSupportUpdate").style.visibility = "hidden";
+            } else if (target.innerText === "Cancel") {
+                app.attributesModal.modal("hide");
+                document.getElementById("btnSupportUpdate").style.visibility = "hidden";
             }
-            app.attributesModal.modal("hide");
-            document.getElementById("btnSupportUpdate").style.visibility = "hidden";
+            
         });
 
 
