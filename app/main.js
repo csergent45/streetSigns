@@ -49,7 +49,7 @@ define([
   "dojo/domReady!"
 ], function (
   query, dom, domClass, domStyle, domAttr, validate, check,
-  esriConfig, FeatureLayer, InfoTemplate, Graphic, Geocoder, LocateButton, Legend, GeometryService, esriQuery, queryTask,
+  esriConfig, FeatureLayer, InfoTemplate, Graphic, Geocoder, LocateButton, Legend, GeometryService, esriQuery, QueryTask,
   Extent, LayerInfo, ArcGISDynamicMapServiceLayer, ArcGISTiledMapServiceLayer, esriRequest,
   BootstrapMap, ValidationTextBox, CheckBox, on, parser, lang, array, string
 ) {
@@ -199,6 +199,7 @@ define([
     /* Toggle layer visibility */
     on(dom.byId("lyrSigns"), "change", updateLayerVisibility);
     on(dom.byId("lyrSupports"), "change", updateLayerVisibility);
+    
 
     /* Toggle checkboxes */
     function updateLayerVisibility() {
@@ -290,7 +291,7 @@ define([
         /* Update Support Layer Begin */
         app.supportLayer.on("click", function (evt) {
 
-            
+        
 
             /* Get support information on click */
             var objectId, supportId, type, address, size, material, base, rating, dateInv, inspector, comments, addrCode;
@@ -335,10 +336,34 @@ define([
             document.getElementById("comments").value = comments;
             document.getElementById("addrCode").value = addrCode;
            
+            // determine if sign layer is visible
+            console.log(app.signLayer.visible);
+            
+            if (app.signLayer.visible == true) {
+                console.log("Signs are here!")
+            } else if (app.signLayer.visible == false) {
+                console.log("Where did the signs go?")
+            }
+
+            
+            // gets the supportId which will be the parameter used in the query to count the number of signs
+            console.log(supportId);
+
+            // url the query task is to be performed on
+            var queryTask = new QueryTask(config.signLayerUrl);
+            var query = esriQuery();
+
+            // count related records
+            esriQuery.where = "SUPPORTID =='" + supportId + "'";
+            // display number of related records in console
+            queryTask.executeForCount(query,function(count){
+                console.log(count);
+            })
 
             // Show supports form for updating
             document.getElementById("btnSupportUpdate").style.visibility = "visible";
             app.attributesModal.modal("show");
+
 
            
         });
@@ -532,6 +557,7 @@ define([
                 populateSelect("MUTCD", "mutcd", "sign");
 
                 document.getElementById("btnSignSubmit").style.visibility = "visible";
+                document.getElementById("btnSignUpdate").style.visibility = "hidden";
                 app.attributesSignModal.modal("show");
                 
 
@@ -549,6 +575,7 @@ define([
                 populateSelect("RATING", "rating", "support");
 
                 document.getElementById("btnSupportSubmit").style.visibility = "visible";
+                document.getElementById("btnSupportUpdate").style.visibility = "hidden";
                 app.attributesModal.modal("show");
 
             }
@@ -610,6 +637,8 @@ define([
 
     // get attributes from form and submit  
     var updateSupports = function () {
+
+        
 
         //alert(domClass.contains("attributesModal", "in"));
 
@@ -685,11 +714,13 @@ define([
         if ((attributes.signId === undefined) || (attributes.signId === "")) {
             attributes.signId = null;
         }
-        if ((attributes.supportId === undefined) || (attributes.supportId === "")) {
-            attributes.supportId = null;
+        if ((attributes.signSupportId === undefined) || (attributes.signSupportId === "")) {
+            attributes.signSupportId = null;
         }
 
 
+        attributes.supportId = attributes.signSupportId;
+        delete attributes.signSupportId;
 
         graphic.setAttributes(attributes);
         stopCaptureRequest();
@@ -737,7 +768,8 @@ define([
             attributes.supportId = null;
         }
 
-        //attributes.signObjectId = parseInt(attributes.signObjectId, 10);
+        
+        // Preparing the data for processing to the server
         attributes.ObjectID = parseInt(attributes.signObjectId, 10);
         delete attributes.signObjectId;
 
@@ -754,8 +786,7 @@ define([
 
         stopCaptureRequest();
 
-
-
+        
         console.log(attributes);
        
         app.signLayer.applyEdits(null, [graphic], null).then(function (response) {
@@ -763,6 +794,7 @@ define([
             
         });
        
+        // refreshing the layer and graphics to update the points for the onclick method
         app.signLayer.refresh();
         graphic.refresh();
         //location.reload();
@@ -812,6 +844,7 @@ define([
             if (target.innerText === "Submit") {
                 addSupports();
             }
+            
             app.attributesModal.modal("hide");
             document.getElementById("btnSupportSubmit").style.visibility = "hidden";
         });
