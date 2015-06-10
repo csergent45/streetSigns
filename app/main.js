@@ -348,13 +348,15 @@ define([
             
             // gets the supportId which will be the parameter used in the query to count the number of signs
             console.log(supportId);
-
+           
             // url the query task is to be performed on
+            var query = new esriQuery();
             var queryTask = new QueryTask(config.signLayerUrl);
-            var query = esriQuery();
+            
 
             // count related records
-            esriQuery.where = "SUPPORTID =='" + supportId + "'";
+            query.where = "SUPPORTID = " + supportId;
+            
             // display number of related records in console
             queryTask.executeForCount(query,function(count){
                 console.log(count);
