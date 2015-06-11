@@ -375,21 +375,21 @@ define([
         });
         /* Update Support Layer End */
 
-        //on(dom.byId("btnSupportPrevious"),"click",function(){
-        //    console.log("Previous Works");
-        //});
+        on(dom.byId("btnSupportPrevious"),"click",function(){
+            console.log("Previous Works");
+        });
 
-        //on(dom.byId("btnSupportNext"),"click",function(){
-        //    console.log("Next Works");
-        //});
+        on(dom.byId("btnSupportNext"),"click",function(){
+            console.log("Next Works");
+        });
 
-        //on(dom.byId("btnSignPrevious"),"click",function(){
-        //    console.log("Previous Works");
-        //});
+        on(dom.byId("btnSignPrevious"),"click",function(){
+            console.log("Previous Works");
+        });
 
-        //on(dom.byId("btnSignNext"), "click", function () {
-        //    console.log("Next Works");
-        //});
+        on(dom.byId("btnSignNext"), "click", function () {
+            console.log("Next Works");
+        });
 
         /* Update Sign Layer Begin */
         app.signLayer.on("click", function (evt) {
@@ -941,10 +941,10 @@ define([
         });
 
         // submit or cancel request and hide modal  
-        //query("#feedbackModal .btn").on("click", function (e) { // e is defined but never used.
-        //    // NOTE: this is not implemented in sample app  
-        //    query("#feedbackModal").modal("hide");
-        //});
+        query("#feedbackModal .btn").on("click", function (e) { // e is defined but never used.
+            // NOTE: this is not implemented in sample app  
+            query("#feedbackModal").modal("hide");
+        });
 
         // clear current edit session globals  
         app.attributesModal.on("hidden.bs.modal", stopCaptureRequest);
