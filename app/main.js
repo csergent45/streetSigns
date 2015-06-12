@@ -381,6 +381,14 @@ define([
 
         on(dom.byId("btnSupportNext"),"click",function(){
             console.log("Next Works");
+            var query = new esriQuery();
+            var queryTask = new QueryTask(config.signLayerUrl);
+
+            query.where = "SUPPORTID = " + document.getElementById("supportId");
+            queryTask.execute(query,function(results){
+                console.log(results);
+            })
+
         });
 
         on(dom.byId("btnSignPrevious"),"click",function(){
