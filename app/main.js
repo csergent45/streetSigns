@@ -383,9 +383,13 @@ define([
             console.log("Next Works");
             var query = new esriQuery();
             var queryTask = new QueryTask(config.signLayerUrl);
+            query.returnGeometry = false;
+            query.outFields = ["*"];
 
-            query.where = "SUPPORTID = " + document.getElementById("supportId");
+
+            query.where = "SUPPORTID = " + dom.byId("supportId").value;
             queryTask.execute(query,function(results){
+                console.log("Results start now!");
                 console.log(results);
             })
 
