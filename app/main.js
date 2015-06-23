@@ -370,15 +370,54 @@ define([
             document.getElementById("btnSupportUpdate").style.visibility = "visible";
             app.attributesModal.modal("show");
 
+            ii = -1;
+
 
            
         });
         /* Update Support Layer End */
 
+        // Cycle through sign information with the previous button
         on(dom.byId("btnSupportPrevious"),"click",function(){
             console.log("Previous Works");
+            var query = new esriQuery();
+            var queryTask = new QueryTask(config.signLayerUrl);
+            query.returnGeometry = false;
+            query.outFields = ["*"];
+
+
+
+            query.where = "SUPPORTID = " + dom.byId("supportId").value;
+            queryTask.execute(query, function (results) {
+                ii--;
+                // Attempting to know how many signs are in my results
+                // Use gettArray.html to get array values
+
+
+                var resultItems = [];
+                var resultCount = results.features.length;
+                if (ii > -1) {
+                    console.log("Results start now!");
+                    console.log(results);
+                    var featureAttributes = results.features[ii].attributes.GLOBALID;
+                    for (var attr in featureAttributes) {
+                        console.log("Attribute: " + featureAttributes);
+                    }
+
+                } else {
+                    console.log("This is where you will get the support information");
+                    //document.getElementById("btnSupportNext").disabled = true;
+                }
+
+
+            })
         });
 
+
+
+        var ii;
+        
+        // Cycle through sign information with the next button
         on(dom.byId("btnSupportNext"),"click",function(){
             console.log("Next Works");
             var query = new esriQuery();
@@ -386,11 +425,31 @@ define([
             query.returnGeometry = false;
             query.outFields = ["*"];
 
+            
 
             query.where = "SUPPORTID = " + dom.byId("supportId").value;
-            queryTask.execute(query,function(results){
-                console.log("Results start now!");
-                console.log(results);
+            queryTask.execute(query, function (results) {
+                ii++;
+                // Attempting to know how many signs are in my results
+                // Use gettArray.html to get array values
+                
+
+                var resultItems = [];
+                var resultCount = results.features.length;
+                if (ii < resultCount) {
+                    console.log("Results start now!");
+                    console.log(results);
+                    var featureAttributes = results.features[ii].attributes.GLOBALID;
+                    for (var attr in featureAttributes) {
+                        console.log("Attribute: " + featureAttributes);
+                    }
+
+                } else {
+                    console.log("This is where you will get the support information");
+                    //document.getElementById("btnSupportNext").disabled = true;
+                }
+                
+               
             })
 
         });
