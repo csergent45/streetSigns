@@ -1,6 +1,4 @@
-﻿
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -68,7 +66,7 @@
         <div class="row row-map">
             <!-- the map -->
             <div class="col-xs-12 col-sm-9 col-lg-10 col col-map">
-                <div id="map">
+                <div id="map" tabindex="1">
                     <div class="btn-group report-btn-group">
                         <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                             <span class="glyphicon glyphicon-map-marker"></span>&nbsp;<span class="hidden-xs">Add a Street Sign or Support</span>&nbsp;<span class="caret"></span>
@@ -115,6 +113,7 @@
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                     <h4 class="modal-title">Add/Edit Street Support</h4>
                 </div>
+                <!-- Street Support Modal Body Begin -->
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="objectId">Object ID</label>
@@ -207,10 +206,11 @@
                     <button id="btnSupportSubmit" class="btn btn-success" type="submit" style="visibility:hidden">Submit</button>&nbsp;
                     <button id="btnSupportUpdate" class="btn" type="submit" style="visibility:hidden">Update</button>
                     <button class="btn btn-default" type="button">Cancel</button>&nbsp;&nbsp;&nbsp;&nbsp;
-                    <button id="btnSupportPrevious" type="button" style="visibility:hidden">Prev</button>&nbsp;&nbsp;
-                    <button id="btnSupportNext" type="button" style="visibility:hidden">Next</button>
+                    <button id="btnRelatedSigns" type="button" style="visibility:hidden">Signs</button>
+                    
 
                 </div>
+                <!-- Street Support Modal Body End -->
             </div>
         </div>
     </div>

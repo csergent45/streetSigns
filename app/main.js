@@ -356,11 +356,13 @@ define([
                 queryTask.executeForCount(query, function (count) {
                     console.log(count);
                     if (count >= 1) {
-                        document.getElementById("btnSupportPrevious").style.visibility = "visible";
-                        document.getElementById("btnSupportNext").style.visibility = "visible";
+                        document.getElementById("btnRelatedSigns").style.visiblity = "visible";
+                        //document.getElementById("btnSupportPrevious").style.visibility = "visible";
+                        //document.getElementById("btnSupportNext").style.visibility = "visible";
                     } else {
-                        document.getElementById("btnSupportPrevious").style.visibility = "hidden";
-                        document.getElementById("btnSupportNext").style.visibility = "hidden";
+                        document.getElementById("btnRelatedSigns").style.visiblity = "hidden";
+                        //document.getElementById("btnSupportPrevious").style.visibility = "hidden";
+                        //document.getElementById("btnSupportNext").style.visibility = "hidden";
                     }
 
                 })
