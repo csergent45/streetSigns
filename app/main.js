@@ -132,6 +132,8 @@ define([
 
     // app globals  
     var app = {};
+    var streetSignSupportId;
+    var streetSupportId;
 
     // Begin Populate Select - this will allow for the population of dropdown lists based on domain in the feature service
     function populateSelect(x, y, layer) {
@@ -356,13 +358,9 @@ define([
                 queryTask.executeForCount(query, function (count) {
                     console.log(count);
                     if (count >= 1) {
-                        document.getElementById("btnRelatedSigns").style.visiblity = "visible";
-                        //document.getElementById("btnSupportPrevious").style.visibility = "visible";
-                        //document.getElementById("btnSupportNext").style.visibility = "visible";
+                        document.getElementById("btnRelatedSigns").style.visibility = "visible";
                     } else {
-                        document.getElementById("btnRelatedSigns").style.visiblity = "hidden";
-                        //document.getElementById("btnSupportPrevious").style.visibility = "hidden";
-                        //document.getElementById("btnSupportNext").style.visibility = "hidden";
+                        document.getElementById("btnRelatedSigns").style.visibility = "hidden";
                     }
 
                 })
@@ -378,6 +376,34 @@ define([
            
         });
         /* Update Support Layer End */
+
+        /*-------------------------------------------------------------------*/
+        /* START HERE                                                        */
+        /* Add all value to dropdowns and then add related records */
+        /* Display Related Signs */
+        on(dom.byId("btnRelatedSigns"), "click", function () {
+            app.attributesModal.modal("hide");
+            // Clear form of values before connecting current values
+            document.getElementById("signForm").reset();
+
+            /* Enter your domain item and then the element to populate */
+            populateSelect("MUTCD", "mutcd", "sign");
+            populateSelect("VISIBILITY", "visibility", "sign");
+            populateSelect("CONDITION_", "condition", "sign");
+            populateSelect("COLOR1", "color1", "sign");
+            populateSelect("DELINEATOR", "delineator", "sign");
+            populateSelect("ILLUM", "illum", "sign");
+            populateSelect("BACKING", "backing", "sign");
+            populateSelect("ATTACHTYPE", "attachType", "sign");
+            populateSelect("ATTACHLOC", "attachLoc", "sign");
+            populateSelect("SITEOBS", "siteObs", "sign");
+            populateSelect("SIGNSHAPE", "signShape", "sign");
+            populateSelect("COLOR2", "color2", "sign");
+
+
+            app.attributesSignModal.modal("show");
+        })
+        
 
         // Cycle through sign information with the previous button
         on(dom.byId("btnSupportPrevious"),"click",function(){
@@ -588,6 +614,7 @@ define([
             // Show signs form for updating
             app.attributesSignModal.modal("show");
 
+            ii = -1;
 
 
         });
