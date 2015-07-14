@@ -132,7 +132,7 @@ define([
 
     // app globals  
     var app = {};
-    var streetSignSupportId;
+    var signSupportId;
     var streetSupportId;
 
     // Begin Populate Select - this will allow for the population of dropdown lists based on domain in the feature service
@@ -296,11 +296,11 @@ define([
 
 
             /* Get support information on click */
-            var objectId, supportId, type, address, size, material, base, rating, dateInv, inspector, comments, addrCode;
+            var objectId, type, address, size, material, base, rating, dateInv, inspector, comments, addrCode;
 
             // declare rest endpoint values
             objectId = evt.graphic.attributes.OBJECTID;
-            supportId = evt.graphic.attributes.SUPPORTID;
+            streetSupportId = evt.graphic.attributes.SUPPORTID;
             type = evt.graphic.attributes.TYPE;
             address = evt.graphic.attributes.ADDRESS;
             size = evt.graphic.attributes.SIZE_;
@@ -327,7 +327,7 @@ define([
             /* Populate form with data */
             document.getElementById("objectId").value = objectId;
             document.getElementById("address").value = address;
-            document.getElementById("supportId").value = supportId;
+            document.getElementById("streetSupportId").value = streetSupportId;
             document.getElementById("type").value = type;
             document.getElementById("size").value = size;
             document.getElementById("material").value = material;
@@ -343,8 +343,8 @@ define([
             
             if (app.signLayer.visible == true) {
                 console.log("Signs are here!")
-                // gets the supportId which will be the parameter used in the query to count the number of signs
-                console.log(supportId);
+                // gets the streetSupportId which will be the parameter used in the query to count the number of signs
+                console.log(streetSupportId);
 
                 // url the query task is to be performed on
                 var query = new esriQuery();
@@ -352,7 +352,7 @@ define([
 
 
                 // count related records
-                query.where = "SUPPORTID = " + supportId;
+                query.where = "SUPPORTID = " + streetSupportId;
 
                 // display number of related records in console
                 queryTask.executeForCount(query, function (count) {
@@ -377,11 +377,14 @@ define([
         });
         /* Update Support Layer End */
 
+
+
         /*-------------------------------------------------------------------*/
         /* START HERE                                                        */
         /* Add all value to dropdowns and then add related records */
         /* Display Related Signs */
         on(dom.byId("btnRelatedSigns"), "click", function () {
+            // Hide the supports form
             app.attributesModal.modal("hide");
             // Clear form of values before connecting current values
             document.getElementById("signForm").reset();
@@ -415,7 +418,7 @@ define([
 
 
 
-            query.where = "SUPPORTID = " + dom.byId("supportId").value;
+            query.where = "SUPPORTID = " + dom.byId("signSupportId").value;
             queryTask.execute(query, function (results) {
                 ii--;
                 // Attempting to know how many signs are in my results
@@ -446,7 +449,7 @@ define([
         var ii;
         
         // Cycle through sign information with the next button
-        on(dom.byId("btnSupportNext"),"click",function(){
+        on(dom.byId("btnSignNext"),"click",function(){
             console.log("Next Works");
             var query = new esriQuery();
             var queryTask = new QueryTask(config.signLayerUrl);
@@ -455,7 +458,7 @@ define([
 
             
 
-            query.where = "SUPPORTID = " + dom.byId("supportId").value;
+            query.where = "SUPPORTID = " + dom.byId("signSupportId").value;
             queryTask.execute(query, function (results) {
                 ii++;
                 // Attempting to know how many signs are in my results
@@ -482,20 +485,20 @@ define([
 
         });
 
+
+        // Navigate through signs backwards when I click on previous
         on(dom.byId("btnSignPrevious"),"click",function(){
             console.log("Previous Works");
         });
 
-        on(dom.byId("btnSignNext"), "click", function () {
-            console.log("Next Works");
-        });
+       
 
         /* Update Sign Layer Begin */
         app.signLayer.on("click", function (evt) {
 
             
 
-            var installed, signId, facing, visibility, condition, supportId, text, color1, delineator, illum, offset;
+            var installed, signId, facing, visibility, condition, text, color1, delineator, illum, offset;
             var mountht, backing, width, height, txtSize, numSize, comments, twoSided, attachType, attachNum, attachLoc, siteObs, signShape, color2, mutcd;
             var signObjectId;
 
@@ -506,7 +509,7 @@ define([
             facing = evt.graphic.attributes.FACING;
             visibility = evt.graphic.attributes.VISIBILITY;
             condition = evt.graphic.attributes.CONDITION_;
-            supportId = evt.graphic.attributes.SUPPORTID;
+            signSupportId = evt.graphic.attributes.SUPPORTID;
             text = evt.graphic.attributes.TEXT;
             color1 = evt.graphic.attributes.COLOR1;
             delineator = evt.graphic.attributes.DELINEATOR;
@@ -557,7 +560,7 @@ define([
             document.getElementById("facing").value = facing;
             document.getElementById("visibility").value = visibility;
             document.getElementById("condition").value = condition;
-            document.getElementById("signSupportId").value = supportId;
+            document.getElementById("signSupportId").value = signSupportId;
             document.getElementById("text").value = text;
             document.getElementById("color1").value = color1;
             document.getElementById("delineator").value = delineator;
@@ -589,7 +592,7 @@ define([
 
 
                 // count related records
-                query.where = "SUPPORTID = " + supportId;
+                query.where = "SUPPORTID = " + signSupportId;
 
                 // display number of related records in console
                 queryTask.executeForCount(query, function (count) {
@@ -763,8 +766,8 @@ define([
         });
        
         // Form Validation - ensures that the values for the database are here if left blank
-        if ((attributes.supportId === undefined) || (attributes.supportId === "")) {
-            attributes.supportId = null;
+        if ((attributes.streetSupportId === undefined) || (attributes.streetSupportId === "")) {
+            attributes.streetSupportId = null;
         }
         if ((attributes.dateInv === undefined) || (attributes.dateInv === "")) {
             attributes.dateInv = null;
@@ -811,8 +814,8 @@ define([
         });
 
         // Form Validation - ensures that the values for the database are here if left blank
-        if ((attributes.supportId === undefined) || (attributes.supportId === "")) {
-            attributes.supportId = null;
+        if ((attributes.streetSupportId === undefined) || (attributes.streetSupportId === "")) {
+            attributes.streetSupportId = null;
         }
         if ((attributes.dateInv === undefined) || (attributes.dateInv === "")) {
             attributes.dateInv = null;
@@ -822,7 +825,7 @@ define([
         }
 
         attributes.objectId = parseInt(attributes.objectId, 10);
-        attributes.supportId = parseInt(attributes.supportId, 10);
+        attributes.streetSupportId = parseInt(attributes.streetSupportId, 10);
         attributes.addrCode = parseInt(attributes.addrCode, 10);
 
         graphic.setAttributes(attributes);
@@ -918,8 +921,8 @@ define([
         if ((attributes.signId === undefined) || (attributes.signId === "")) {
             attributes.signId = null;
         }
-        if ((attributes.supportId === undefined) || (attributes.supportId === "")) {
-            attributes.supportId = null;
+        if ((attributes.signSupportId === undefined) || (attributes.signSupportId === "")) {
+            attributes.signSupportId = null;
         }
 
         
