@@ -245,7 +245,7 @@ define([
 
         /* Evaluate if any web services are not running */
         app.map.on("layer-add-result", function (evt) {
-            console.log(evt);
+            //console.log(evt);
            
             var evalLayers = evt.layer.valueOf();
 
@@ -384,6 +384,9 @@ define([
         /* Add all value to dropdowns and then add related records */
         /* Display Related Signs */
         on(dom.byId("btnRelatedSigns"), "click", function () {
+
+            signSupportId = dom.byId("streetSupportId").value;
+
             // Hide the supports form
             app.attributesModal.modal("hide");
             // Clear form of values before connecting current values
@@ -403,13 +406,17 @@ define([
             populateSelect("SIGNSHAPE", "signShape", "sign");
             populateSelect("COLOR2", "color2", "sign");
 
-
+            
             app.attributesSignModal.modal("show");
+            document.getElementById("signSupportId").value = signSupportId;
+            document.getElementById("btnSignUpdate").style.visibility = "visible";
+            
         })
         
 
         // Cycle through sign information with the previous button
-        on(dom.byId("btnSupportPrevious"),"click",function(){
+        // Changed name to correct button name
+        on(dom.byId("btnSignPrevious"), "click", function () {
             console.log("Previous Works");
             var query = new esriQuery();
             var queryTask = new QueryTask(config.signLayerUrl);
