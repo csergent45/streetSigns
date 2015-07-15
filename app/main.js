@@ -406,10 +406,15 @@ define([
             populateSelect("SIGNSHAPE", "signShape", "sign");
             populateSelect("COLOR2", "color2", "sign");
 
-            
-            app.attributesSignModal.modal("show");
             document.getElementById("signSupportId").value = signSupportId;
             document.getElementById("btnSignUpdate").style.visibility = "visible";
+            document.getElementById("btnSignPrevious").style.visibility = "visible";
+            document.getElementById("btnSignNext").style.visibility = "visible";
+           
+
+            app.attributesSignModal.modal("show");
+            
+
             
         })
         
@@ -438,9 +443,15 @@ define([
                     console.log("Results start now!");
                     console.log(results);
                     var featureAttributes = results.features[ii].attributes.GLOBALID;
+                    //var attachLoc = results.features[ii].attributes.ATTACHLOC;
                     for (var attr in featureAttributes) {
                         console.log("Attribute: " + featureAttributes);
+                        
                     }
+
+                    //for (var attr in attachLoc) {
+                    //    console.log("ATTACHLOC:" + featureAttributes);
+                    //}
 
                 } else {
                     console.log("This is where you will get the support information");
