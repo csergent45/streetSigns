@@ -443,15 +443,21 @@ define([
                     console.log("Results start now!");
                     console.log(results);
                     var featureAttributes = results.features[ii].attributes.GLOBALID;
-                    //var attachLoc = results.features[ii].attributes.ATTACHLOC;
+                    
                     for (var attr in featureAttributes) {
                         console.log("Attribute: " + featureAttributes);
                         
                     }
 
-                    //for (var attr in attachLoc) {
-                    //    console.log("ATTACHLOC:" + featureAttributes);
-                    //}
+                    var attachLoc = results.features[ii].attributes.ATTACHLOC;
+                    for (var attr in featureAttributes) {
+                        console.log("ATTACHLOC:" + attachLoc);
+                    }
+
+                    var attachNum = results.features[ii].attributes.ATTACHNUM;
+                    for (var attr in featureAttributes) {
+                        console.log("AttachNum:" + attachNum);
+                    }
 
                 } else {
                     console.log("This is where you will get the support information");
@@ -491,6 +497,23 @@ define([
                     var featureAttributes = results.features[ii].attributes.GLOBALID;
                     for (var attr in featureAttributes) {
                         console.log("Attribute: " + featureAttributes);
+                    }
+
+                    var featureAttributes = results.features[ii].attributes.GLOBALID;
+
+                    for (var attr in featureAttributes) {
+                        console.log("Attribute: " + featureAttributes);
+
+                    }
+
+                    var attachLoc = results.features[ii].attributes.ATTACHLOC;
+                    for (var attr in featureAttributes) {
+                        console.log("ATTACHLOC:" + attachLoc);
+                    }
+
+                    var attachNum = results.features[ii].attributes.ATTACHNUM;
+                    for (var attr in featureAttributes) {
+                        console.log("AttachNum:" + attachNum);
                     }
 
                 } else {
