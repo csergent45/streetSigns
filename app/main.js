@@ -317,26 +317,27 @@ define([
             // Clear form of values before connecting current values
             document.getElementById("supportForm").reset();
 
+            /* DOMAIN, ELEMENT, LAYER */
             /* Enter your domain item and then the element to populate */
-            populateSelect("TYPE", "type", "support");
-            populateSelect("SIZE_", "size", "support");
-            populateSelect("MATERIAL", "material", "support");
-            populateSelect("BASE", "base", "support");
-            populateSelect("RATING", "rating", "support");
+            populateSelect("TYPE", "TYPE", "support");
+            populateSelect("SIZE_", "SIZE_", "support");
+            populateSelect("MATERIAL", "MATERIAL", "support");
+            populateSelect("BASE", "BASE", "support");
+            populateSelect("RATING", "RATING", "support");
 
             /* Populate form with data */
-            document.getElementById("objectId").value = objectId;
-            document.getElementById("address").value = address;
-            document.getElementById("streetSupportId").value = streetSupportId;
-            document.getElementById("type").value = type;
-            document.getElementById("size").value = size;
-            document.getElementById("material").value = material;
-            document.getElementById("base").value = base;
-            document.getElementById("rating").value = rating;
-            document.getElementById("dateInv").value = dateInv;
-            document.getElementById("inspector").value = inspector;
-            document.getElementById("comments").value = comments;
-            document.getElementById("addrCode").value = addrCode;
+            document.getElementById("OBJECTID").value = objectId;
+            document.getElementById("ADDRESS").value = address;
+            document.getElementById("SUPPORTID").value = streetSupportId;
+            document.getElementById("TYPE").value = type;
+            document.getElementById("SIZE_").value = size;
+            document.getElementById("MATERIAL").value = material;
+            document.getElementById("BASE").value = base;
+            document.getElementById("RATING").value = rating;
+            document.getElementById("DATEINV").value = dateInv;
+            document.getElementById("INSPECTOR").value = inspector;
+            document.getElementById("COMMENTS").value = comments;
+            document.getElementById("ADDRCODE").value = addrCode;
            
             // determine if sign layer is visible
             console.log(app.signLayer.visible);
@@ -385,28 +386,29 @@ define([
         /* Display Related Signs */
         on(dom.byId("btnRelatedSigns"), "click", function () {
 
-            signSupportId = dom.byId("streetSupportId").value;
+            signSupportId = dom.byId("SUPPORTID").value;
 
             // Hide the supports form
             app.attributesModal.modal("hide");
             // Clear form of values before connecting current values
             document.getElementById("signForm").reset();
 
+            /* DOMAIN, ELEMENT, LAYER */
             /* Enter your domain item and then the element to populate */
-            populateSelect("MUTCD", "mutcd", "sign");
-            populateSelect("VISIBILITY", "visibility", "sign");
-            populateSelect("CONDITION_", "condition", "sign");
-            populateSelect("COLOR1", "color1", "sign");
-            populateSelect("DELINEATOR", "delineator", "sign");
-            populateSelect("ILLUM", "illum", "sign");
-            populateSelect("BACKING", "backing", "sign");
-            populateSelect("ATTACHTYPE", "attachType", "sign");
-            populateSelect("ATTACHLOC", "attachLoc", "sign");
-            populateSelect("SITEOBS", "siteObs", "sign");
-            populateSelect("SIGNSHAPE", "signShape", "sign");
-            populateSelect("COLOR2", "color2", "sign");
+            populateSelect("MUTCD", "sign_MUTCD", "sign");
+            populateSelect("VISIBILITY", "sign_VISIBILITY", "sign");
+            populateSelect("CONDITION_", "sign_CONDITION_", "sign");
+            populateSelect("COLOR1", "sign_COLOR1", "sign");
+            populateSelect("DELINEATOR", "sign_DELINEATOR", "sign");
+            populateSelect("ILLUM", "sign_ILLUM", "sign");
+            populateSelect("BACKING", "sign_BACKING", "sign");
+            populateSelect("ATTACHTYPE", "sign_ATTACHTYPE", "sign");
+            populateSelect("ATTACHLOC", "sign_ATTACHLOC", "sign");
+            populateSelect("SITEOBS", "sign_SITEOBS", "sign");
+            populateSelect("SIGNSHAPE", "sign_SIGNSHAPE", "sign");
+            populateSelect("COLOR2", "sign_COLOR2", "sign");
 
-            document.getElementById("signSupportId").value = signSupportId;
+            document.getElementById("sign_SUPPORTID").value = signSupportId;
             document.getElementById("btnSignUpdate").style.visibility = "visible";
             document.getElementById("btnSignPrevious").style.visibility = "visible";
             document.getElementById("btnSignNext").style.visibility = "visible";
@@ -422,49 +424,26 @@ define([
         // Cycle through sign information with the previous button
         // Changed name to correct button name
         on(dom.byId("btnSignPrevious"), "click", function () {
-            console.log("Previous Works");
             var query = new esriQuery();
             var queryTask = new QueryTask(config.signLayerUrl);
             query.returnGeometry = false;
             query.outFields = ["*"];
-
-
-
-            query.where = "SUPPORTID = " + dom.byId("signSupportId").value;
+            query.where = "SUPPORTID = " + dom.byId("sign_SUPPORTID").value;
             queryTask.execute(query, function (results) {
                 ii--;
-                // Attempting to know how many signs are in my results
-                // Use gettArray.html to get array values
-
-
                 var resultItems = [];
                 var resultCount = results.features.length;
                 if (ii > -1) {
-                    console.log("Results start now!");
-                    console.log(results);
-                    var featureAttributes = results.features[ii].attributes.GLOBALID;
-                    
-                    for (var attr in featureAttributes) {
-                        console.log("Attribute: " + featureAttributes);
-                        
+                    if (dom.byId("sign_SIGNID").value == results.features[ii].attributes.SUPPORTID) {
+                        ii--;
                     }
-
-                    var attachLoc = results.features[ii].attributes.ATTACHLOC;
+                    var featureAttributes = results.features[ii].attributes;
                     for (var attr in featureAttributes) {
-                        console.log("ATTACHLOC:" + attachLoc);
+                        document.getElementById("sign_" + attr).value = featureAttributes[attr];
                     }
-
-                    var attachNum = results.features[ii].attributes.ATTACHNUM;
-                    for (var attr in featureAttributes) {
-                        console.log("AttachNum:" + attachNum);
-                    }
-
                 } else {
-                    console.log("This is where you will get the support information");
-                    //document.getElementById("btnSupportNext").disabled = true;
+                    alert("This is where you will get the support information");
                 }
-
-
             })
         });
 
@@ -473,65 +452,36 @@ define([
         var ii;
         
         // Cycle through sign information with the next button
-        on(dom.byId("btnSignNext"),"click",function(){
-            console.log("Next Works");
+         on(dom.byId("btnSignNext"), "click", function () {
             var query = new esriQuery();
             var queryTask = new QueryTask(config.signLayerUrl);
             query.returnGeometry = false;
             query.outFields = ["*"];
-
-            
-
-            query.where = "SUPPORTID = " + dom.byId("signSupportId").value;
+            query.where = "SUPPORTID = " + dom.byId("sign_SUPPORTID").value;
             queryTask.execute(query, function (results) {
                 ii++;
-                // Attempting to know how many signs are in my results
-                // Use gettArray.html to get array values
-                
-
                 var resultItems = [];
                 var resultCount = results.features.length;
                 if (ii < resultCount) {
-                    console.log("Results start now!");
-                    console.log(results);
-                    var featureAttributes = results.features[ii].attributes.GLOBALID;
-                    for (var attr in featureAttributes) {
-                        console.log("Attribute: " + featureAttributes);
+                    if (dom.byId("sign_SIGNID").value == results.features[ii].attributes.SUPPORTID) {
+                        ii++;
                     }
-
-                    var featureAttributes = results.features[ii].attributes.GLOBALID;
-
+                    var featureAttributes = results.features[ii].attributes;
                     for (var attr in featureAttributes) {
-                        console.log("Attribute: " + featureAttributes);
-
+                        /***********************************************************************************************/
+                        // it says can't set the value of null here
+                        //
+                        /**********************************************************************************************/
+                        document.getElementById("sign_" + attr).value = featureAttributes[attr];
                     }
-
-                    var attachLoc = results.features[ii].attributes.ATTACHLOC;
-                    for (var attr in featureAttributes) {
-                        console.log("ATTACHLOC:" + attachLoc);
-                    }
-
-                    var attachNum = results.features[ii].attributes.ATTACHNUM;
-                    for (var attr in featureAttributes) {
-                        console.log("AttachNum:" + attachNum);
-                    }
-
                 } else {
-                    console.log("This is where you will get the support information");
-                    //document.getElementById("btnSupportNext").disabled = true;
+                    alert("This is where you will get the support information");
                 }
-                
-               
             })
-
         });
 
 
-        // Navigate through signs backwards when I click on previous
-        on(dom.byId("btnSignPrevious"),"click",function(){
-            console.log("Previous Works");
-        });
-
+       
        
 
         /* Update Sign Layer Begin */
@@ -576,51 +526,52 @@ define([
             // Clear form of values before connecting current values
             document.getElementById("signForm").reset();
 
+            /* DOMAIN, ELEMENT, LAYER */
             /* Enter your domain item and then the element to populate */
-            populateSelect("MUTCD", "mutcd", "sign");
-            populateSelect("VISIBILITY", "visibility", "sign");
-            populateSelect("CONDITION_", "condition", "sign");
-            populateSelect("COLOR1", "color1", "sign");
-            populateSelect("DELINEATOR", "delineator", "sign");
-            populateSelect("ILLUM", "illum", "sign");
-            populateSelect("BACKING", "backing", "sign");
-            populateSelect("ATTACHTYPE", "attachType", "sign");
-            populateSelect("ATTACHLOC", "attachLoc", "sign");
-            populateSelect("SITEOBS", "siteObs", "sign");
-            populateSelect("SIGNSHAPE", "signShape", "sign");
-            populateSelect("COLOR2", "color2", "sign");
+            populateSelect("MUTCD", "sign_MUTCD", "sign");
+            populateSelect("VISIBILITY", "sign_VISIBILITY", "sign");
+            populateSelect("CONDITION_", "sign_CONDITION_", "sign");
+            populateSelect("COLOR1", "sign_COLOR1", "sign");
+            populateSelect("DELINEATOR", "sign_DELINEATOR", "sign");
+            populateSelect("ILLUM", "sign_ILLUM", "sign");
+            populateSelect("BACKING", "sign_BACKING", "sign");
+            populateSelect("ATTACHTYPE", "sign_ATTACHTYPE", "sign");
+            populateSelect("ATTACHLOC", "sign_ATTACHLOC", "sign");
+            populateSelect("SITEOBS", "sign_SITEOBS", "sign");
+            populateSelect("SIGNSHAPE", "sign_SIGNSHAPE", "sign");
+            populateSelect("COLOR2", "sign_COLOR2", "sign");
             
 
 
             /* Populate form with data */
             
-            document.getElementById("signObjectId").value = signObjectId;
-            document.getElementById("mutcd").value = mutcd;
-            document.getElementById("installed").value = installed;
-            document.getElementById("signId").value = signId;
-            document.getElementById("facing").value = facing;
-            document.getElementById("visibility").value = visibility;
-            document.getElementById("condition").value = condition;
-            document.getElementById("signSupportId").value = signSupportId;
-            document.getElementById("text").value = text;
-            document.getElementById("color1").value = color1;
-            document.getElementById("delineator").value = delineator;
-            document.getElementById("illum").value = illum;
-            document.getElementById("offset").value = offset;
-            document.getElementById("mountht").value = mountht;
-            document.getElementById("backing").value = backing;
-            document.getElementById("width").value = width;
-            document.getElementById("height").value = height;
-            document.getElementById("txtSize").value = txtSize;
-            document.getElementById("numSize").value = numSize;
-            document.getElementById("signComments").value = comments;
-            document.getElementById("twoSided").value = twoSided;
-            document.getElementById("attachType").value = attachType;
-            document.getElementById("attachNum").value = attachNum;
-            document.getElementById("attachLoc").value = attachLoc;
-            document.getElementById("siteObs").value = siteObs;
-            document.getElementById("signShape").value = signShape;
-            document.getElementById("color2").value = color2;
+            document.getElementById("sign_OBJECTID").value = signObjectId;
+            document.getElementById("sign_MUTCD").value = mutcd;
+            document.getElementById("sign_INSTALLED").value = installed;
+            document.getElementById("sign_SIGNID").value = signId;
+            document.getElementById("sign_FACING").value = facing;
+            document.getElementById("sign_VISIBILITY").value = visibility;
+            document.getElementById("sign_CONDITION_").value = condition;
+            document.getElementById("sign_SUPPORTID").value = signSupportId;
+            document.getElementById("sign_TEXT").value = text;
+            document.getElementById("sign_COLOR1").value = color1;
+            document.getElementById("sign_DELINEATOR").value = delineator;
+            document.getElementById("sign_ILLUM").value = illum;
+            document.getElementById("sign_OFFSET").value = offset;
+            document.getElementById("sign_MOUNTHT").value = mountht;
+            document.getElementById("sign_BACKING").value = backing;
+            document.getElementById("sign_WIDTH").value = width;
+            document.getElementById("sign_HEIGHT").value = height;
+            document.getElementById("sign_TXTSIZE").value = txtSize;
+            document.getElementById("sign_NUMSIZE").value = numSize;
+            document.getElementById("sign_COMMENTS").value = comments;
+            document.getElementById("sign_TWOSIDED").value = twoSided;
+            document.getElementById("sign_ATTACHTYPE").value = attachType;
+            document.getElementById("sign_ATTACHNUM").value = attachNum;
+            document.getElementById("sign_ATTACHLOC").value = attachLoc;
+            document.getElementById("sign_SITEOBS").value = siteObs;
+            document.getElementById("sign_SIGNSHAPE").value = signShape;
+            document.getElementById("sign_COLOR2").value = color2;
 
 
             if (app.supportLayer.visible == true) {
@@ -740,19 +691,20 @@ define([
                 
                 document.getElementById("signForm").reset();
 
+                /* DOMAIN, ELEMENT, LAYER */
                 /* Enter your domain item and then the element to populate */
-                populateSelect("BACKING", "backing", "sign");
-                populateSelect("VISIBILITY", "visibility", "sign");
-                populateSelect("CONDITION_", "condition", "sign");
-                populateSelect("COLOR1", "color1", "sign");
-                populateSelect("DELINEATOR", "delineator", "sign");
-                populateSelect("ILLUM", "illum", "sign");
-                populateSelect("ATTACHTYPE", "attachType", "sign");
-                populateSelect("ATTACHLOC", "attachLoc", "sign");
-                populateSelect("SITEOBS", "siteObs", "sign");
-                populateSelect("SIGNSHAPE", "signShape", "sign");
-                populateSelect("COLOR2", "color2", "sign");
-                populateSelect("MUTCD", "mutcd", "sign");
+                populateSelect("BACKING", "sign_BACKING", "sign");
+                populateSelect("VISIBILITY", "sign_VISIBILITY", "sign");
+                populateSelect("CONDITION_", "sign_CONDITION_", "sign");
+                populateSelect("COLOR1", "sign_COLOR1", "sign");
+                populateSelect("DELINEATOR", "sign_DELINEATOR", "sign");
+                populateSelect("ILLUM", "sign_ILLUM", "sign");
+                populateSelect("ATTACHTYPE", "sign_ATTACHTYPE", "sign");
+                populateSelect("ATTACHLOC", "sign_ATTACHLOC", "sign");
+                populateSelect("SITEOBS", "sign_SITEOBS", "sign");
+                populateSelect("SIGNSHAPE", "sign_SIGNSHAPE", "sign");
+                populateSelect("COLOR2", "sign_COLOR2", "sign");
+                populateSelect("MUTCD", "sign_MUTCD", "sign");
 
                 document.getElementById("btnSignSubmit").style.visibility = "visible";
                 document.getElementById("btnSignUpdate").style.visibility = "hidden";
@@ -766,14 +718,15 @@ define([
 
                 document.getElementById("supportForm").reset();
                 /* Enter your domain item and then the element to populate */
-                populateSelect("TYPE", "type", "support");
-                populateSelect("SIZE_", "size", "support");
-                populateSelect("MATERIAL", "material", "support");
-                populateSelect("BASE", "base", "support");
-                populateSelect("RATING", "rating", "support");
+                populateSelect("TYPE", "TYPE", "support");
+                populateSelect("SIZE_", "SIZE_", "support");
+                populateSelect("MATERIAL", "MATERIAL", "support");
+                populateSelect("BASE", "BASE", "support");
+                populateSelect("RATING", "RATING", "support");
 
                 document.getElementById("btnSupportSubmit").style.visibility = "visible";
                 document.getElementById("btnSupportUpdate").style.visibility = "hidden";
+                document.getElementById("btnRelatedSigns").style.visibility = "hidden";
                 app.attributesModal.modal("show");
 
             }
