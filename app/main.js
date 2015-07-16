@@ -468,10 +468,7 @@ define([
                     }
                     var featureAttributes = results.features[ii].attributes;
                     for (var attr in featureAttributes) {
-                        /***********************************************************************************************/
-                        // it says can't set the value of null here
-                        //
-                        /**********************************************************************************************/
+                       
                         document.getElementById("sign_" + attr).value = featureAttributes[attr];
                     }
                 } else {
@@ -760,14 +757,14 @@ define([
         });
        
         // Form Validation - ensures that the values for the database are here if left blank
-        if ((attributes.streetSupportId === undefined) || (attributes.streetSupportId === "")) {
-            attributes.streetSupportId = null;
+        if ((attributes.SUPPORTID === undefined) || (attributes.SUPPORTID === "")) {
+            attributes.SUPPORTID = null;
         }
-        if ((attributes.dateInv === undefined) || (attributes.dateInv === "")) {
-            attributes.dateInv = null;
+        if ((attributes.DATEINV === undefined) || (attributes.DATEINV === "")) {
+            attributes.DATEINV = null;
         }
-        if ((attributes.addrCode === undefined) || (attributes.addrCode === "")) {
-            attributes.addrCode = null;
+        if ((attributes.ADDRCODE === undefined) || (attributes.ADDRCODE === "")) {
+            attributes.ADDRCODE = null;
         }        
 
         
@@ -789,7 +786,6 @@ define([
     // get attributes from form and submit  
     var updateSupports = function () {
 
-        
 
         //alert(domClass.contains("attributesModal", "in"));
 
@@ -808,19 +804,19 @@ define([
         });
 
         // Form Validation - ensures that the values for the database are here if left blank
-        if ((attributes.streetSupportId === undefined) || (attributes.streetSupportId === "")) {
-            attributes.streetSupportId = null;
+        if ((attributes.SUPPORTID === undefined) || (attributes.SUPPORTID === "")) {
+            attributes.SUPPORTID = null;
         }
-        if ((attributes.dateInv === undefined) || (attributes.dateInv === "")) {
-            attributes.dateInv = null;
+        if ((attributes.DATEINV === undefined) || (attributes.DATEINV === "")) {
+            attributes.DATEINV = null;
         }
-        if ((attributes.addrCode === undefined) || (attributes.addrCode === "")) {
-            attributes.addrCode = null;
+        if ((attributes.ADDRCODE === undefined) || (attributes.ADDRCODE === "")) {
+            attributes.ADDRCODE = null;
         }
 
-        attributes.objectId = parseInt(attributes.objectId, 10);
-        attributes.streetSupportId = parseInt(attributes.streetSupportId, 10);
-        attributes.addrCode = parseInt(attributes.addrCode, 10);
+        attributes.OBJECTID = parseInt(attributes.OBJECTID, 10);
+        attributes.SUPPORTID = parseInt(attributes.SUPPORTID, 10);
+        attributes.addrCode = parseInt(attributes.ADDRCODE, 10);
 
         graphic.setAttributes(attributes);
         stopCaptureRequest();
@@ -859,19 +855,19 @@ define([
         });
 
         // Form validation - ensures that the values for the data are here if left blank
-        if ((attributes.installed === undefined)|| (attributes.installed === "")) {
-            attributes.installed = null;
+        if ((attributes.sign_INSTALLED === undefined)|| (attributes.sign_INSTALLED === "")) {
+            attributes.sign_INSTALLED = null;
         }
-        if ((attributes.signId === undefined) || (attributes.signId === "")) {
-            attributes.signId = null;
+        if ((attributes.sign_SIGNID === undefined) || (attributes.sign_SIGNID === "")) {
+            attributes.sign_SIGNID = null;
         }
-        if ((attributes.signSupportId === undefined) || (attributes.signSupportId === "")) {
-            attributes.signSupportId = null;
+        if ((attributes.sign_SUPPORTID === undefined) || (attributes.sign_SUPPORTID === "")) {
+            attributes.signSUPPORTID = null;
         }
 
 
-        attributes.supportId = attributes.signSupportId;
-        delete attributes.signSupportId;
+        attributes.supportId = attributes.sign_SUPPORID;
+        delete attributes.sign_SUPPORTID;
 
         graphic.setAttributes(attributes);
         stopCaptureRequest();
@@ -909,26 +905,26 @@ define([
         });
 
         // Form validation - ensures that the values for the data are here if left blank
-        if ((attributes.installed === undefined) || (attributes.installed === "")) {
-            attributes.installed = null;
+        if ((attributes.sign_INSTALLED === undefined) || (attributes.sign_INSTALLED === "")) {
+            attributes.sign_INSTALLED = null;
         }
-        if ((attributes.signId === undefined) || (attributes.signId === "")) {
-            attributes.signId = null;
+        if ((attributes.sign_SIGNID === undefined) || (attributes.sign_SIGNID === "")) {
+            attributes.sign_SIGNID = null;
         }
-        if ((attributes.signSupportId === undefined) || (attributes.signSupportId === "")) {
-            attributes.signSupportId = null;
+        if ((attributes.sign_SUPPORTID === undefined) || (attributes.sign_SUPPORTID === "")) {
+            attributes.sign_SUPPORTID = null;
         }
 
         
         // Preparing the data for processing to the server
-        attributes.ObjectID = parseInt(attributes.signObjectId, 10);
-        delete attributes.signObjectId;
+        attributes.ObjectID = parseInt(attributes.sign_OBJECTID, 10);
+        delete attributes.signOBJECTID;
 
-        attributes.supportId = parseInt(attributes.signSupportId, 10);
-        delete attributes.signSupportId;
+        attributes.supportId = parseInt(attributes.sign_SUPPORTID, 10);
+        delete attributes.sign_SUPPORTID;
 
-        attributes.comments = attributes.signComments;
-        delete attributes.signComments;
+        attributes.sign_COMMENTS = attributes.sign_COMMENTS;
+        delete attributes.sign_COMMENTS;
 
 
 
