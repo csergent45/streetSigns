@@ -862,7 +862,7 @@ define([
             attributes.sign_SIGNID = null;
         }
         if ((attributes.sign_SUPPORTID === undefined) || (attributes.sign_SUPPORTID === "")) {
-            attributes.signSUPPORTID = null;
+            attributes.sign_SUPPORTID = null;
         }
 
 
