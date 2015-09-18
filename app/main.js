@@ -914,6 +914,7 @@ define([
         if ((attributes.sign_SUPPORTID === undefined) || (attributes.sign_SUPPORTID === "")) {
             attributes.sign_SUPPORTID = null;
         }
+        attributes.objectId = parseInt(attributes.objectId, 10);
 
         
         // Preparing the data for processing to the server
